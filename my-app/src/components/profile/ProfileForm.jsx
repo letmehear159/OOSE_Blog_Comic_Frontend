@@ -38,6 +38,8 @@ function ProfileForm({ initialData, onSubmit }) {
     }));
   };
 
+  // Giả lập việc gửi dữ liệu lên server
+  // Hiện tại nếu update sẽ trả về error vì chưa có api xử lý việc update
   const handleFormSubmit = async () => {
     const validationErrors = validate(formData);
     setErrors(validationErrors);
