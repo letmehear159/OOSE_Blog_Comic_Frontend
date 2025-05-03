@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+.cursor/
+project_description.txt
+tailwind.config.js
+vite.config.js
+.gitignore
