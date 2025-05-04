@@ -1,8 +1,42 @@
-import React from 'react'
-import { Button, Checkbox, Input } from 'antd'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Button, Checkbox, Divider, Form, Input, message } from 'antd'
+import { Link, useNavigate } from 'react-router-dom'
+import { loginAPI } from '../services/authService.js'
+import { URL_BACKEND } from '../api/userApi.js'
 
 const LoginPage = () => {
+
+  const [form] = Form.useForm()
+  const navigate = useNavigate()
+  const handleGoogleLogin = () => {
+    window.location.href = URL_BACKEND + '/oauth2/authorization/google'
+  }
+
+  // useEffect(() => {
+  //   if (localStorage.getItem('access_token')) {
+  //     // Nếu có token, chuyển hướng về trang chính
+  //     navigate('/')
+  //   }
+  // }, [navigate])
+
+  const onFinish = async (values) => {
+    try {
+      console.log('>>> Check values ', values)
+      const identifier = values.username
+      const password = values.password
+      const response = await loginAPI(identifier, password)
+      const accessToken = response.accessToken
+      localStorage.setItem('access_token', accessToken)
+      message.success('Đang nhập thành công ')
+      navigate('/')
+    } catch (error) {
+      if (error.errorCode === 'VERIFYING_EMAIL') {
+        message.info('Tài khoản chưa kích hoạt')
+      } else {
+        message.error('Đăng nhập thất bại')
+      }
+    }
+  }
 
   return (
     <div className="bg-gray-100 flex items-center justify-center min-h-screen">
@@ -10,26 +44,28 @@ const LoginPage = () => {
         {/* Left Section: Login Form */}
         <div className="w-1/2 p-10">
           <div className="flex items-center mb-8">
-            <div className="text-blue-600 text-2xl font-bold">Sellora</div>
+            <div className="text-blue-600 text-2xl font-bold">Comic</div>
           </div>
           <h1 className="text-3xl font-bold mb-2">Welcome Back</h1>
           <p className="text-gray-500 mb-6">Enter your email or username and password to access your account.</p>
-          <div className="space-y-4 mt-5">
-            <div>
-              <label className="block text-sm font-medium text-left text-gray-700">Email</label>
-              <Input
-                type="email"
-                value="sellostore@company.com"
-                className="mt-1 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-left text-gray-700">Password</label>
-              <Input.Password
-                value="5ellostore."
-                className="mt-1 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
+          <Form className="space-y-4 mt-4"
+                form={form}
+                onFinish={(values) => onFinish(values)}
+                layout={'vertical'}
+          >
+            <Form.Item
+              name="username"
+              label="Email / Username">
+
+              <Input/>
+            </Form.Item>
+
+            <Form.Item
+              name="password"
+              label="Password"
+            >
+              <Input.Password/>
+            </Form.Item>
             <div className="flex items-center justify-between">
               <label className="flex items-center">
                 <Checkbox type="checkbox" className="mr-2"/>
@@ -37,14 +73,20 @@ const LoginPage = () => {
               </label>
               <a href="#" className="text-sm text-blue-600 hover:underline">Forget Your Password?</a>
             </div>
-            <Button className="w-full bg-blue-600  text-amber-50 py-2 rounded-md hover:bg-blue-700 transition">
+            <Button className="w-full bg-blue-600  text-amber-50 py-2 rounded-md hover:bg-blue-700 transition"
+                    onClick={() => {
+                      form.submit()
+                    }}
+            >
               Log In
             </Button>
-          </div>
+          </Form>
+
           <div className="mt-4 text-center ">
-            <p className="text-sm text-gray-600">Or Log In With</p>
+            <Divider plain={'false'}>Or Log In With</Divider>
             <div className="flex justify-center gap-3 mb-4  mt-2">
               <Button
+                onClick={handleGoogleLogin}
                 className="flex  items-center px-4 w-full justify-center py-2 border border-gray-300 rounded-md hover:bg-gray-100">
                 <img src="https://www.google.com/favicon.ico" alt="Google" className="w-5 h-5 "/>
                 Google
@@ -55,7 +97,7 @@ const LoginPage = () => {
             </p>
           </div>
           <div className="mt-8 text-xs text-gray-500 flex justify-between">
-            <p>Copyright © 2025 Sellora Enterprises LTD.</p>
+            <p>Copyright © 2025 </p>
             <a href="#" className="hover:underline">Privacy Policy</a>
           </div>
         </div>
