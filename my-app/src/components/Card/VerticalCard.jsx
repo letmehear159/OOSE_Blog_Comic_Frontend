@@ -6,7 +6,7 @@ import slugify from "../../utils/format";
 
 const VerticalCard = ({ image, date, title, description, tag, type }) => {
   return (
-    <Link to={`/${slugify(title)}`}>
+    <Link to={`/review/${slugify(title)}`}>
       <Card
         className="hover:shadow-lg transition-shadow duration-300"
         hoverable
