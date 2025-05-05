@@ -4,7 +4,7 @@ import "../index.css";
 import App from "../App.jsx";
 import ReviewPage from "../views/ReviewPage.jsx";
 import CharacterPage from "../views/CharacterPage.jsx";
-import Homepage from "../views/Homepage.jsx";
+import Homepage from "../views/HomePage.jsx";
 const AppRoutes = () => (
   <Routes>
     <Route path="/" element={<App />}>
@@ -14,5 +14,4 @@ const AppRoutes = () => (
     </Route>
   </Routes>
 );
-
 export default AppRoutes;

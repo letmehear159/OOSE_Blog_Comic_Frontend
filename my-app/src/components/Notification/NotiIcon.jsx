@@ -3,30 +3,32 @@ import React, { useState, useRef, useEffect } from "react";
 
 const notifications = [
   {
-    id: '000000001',
-    avatar: 'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png',
-    title: 'Bạn nhận được 14 báo cáo mới',
-    description: 'Kiểm tra các báo cáo tuần này trong dashboard.',
-    datetime: '2024-06-10 09:00',
-    read: false
+    id: "000000001",
+    avatar:
+      "https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png",
+    title: "Bạn nhận được 14 báo cáo mới",
+    description: "Kiểm tra các báo cáo tuần này trong dashboard.",
+    datetime: "2024-06-10 09:00",
+    read: false,
   },
   {
-    id: '000000002',
-    avatar: 'https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png',
-    title: 'Tài khoản đã được cập nhật',
-    description: 'Thông tin cá nhân của bạn đã thay đổi.',
-    datetime: '2024-06-09 15:30',
-    read: false
+    id: "000000002",
+    avatar:
+      "https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png",
+    title: "Tài khoản đã được cập nhật",
+    description: "Thông tin cá nhân của bạn đã thay đổi.",
+    datetime: "2024-06-09 15:30",
+    read: false,
   },
   {
-    id: '000000003',
-    avatar: 'https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png',
-    title: 'Có bài viết mới từ bạn bè',
-    description: '',
-    datetime: '2024-06-08 20:10',
-    read: false
+    id: "000000003",
+    avatar:
+      "https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png",
+    title: "Có bài viết mới từ bạn bè",
+    description: "",
+    datetime: "2024-06-08 20:10",
+    read: false,
   },
-  
 ];
 
 const NoticeIcon = () => {
@@ -47,7 +49,6 @@ const NoticeIcon = () => {
     alert("Đã xóa tất cả thông báo!");
     // setNotifications([]); // Nếu muốn clear thực sự
   };
-
   return (
     <div className="relative pt-2" ref={ref}>
       <button
@@ -75,9 +76,7 @@ const NoticeIcon = () => {
       </button>
       {open && (
         <div className="absolute right-0 mt-2 w-96 bg-white border border-gray-200 rounded shadow-lg z-50">
-          <div className="p-4 border-b font-bold text-gray-700 ">
-            Thông báo
-          </div>
+          <div className="p-4 border-b font-bold text-gray-700 ">Thông báo</div>
           <div className="max-h-80 overflow-y-auto">
             {notifications.length === 0 ? (
               <div className="flex flex-col items-center py-8">
@@ -121,7 +120,7 @@ const NoticeIcon = () => {
               className="text-blue-600 hover:underline text-sm font-medium"
               onClick={handleClear}
             >
-              Xoá tất cả thông báo 
+              Xoá tất cả thông báo
             </button>
           </div>
         </div>
@@ -130,4 +129,4 @@ const NoticeIcon = () => {
   );
 };
 
-export default NoticeIcon;  
+export default NoticeIcon;

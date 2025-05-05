@@ -1,21 +1,21 @@
 import React from "react";
-import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
+import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
 
 const AppSidebar = ({ menuItems }) => (
   <Sidebar className="h-full w-full">
-    <div className="h-full max-h-screen overflow-y-auto bg-[#FBFBFB] pb-20">
+    <div className="h-full max-h-screen overflow-y-auto bg-[#FBFBFB] ">
       <Menu
         menuItemStyles={{
           button: {
             color: "black",
             backgroundColor: "#FBFBFB",
-            '&:hover': {
+            "&:hover": {
               color: "black",
             },
-            '&.active': {
-              backgroundColor: '#13395e',
-              color: '#b6c8d9',
+            "&.active": {
+              backgroundColor: "#13395e",
+              color: "#b6c8d9",
             },
           },
         }}

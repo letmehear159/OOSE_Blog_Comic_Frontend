@@ -10,13 +10,7 @@ import React from "react";
  *   date: string
  * }
  */
-const HorizontalCard = ({
-  image,
-  title,
-  authorName,
-  authorAvatar,
-  date,
-}) => {
+const HorizontalCard = ({ image, title, authorName, authorAvatar, date }) => {
   return (
     <div className="flex w-full max-w-4xl bg-gray-100 rounded-xl shadow hover:shadow-lg transition p-4 gap-5">
       {/* thumbnail */}

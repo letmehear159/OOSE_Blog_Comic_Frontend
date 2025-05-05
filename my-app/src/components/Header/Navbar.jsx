@@ -1,5 +1,4 @@
 // Navbar.jsx
-import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import NotiIcon from "../Notification/NotiIcon";
 import UserMenu from "./UserMenu";
@@ -16,17 +15,29 @@ const Navbar = () => {
             alt="Logo"
             className="h-10"
           />
-          <NavLink to="/" className="ml-3 font-bold text-xl text-red-400">ReviewComic</NavLink>
+          <NavLink to="/" className="ml-3 font-bold text-xl text-red-400">
+            ReviewComic
+          </NavLink>
         </div>
         {/* Navigation Links */}
         <div className="flex items-center gap-6 ml-6">
-          <NavLink to="/review-truyen" className="text-white hover:text-gray-600 font-medium transition">Review Truyện</NavLink>
-          <NavLink to="/nhanvat" className="text-white hover:text-gray-600 font-medium transition">Nhân Vật</NavLink>
+          <NavLink
+            to="/review-truyen"
+            className="text-white hover:text-gray-600 font-medium transition"
+          >
+            Review Truyện
+          </NavLink>
+          <NavLink
+            to="/nhanvat"
+            className="text-white hover:text-gray-600 font-medium transition"
+          >
+            Nhân Vật
+          </NavLink>
         </div>
       </div>
 
-       {/* Search box */}
-       <div className="flex-1 flex justify-center">
+      {/* Search box */}
+      <div className="flex-1 flex justify-center">
         <div className="relative w-full max-w-xl">
           <input
             type="text"
@@ -56,4 +67,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
