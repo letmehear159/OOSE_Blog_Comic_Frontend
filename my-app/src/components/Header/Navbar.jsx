@@ -2,7 +2,7 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import NotiIcon from "../Notification/NotiIcon";
-import UserMenu from "../Notification/UserMenu";
+import UserMenu from "./UserMenu";
 
 const Navbar = () => {
   return (
@@ -16,7 +16,7 @@ const Navbar = () => {
             alt="Logo"
             className="h-10"
           />
-          <span className="ml-3 font-bold text-xl">ReviewComic</span>
+          <NavLink to="/" className="ml-3 font-bold text-xl text-red-500">ReviewComic</NavLink>
         </div>
         {/* Navigation Links */}
         <div className="flex items-center gap-6 ml-6">

@@ -5,4 +5,11 @@
   text-align: center;
 }
 
+.sidebar-item {
+  @apply text-white bg-black transition;
+}
+.sidebar-item:hover, .sidebar-item.ps-active {
+  @apply text-black bg-white;
+}
+
 

@@ -1,8 +1,11 @@
+import AppSidebar from "../components/Sidebar/AppSidebar";
+
 
 const CharacterPage = () => {
     return (
-        <div className="text-black">
-            <h1>Character Page</h1>
+        <div >
+          
+            <h1 className="text-black">Character Page</h1>
         </div>
     )
 }
