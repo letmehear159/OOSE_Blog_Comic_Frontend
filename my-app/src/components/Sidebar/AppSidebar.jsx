@@ -2,9 +2,10 @@ import React from "react";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
 
-const AppSidebar = ({ menuItems }) => (
+// AppSidebar.js
+const AppSidebar = ({ menuItems, onGenreSelect }) => (
   <Sidebar className="h-full w-full">
-    <div className="h-full max-h-screen overflow-y-auto bg-[#FBFBFB] ">
+    <div className="h-full max-h-screen overflow-y-auto bg-[#FBFBFB]">
       <Menu
         menuItemStyles={{
           button: {
@@ -24,13 +25,19 @@ const AppSidebar = ({ menuItems }) => (
           item.children ? (
             <SubMenu key={item.label} label={item.label}>
               {item.children.map((child) => (
-                <MenuItem key={child.label} component={<Link to={child.to} />}>
+                <MenuItem
+                  key={child.label}
+                  onClick={() => onGenreSelect(child.label)} // <-- Gửi label
+                >
                   {child.label}
                 </MenuItem>
               ))}
             </SubMenu>
           ) : (
-            <MenuItem key={item.label} component={<Link to={item.to} />}>
+            <MenuItem
+              key={item.label}
+              onClick={() => onGenreSelect(null)} // <-- null để hiển thị tất cả
+            >
               {item.label}
             </MenuItem>
           )

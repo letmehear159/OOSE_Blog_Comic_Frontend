@@ -1,12 +1,11 @@
-
 import Navbar from "./components/Header/Navbar";
-import { Outlet } from "react-router-dom";  
+import { Outlet } from "react-router-dom";
 import AppSidebar from "./components/Sidebar/AppSidebar";
 import AppFooter from "./components/Footer/AppFooter";
 function App() {
   return (
     <>
-      <div className="app-container">
+      <div className="app-container min-h-screen flex flex-col">
         <div className="header-container">
           <Navbar />
         </div>
@@ -17,7 +16,6 @@ function App() {
           <AppFooter />
         </div>
       </div>
-      
     </>
   );
 }

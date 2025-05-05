@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AppSidebar from "../components/Sidebar/AppSidebar";
-import CardComic from "../components/Card/VerticalCard";
+import VerticalCard from "../components/Card/VerticalCard";
 import AppPagination from "../components/AppPagination";
 
 const comics = [
@@ -11,14 +11,25 @@ const comics = [
     description:
       '"Nhất Niệm Vĩnh Hằng" kể về hành trình tu luyện của Bạch Tiểu Thuần, một...',
     tag: "Review Truyện",
+    type: "Action",
   },
   {
     image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
     date: "29/04/2025",
-    title: "Review truyện Nhất Niệm Vĩnh Hằng",
+    title: "Review truyện Yêu Tôn",
     description:
       '"Nhất Niệm Vĩnh Hằng" kể về hành trình tu luyện của Bạch Tiểu Thuần, một...',
     tag: "Review Nhân Vật",
+    type: "Action",
+  },
+  {
+    image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+    date: "29/04/2025",
+    title: "Review truyện Tiên Nghịch",
+    description:
+      '"Nhất Niệm Vĩnh Hằng" kể về hành trình tu luyện của Bạch Tiểu Thuần, một...',
+    tag: "Review Truyện",
+    type: "Action",
   },
   {
     image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
@@ -27,6 +38,7 @@ const comics = [
     description:
       '"Nhất Niệm Vĩnh Hằng" kể về hành trình tu luyện của Bạch Tiểu Thuần, một...',
     tag: "Review Truyện",
+    type: "Action",
   },
   {
     image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
@@ -35,6 +47,7 @@ const comics = [
     description:
       '"Nhất Niệm Vĩnh Hằng" kể về hành trình tu luyện của Bạch Tiểu Thuần, một...',
     tag: "Review Truyện",
+    type: "Action",
   },
   {
     image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
@@ -43,6 +56,7 @@ const comics = [
     description:
       '"Nhất Niệm Vĩnh Hằng" kể về hành trình tu luyện của Bạch Tiểu Thuần, một...',
     tag: "Review Truyện",
+    type: "Action",
   },
   {
     image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
@@ -51,6 +65,7 @@ const comics = [
     description:
       '"Nhất Niệm Vĩnh Hằng" kể về hành trình tu luyện của Bạch Tiểu Thuần, một...',
     tag: "Review Truyện",
+    type: "Adventure",
   },
   {
     image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
@@ -59,6 +74,7 @@ const comics = [
     description:
       '"Nhất Niệm Vĩnh Hằng" kể về hành trình tu luyện của Bạch Tiểu Thuần, một...',
     tag: "Review Truyện",
+    type: "Adventure",
   },
   {
     image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
@@ -67,14 +83,7 @@ const comics = [
     description:
       '"Nhất Niệm Vĩnh Hằng" kể về hành trình tu luyện của Bạch Tiểu Thuần, một...',
     tag: "Review Truyện",
-  },
-  {
-    image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-    date: "29/04/2025",
-    title: "Review truyện Nhất Niệm Vĩnh Hằng",
-    description:
-      '"Nhất Niệm Vĩnh Hằng" kể về hành trình tu luyện của Bạch Tiểu Thuần, một...',
-    tag: "Review Truyện",
+    type: "Adventure",
   },
 ];
 
@@ -115,27 +124,44 @@ const PAGE_SIZE = 8;
 
 const ReviewPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedGenre, setSelectedGenre] = useState(null); // <-- thêm state
 
-  // Tính toán slice dữ liệu cho trang hiện tại
+  const filteredComics = selectedGenre
+    ? comics.filter((comic) => comic.type === selectedGenre)
+    : comics;
+
   const startIdx = (currentPage - 1) * PAGE_SIZE;
   const endIdx = startIdx + PAGE_SIZE;
-  const pagedComics = comics.slice(startIdx, endIdx);
+  const pagedComics = filteredComics.slice(startIdx, endIdx);
+
+  // Reset về trang đầu mỗi khi chọn thể loại mới
+  const handleGenreSelect = (genre) => {
+    setSelectedGenre(genre);
+    setCurrentPage(1);
+  };
 
   return (
-    <div className="flex">
+    <div className="flex min-h-screen">
       <div className="ReviewPage-sidebar">
-        <AppSidebar menuItems={ReviewPageMenu} />
+        <AppSidebar
+          menuItems={ReviewPageMenu}
+          onGenreSelect={handleGenreSelect} // <-- truyền callback
+        />
       </div>
-      <div className="ReviewPage-content pt-10  ">
+      <div className="ReviewPage-content flex flex-col flex-1 pt-10">
         <div className="flex flex-wrap gap-8 justify-center">
-          {pagedComics.map((comic, idx) => (
-            <CardComic key={startIdx + idx} {...comic} />
-          ))}
+          {pagedComics.length > 0 ? (
+            pagedComics.map((comic, idx) => (
+              <VerticalCard key={startIdx + idx} {...comic} />
+            ))
+          ) : (
+            <p>Không có truyện nào cho thể loại này.</p>
+          )}
         </div>
-        <div className="flex justify-center mx-10 mt-8 pb-20 ">
+        <div className="flex justify-center mt-5 mb-8">
           <AppPagination
             current={currentPage}
-            total={comics.length}
+            total={filteredComics.length}
             pageSize={PAGE_SIZE}
             onChange={setCurrentPage}
           />
