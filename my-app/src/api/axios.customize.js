@@ -2,7 +2,6 @@ import axios from 'axios'
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
-  timeout: 10000,
   withCredentials: true,
 })
 
@@ -78,14 +77,14 @@ instance.interceptors.response.use(
         return instance(originalRequest)
       } catch (err) {
         processQueue(err, null)
-        localStorage.removeItem('access_token')
-        window.location.href = '/login'
+        // localStorage.removeItem('access_token')
+        // window.location.href = '/login'
         return Promise.reject(err)
       } finally {
         isRefreshing = false
       }
     }
-    return Promise.reject(error)
+    return Promise.reject(error.response.data)
   }
 )
 
