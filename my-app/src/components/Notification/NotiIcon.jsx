@@ -8,6 +8,7 @@ const notifications = [
     title: 'Bạn nhận được 14 báo cáo mới',
     description: 'Kiểm tra các báo cáo tuần này trong dashboard.',
     datetime: '2024-06-10 09:00',
+    read: false
   },
   {
     id: '000000002',
@@ -15,6 +16,7 @@ const notifications = [
     title: 'Tài khoản đã được cập nhật',
     description: 'Thông tin cá nhân của bạn đã thay đổi.',
     datetime: '2024-06-09 15:30',
+    read: false
   },
   {
     id: '000000003',
@@ -22,6 +24,7 @@ const notifications = [
     title: 'Có bài viết mới từ bạn bè',
     description: '',
     datetime: '2024-06-08 20:10',
+    read: false
   },
   
 ];
@@ -46,7 +49,7 @@ const NoticeIcon = () => {
   };
 
   return (
-    <div className="relative" ref={ref}>
+    <div className="relative pt-2" ref={ref}>
       <button
         className="relative text-gray-500 hover:text-blue-600 focus:outline-none"
         onClick={() => setOpen((o) => !o)}
@@ -85,7 +88,7 @@ const NoticeIcon = () => {
                 {notifications.map((item) => (
                   <li
                     key={item.id}
-                    className="flex gap-3 px-4 py-4 hover:bg-gray-100 cursor-pointer border-b last:border-b-0"
+                    className="flex gap-3 px-4 py-4 hover:bg-gray-100 cursor-pointer border-b last:border-b-0 relative"
                   >
                     <img
                       src={item.avatar}
@@ -93,8 +96,11 @@ const NoticeIcon = () => {
                       className="w-10 h-10 rounded-full object-cover"
                     />
                     <div className="flex-1 min-w-0">
-                      <div className="font-semibold text-gray-900 truncate">
+                      <div className="font-semibold text-gray-900 truncate flex items-center">
                         {item.title}
+                        {!item.read && (
+                          <span className="ml-2 w-2 h-2 rounded-full bg-red-500 inline-block"></span>
+                        )}
                       </div>
                       {item.description && item.description.trim() !== "" && (
                         <div className="text-gray-500 text-sm truncate">

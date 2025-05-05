@@ -1,7 +1,8 @@
 // Navbar.jsx
-import React from "react";
-import NotiIcon from "./NotiIcon";
-import UserMenu from "./UserMenu";
+import React, { useContext } from "react";
+import { NavLink } from "react-router-dom";
+import NotiIcon from "../Notification/NotiIcon";
+import UserMenu from "../Notification/UserMenu";
 
 const Navbar = () => {
   return (
@@ -15,13 +16,33 @@ const Navbar = () => {
             alt="Logo"
             className="h-10"
           />
-          <span className="ml-3 font-bold text-xl">MyApp</span>
+          <span className="ml-3 font-bold text-xl">ReviewComic</span>
         </div>
         {/* Navigation Links */}
         <div className="flex items-center gap-6 ml-6">
-          <a href="/" className="text-white hover:text-gray-600 font-medium transition">Home</a>
-          <a href="/blog" className="text-white hover:text-gray-600 font-medium transition">Blog</a>
-          <a href="/about" className="text-white hover:text-gray-600 font-medium transition">About</a>
+          <NavLink to="/review" className="text-white hover:text-gray-600 font-medium transition">Review Truyện</NavLink>
+          <NavLink to="/character" className="text-white hover:text-gray-600 font-medium transition">Nhân Vật</NavLink>
+        </div>
+      </div>
+
+       {/* Search box */}
+       <div className="flex-1 flex justify-center">
+        <div className="relative w-full max-w-xl">
+          <input
+            type="text"
+            placeholder="Search..."
+            className="w-full pl-10 pr-4 py-2 border border-gray-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+          />
+          <svg
+            className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            viewBox="0 0 24 24"
+          >
+            <circle cx="11" cy="11" r="8" />
+            <path d="M21 21l-4.35-4.35" strokeLinecap="round" />
+          </svg>
         </div>
       </div>
 
@@ -35,3 +56,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
