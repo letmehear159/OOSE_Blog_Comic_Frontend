@@ -1,16 +1,18 @@
 import { fetchAllUsers } from '../services/userService.js'
 import { Button, Checkbox, Divider, Form, Image, Input, message, Space } from 'antd'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
 import { URL_BACKEND } from '../api/userApi.js'
 import { loginAPI, registerAPI } from '../services/authService.js'
-import { sentOTPApi } from '../services/otpService.js'
+import { resentOTPApi, sentOTPApi } from '../services/otpService.js'
 import { IMAGE_URL } from '../constants/images.js'
 
 const RegisterPage = () => {
-
+  const location = useLocation()
+  const [step, setStep] = useState(() => {
+    return location.state?.step || 1
+  })
   const [form] = Form.useForm()
-  const [step, setStep] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
   console.log('>>>> CHeck image URL ', IMAGE_URL)
   const navigate = useNavigate()
@@ -18,8 +20,8 @@ const RegisterPage = () => {
     window.location.href = URL_BACKEND + '/oauth2/authorization/google'
   }
   const initalValues = {
-    username: 'letmehear',
-    email: 'nguyentruongpro19@gmail.com',
+    username: 'letmehear2',
+    email: 'nguyentruongpro192@gmail.com',
     displayName: 'test',
     password: 'test',
   }
@@ -33,15 +35,12 @@ const RegisterPage = () => {
       setIsLoading(true)
       const response = await registerAPI(username, password, email, displayName)
       setIsLoading(false)
+      message.success('Tạo tài khoản thành công')
       localStorage.setItem('userId', response.id)
       setStep(2)
 
     } catch (error) {
-      if (error.errorCode === 'VERIFYING_EMAIL') {
-        message.info('Tài khoản chưa kích hoạt')
-      } else {
-        message.error('Đăng nhập thất bại')
-      }
+      message.error('Đăng nhập thất bại')
     }
   }
 
@@ -56,7 +55,19 @@ const RegisterPage = () => {
     } catch (error) {
       message.error('Xác thực thất bại')
     }
+  }
 
+  const resendOTP = async () => {
+    try {
+      const userId = localStorage.getItem('userId')
+      setIsLoading(true)
+      const res = await resentOTPApi(userId)
+      message.success('Gửi mới OTP thành công')
+    } catch (error) {
+      message.error('Gặp lỗi khi gửi mới OTP')
+    } finally {
+      setIsLoading(false)
+    }
   }
   return (
 
@@ -105,6 +116,7 @@ const RegisterPage = () => {
 
                   <Input.Password placeholder={'Input password'}/>
                 </Form.Item>
+
                 <Button className="w-full  "
                         type="primary"
                         onClick={() => {
@@ -116,6 +128,7 @@ const RegisterPage = () => {
 
                 </Button>
               </Form>
+
 
               <div className="mt-4 text-center ">
                 <Divider plain={'false'}>Or Register With</Divider>
@@ -208,7 +221,11 @@ const RegisterPage = () => {
                   Send OTP
                 </Button>
               </Form>
-
+              <div className={'flex justify-start'}>
+                <Button loading={isLoading} className={'w-25 !mt-4'} onClick={resendOTP}>
+                  Resend OTP
+                </Button>
+              </div>
 
               <div className="mt-8 text-xs text-gray-500 flex justify-between">
                 <p>Copyright © 2025 </p>
@@ -220,7 +237,7 @@ const RegisterPage = () => {
               <h2 className="text-3xl font-bold mb-4">Effortlessly manage your team and operations.</h2>
               <p className="mb-6">Log in to access the CRM dashboard and manage your team.</p>
               <div className="relative">
-                <div className="bg-white p-4 rounded-lg shadow-lg">
+                <div className="bg-white  p-4 rounded-lg shadow-lg">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="bg-gray-100 p-3 rounded-md">
                       <p className="text-sm text-gray-600">Total Sales</p>

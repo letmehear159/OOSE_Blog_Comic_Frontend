@@ -5,7 +5,7 @@ export const loginAPI = async (username, password) => {
   try {
     const response = await login(username, password)
     // Xử lý hoặc kiểm tra dữ liệu nếu cần
-    return response.data
+    return response
   } catch (error) {
     throw error
   }

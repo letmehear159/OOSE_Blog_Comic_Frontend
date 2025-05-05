@@ -8,6 +8,7 @@ import LoginPage from './pages/LoginPage.jsx'
 import RegisterPage from './pages/RegisterPage.jsx'
 import { AuthWrapper } from './context/auth.context.jsx'
 import Callback from './callback/CallBack.jsx'
+import { BlogCharacterPage } from './pages/BlogCharacterPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -28,7 +29,12 @@ const router = createBrowserRouter([
   {
     path:"/callback",
     element:<Callback/>
-  }
+  },
+  {
+    path:"/character",
+    element:<BlogCharacterPage/>
+  },
+
 ])
 
 createRoot(document.getElementById('root')).render(

@@ -7,3 +7,7 @@ export const sentOTP = (otp, userId) => {
     userId: userId
   })
 }
+
+export const resendOTP = (userId) => {
+  return axios.get(URL_BACKEND + `/api/v1/otp?userId=${userId}`)
+}
