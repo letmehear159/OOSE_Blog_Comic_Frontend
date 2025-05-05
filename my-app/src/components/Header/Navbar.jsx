@@ -16,12 +16,12 @@ const Navbar = () => {
             alt="Logo"
             className="h-10"
           />
-          <NavLink to="/" className="ml-3 font-bold text-xl text-red-500">ReviewComic</NavLink>
+          <NavLink to="/" className="ml-3 font-bold text-xl text-red-400">ReviewComic</NavLink>
         </div>
         {/* Navigation Links */}
         <div className="flex items-center gap-6 ml-6">
-          <NavLink to="/review" className="text-white hover:text-gray-600 font-medium transition">Review Truyện</NavLink>
-          <NavLink to="/character" className="text-white hover:text-gray-600 font-medium transition">Nhân Vật</NavLink>
+          <NavLink to="/review-truyen" className="text-white hover:text-gray-600 font-medium transition">Review Truyện</NavLink>
+          <NavLink to="/nhanvat" className="text-white hover:text-gray-600 font-medium transition">Nhân Vật</NavLink>
         </div>
       </div>
 
