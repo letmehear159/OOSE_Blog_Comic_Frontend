@@ -150,7 +150,7 @@ const ForgotPasswordPage = () => {
                     if (!value || getFieldValue("newPassword") === value) {
                       return Promise.resolve();
                     }
-                    return Promise.reject(new Error("Mật khẩu không khớp!"));
+                    return Promise.reject(new Error("Mật khẩu không trùng khớp!"));
                   },
                 }),
               ]}
