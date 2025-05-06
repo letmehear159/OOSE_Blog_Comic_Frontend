@@ -9,6 +9,7 @@ import RegisterPage from './pages/RegisterPage.jsx'
 import { AuthWrapper } from './context/auth.context.jsx'
 import Callback from './callback/CallBack.jsx'
 import { EditBlogCharacterPage } from './pages/EditBlogCharacterPage.jsx'
+import { ViewBlogCharacterPage } from './pages/ViewBlogCharacterPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -18,22 +19,26 @@ const router = createBrowserRouter([
   },
   {
     path: '/login',
-    element:<LoginPage/>
+    element: <LoginPage/>
 
   },
   {
-    path: "/register",
+    path: '/register',
     element: <RegisterPage/>,
 
   },
   {
-    path:"/callback",
-    element:<Callback/>
+    path: '/callback',
+    element: <Callback/>
   },
   {
-    path:"/character",
-    element:<EditBlogCharacterPage/>
+    path: '/edit-character',
+    element: <EditBlogCharacterPage/>
   },
+  {
+    path: '/character/:id',
+    element: <ViewBlogCharacterPage/>
+  }
 
 ])
 

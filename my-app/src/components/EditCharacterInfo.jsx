@@ -3,7 +3,7 @@ import ClickableImageUpload from './ImageUpload.jsx'
 import React, { useState } from 'react'
 import { IMAGE_URL } from '../constants/images.js'
 import { Button, Divider, Form, Input, Modal } from 'antd'
-import { useForm } from 'antd/es/form/Form.js'
+import { CharacterInfo } from './CharacterInfo.jsx'
 
 export const EditCharacterInfo = ({ character, setCharacter }) => {
   const [form] = Form.useForm()
@@ -30,6 +30,8 @@ export const EditCharacterInfo = ({ character, setCharacter }) => {
     setCharacter({ ...filteredValues })
   }
 
+
+
   return (
     <>
       <Modal title="Sửa đổi: Thông tin tổng quan nhân vật" className={'text-center'} width="1000px" open={isModalOpen}
@@ -38,7 +40,6 @@ export const EditCharacterInfo = ({ character, setCharacter }) => {
         <Divider></Divider>
         <div className={'grid grid-cols-12 overflow-y-scroll'} style={{ height: '800px' }}>
           <div className={'col-span-4 mr-5 bg-amber-200'}>
-            Hello
           </div>
           <div className={'col-span-8  px-5'}>
             <Form layout={'vertical'} className={'font-bold'} form={form} onFinish={(values) => onSaveInfo(values)}>
@@ -128,49 +129,20 @@ export const EditCharacterInfo = ({ character, setCharacter }) => {
       </Modal>
       <div className={'w-[220px]'}>
         <div className="flex justify-center  ">
-          {/*<Input.OTP  className='fle'/>*/}
-          <div className={'flex justify-center items-center w-full hover:bg-amber-300 p-2 rounded-2xl mb-1'} onClick={handleEdit}>
+          <div className={'flex justify-center items-center border w-full hover:bg-amber-300 p-2 rounded-2xl mb-1'}
+               onClick={handleEdit}>
             <img src={`${IMAGE_URL}/edit-text.png`} className={'w-auto h-5'}/>
             <div className={'mb-0'}>Sửa thông tin</div>
           </div>
         </div>
         <div className={'border-1 border-purple-500-300'}>
-          <div
+          <Input placeHolder={'Tên nhân vật'} value={character.vietName}
             className={
-              'text-center py-3 px-[9px] h-[2.5rem] bg-amber-200 font-bold'
+              '!text-center !py-3 !px-[9px] !h-[2.5rem] !bg-amber-200 !font-bold'
             }
-          >
-            Character Name
-          </div>
+          />
           <ClickableImageUpload/>
-          <div className="w-full border  text-sm  -mt-1">
-            {characterMeta.map((section, i) => {
-              // Kiểm tra nếu tất cả các field trong section này đều không có giá trị
-              const hasValidData = section.fields.some(({ key }) => character[key])
-
-              // Nếu không có giá trị hợp lệ thì bỏ qua section này
-              if (!hasValidData) return null
-
-              return (
-                <div key={i}>
-                  <div className="bg-purple-900 text-white font-bold px-3 py-2">{section.section}</div>
-                  {section.fields.map(({ key, label }, index) => {
-                    const value = character[key]
-                    if (!value) return null // Bỏ qua nếu không có dữ liệu
-                    return (
-                      <div
-                        key={key}
-                        className={`grid grid-cols-6 px-3 py-3 text-left border-b text-xs border-purple-200 last:border-b-0`}
-                      >
-                        <div className="col-span-2 font-bold ">{label}</div>
-                        <div className="col-span-4 ml-3">{value}</div>
-                      </div>
-                    )
-                  })}
-                </div>
-              )
-            })}
-          </div>
+          <CharacterInfo character={character}/>
         </div>
       </div>
     </>

@@ -2,6 +2,7 @@
 import axios from './axios.customize.js'
 
 export const URL_BACKEND = import.meta.env.VITE_BACKEND_URL
+export const URL_BACKEND_IMAGES = URL_BACKEND + '/uploads'
 
 export const getAllUsers = () => {
   return axios.get(URL_BACKEND + '/api/v1/users')

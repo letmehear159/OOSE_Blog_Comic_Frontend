@@ -1,11 +1,12 @@
-import React, { useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { Image } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
+import { AuthContext } from '../context/auth.context.jsx'
 
 const ClickableImageUpload = () => {
   const [imgSrc, setImgSrc] = useState('')
   const inputRef = useRef(null)
-
+  const { setUploadCharacterAvatar } = useContext(AuthContext)
   const handleImageClick = () => {
     inputRef.current?.click()
   }
@@ -13,6 +14,7 @@ const ClickableImageUpload = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0]
     if (!file) return
+    setUploadCharacterAvatar(file)
 
     const reader = new FileReader()
     reader.onload = () => {
@@ -25,7 +27,7 @@ const ClickableImageUpload = () => {
 
   return (
     <>
-      <input 
+      <input
         type="file"
         accept="image/*"
         style={{ display: 'none' }}
@@ -34,7 +36,7 @@ const ClickableImageUpload = () => {
       />
 
       {imgSrc ? (
-        <Image 
+        <Image
           src={imgSrc}
           preview={false}
           onClick={handleImageClick}

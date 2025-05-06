@@ -7,9 +7,9 @@ export const characterMeta = [
       { key: 'englishName', label: 'Tên Tiếng Anh' },
       { key: 'otherName', label: 'Tên Khác' },
       { key: 'alias', label: 'Bí Danh' },
+      { key: 'pseudonym', label: 'Tên Giả' },
       { key: 'age', label: 'Tuổi' },
       { key: 'gender', label: 'Giới Tính' },
-      { key: 'pseudonym', label: 'Tên Giả' },
       { key: 'status', label: 'Tình Trạng' },
       { key: 'causeOfDeath', label: 'Nguyên Nhân Tử Vong' },
       { key: 'betrothed', label: 'Hôn Phu' }
