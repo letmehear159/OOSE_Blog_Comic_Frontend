@@ -8,6 +8,8 @@ import LoginPage from './pages/LoginPage.jsx'
 import RegisterPage from './pages/RegisterPage.jsx'
 import { AuthWrapper } from './context/auth.context.jsx'
 import Callback from './callback/CallBack.jsx'
+import DashboardPage from './pages/DashboardPage.jsx'
+import ForgotPasswordPage from './pages/ForgotPasswordPage'
 
 const router = createBrowserRouter([
   {
@@ -28,6 +30,14 @@ const router = createBrowserRouter([
   {
     path:"/callback",
     element:<Callback/>
+  },
+  {
+    path: '/dashboard',
+    element: <DashboardPage />
+  },
+  {
+    path: '/forgot-password',
+    element: <ForgotPasswordPage />
   }
 ])
 
