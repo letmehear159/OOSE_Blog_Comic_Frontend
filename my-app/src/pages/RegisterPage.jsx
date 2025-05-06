@@ -1,9 +1,8 @@
-import { fetchAllUsers } from '../services/userService.js'
 import { Button, Checkbox, Divider, Form, Image, Input, message, Space } from 'antd'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
 import { URL_BACKEND } from '../api/userApi.js'
-import { loginAPI, registerAPI } from '../services/authService.js'
+import { registerAPI } from '../services/authService.js'
 import { resentOTPApi, sentOTPApi } from '../services/otpService.js'
 import { IMAGE_URL } from '../constants/images.js'
 
@@ -114,7 +113,7 @@ const RegisterPage = () => {
                   label="Password"
                 >
 
-                  <Input.Password placeholder={'Input password'}/>
+                  <Input.Password  placeholder={'Input password'}/>
                 </Form.Item>
 
                 <Button className="w-full  "

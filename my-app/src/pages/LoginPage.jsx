@@ -60,7 +60,7 @@ const LoginPage = () => {
 
     <>
       {contextHolder}
-      <div className="bg-gray-100 flex items-center justify-center min-h-screen">
+      <div className="bg-gray-100  flex items-center justify-center min-h-screen">
         <div className="flex w-full max-w-5xl bg-white rounded-lg shadow-lg overflow-hidden">
           {/* Left Section: Login Form */}
           <div className="w-1/2 p-10">
