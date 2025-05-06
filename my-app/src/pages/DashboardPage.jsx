@@ -12,10 +12,20 @@ import {
 } from "recharts";
 import { motion, AnimatePresence } from "framer-motion";
 
+// Mới code UI, chưa có logic lấy data để hiển thị
+
 const { Title, Text } = Typography;
 const { Option } = Select;
 
 const DashboardPage = () => {
+
+  // -----Hardcode data-----
+  const userStats = {
+    total: 200,             
+    bloggers: 10,           
+    registered: 190,             
+  };
+
   const reportCategories = [
     { title: "Số blog đã đăng", key: "blogs" },
     { title: "Số lượt xem tất cả blog", key: "views" },
@@ -31,6 +41,7 @@ const DashboardPage = () => {
     { date: "2024-05-04", blogs: 3, views: 180, rates: 3, comments: 2, reactions: 5 },
     { date: "2024-05-05", blogs: 6, views: 90, rates: 2, comments: 6, reactions: 9 },
   ];
+  // -----Hardcode data-----
 
   const [expandedCategories, setExpandedCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState(["blogs"]);
@@ -42,17 +53,36 @@ const DashboardPage = () => {
   };
 
   return (
-    <div
-      style={{
-        padding: 16,
-        maxWidth: 1200,
-        margin: "0 auto",
-        overflowX: "hidden",
-      }}
-    >
+    <div style={{ padding: 16, maxWidth: 1200, margin: "0 auto", overflowX: "hidden" }}>
       <Title level={3}>Thống kê hệ thống</Title>
 
       <Row gutter={[16, 16]}>
+        <Col xs={24} sm={12} md={8}>
+          <Card
+            title={`Số lượng người dùng: ${userStats.total}`}
+            hoverable
+            onClick={() => handleSelect("users")}
+            className="cursor-pointer"
+            style={{ minHeight: 150 }}
+          >
+            <AnimatePresence initial={false}>
+              {expandedCategories.includes("users") && (
+                <motion.div
+                  key="user-card"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  style={{ overflow: "hidden" }}
+                >
+                  <Text>Blogger: <strong>{userStats.bloggers}</strong></Text><br />
+                  <Text>Đã đăng ký: <strong>{userStats.registered}</strong></Text>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </Card>
+        </Col>
+
         {reportCategories.map((category) => {
           const total = dailyData.reduce((sum, item) => sum + item[category.key], 0);
           const today = dailyData[dailyData.length - 1][category.key];
@@ -66,7 +96,6 @@ const DashboardPage = () => {
                 className="cursor-pointer"
                 style={{ minHeight: 150 }}
               >
-
                 <AnimatePresence initial={false}>
                   {expandedCategories.includes(category.key) && (
                     <motion.div
@@ -108,7 +137,7 @@ const DashboardPage = () => {
 
       <Divider />
 
-      <Title level={4}>Biểu đồ tổng hợp nhiều loại thống kê</Title>
+      <Title level={4}>Thống kê tổng hợp</Title>
 
       <Select
         mode="multiple"
@@ -139,9 +168,7 @@ const DashboardPage = () => {
                   type="monotone"
                   dataKey={key}
                   stroke={
-                    ["#8884d8", "#82ca9d", "#ff7300", "#ffc658", "#1890ff"][
-                      idx % 5
-                    ]
+                    ["#8884d8", "#82ca9d", "#ff7300", "#ffc658", "#1890ff"][idx % 5]
                   }
                   strokeWidth={2}
                   activeDot={{ r: 5 }}
