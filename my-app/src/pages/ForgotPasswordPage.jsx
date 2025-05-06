@@ -2,26 +2,34 @@ import { useState } from 'react'
 import { Button, Card, Form, Input, Typography, message } from 'antd'
 import { LockOutlined, MailOutlined, NumberOutlined } from '@ant-design/icons'
 
+// Mới code UI, chưa có logic kiểm tra email, OTP, và update mật khẩu trong database
+
 const { Title, Text } = Typography
 
 const ForgotPasswordPage = () => {
   const [form] = Form.useForm()
   const [step, setStep] = useState(1)
+  const [email, setEmail] = useState('')
 
+  // -----Chưa có logic kiểm tra email-----
   const handleEmailSubmit = (values) => {
     console.log('Gửi mã OTP tới email:', values.email)
     // TODO: gọi API gửi OTP
     setStep(2)
     message.success('Đã gửi mã OTP tới email của bạn!')
   }
+  // -----Chưa có logic kiểm tra email-----
 
+  // -----Chưa có logic kiểm tra OTP-----
   const handleOTPSubmit = (values) => {
     console.log('Xác minh OTP:', values.otp)
     // TODO: xác minh OTP
     setStep(3)
     message.success('Mã OTP chính xác!')
   }
+  // -----Chưa có logic kiểm tra OTP-----
 
+  // -----Chưa có logic kiểm tra đặt lại mật khẩu-----
   const handleResetPassword = (values) => {
     console.log('Đặt lại mật khẩu:', values)
     // TODO: gọi API lưu mật khẩu mới
@@ -29,6 +37,7 @@ const ForgotPasswordPage = () => {
     setStep(1)
     form.resetFields()
   }
+  // -----Chưa có logic kiểm tra đặt lại mật khẩu-----
 
   const handleBack = () => {
     if (step > 1) {
