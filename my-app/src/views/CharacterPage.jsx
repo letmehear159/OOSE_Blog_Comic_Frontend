@@ -1,64 +1,65 @@
 import React, { useState } from "react";
 import AppPagination from "../components/AppPagination";
 import VerticalCard from "../components/Card/VerticalCard";
+import itachiImg from "../assets/images/itachi.webp";
 
 const comics = [
   {
-    image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+    image: itachiImg,
     date: "15/03/2024",
     title: "Itachi Uchiha",
     description: '"Naruto Shippuden"',
   },
   {
-    image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+    image: itachiImg,
     date: "02/07/2024",
     title: "Lâm Phàm",
     description: '"Ngã Dục Phong Thiên"',
   },
   {
-    image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+    image: itachiImg,
     date: "22/11/2025",
     title: "Gojou Satoru",
     description: '"Jujutsu Kaisen"',
   },
   {
-    image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+    image: itachiImg,
     date: "08/09/2025",
     title: "Trương Tiểu Phàm",
     description: '"Tru Tiên"',
   },
   {
-    image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+    image: itachiImg,
     date: "30/12/2024",
     title: "Levi Ackerman",
     description: '"Attack on Titan"',
   },
   {
-    image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+    image: itachiImg,
     date: "18/06/2024",
     title: "Vương Lâm",
     description: '"Tiên Nghịch"',
   },
   {
-    image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+    image: itachiImg,
     date: "04/01/2025",
     title: "Killua Zoldyck",
     description: '"Hunter x Hunter"',
   },
   {
-    image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+    image: itachiImg,
     date: "10/10/2025",
     title: "Hàn Lập",
     description: '"Phàm Nhân Tu Tiên"',
   },
   {
-    image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+    image: itachiImg,
     date: "25/08/2024",
     title: "Gojo Yuujiro",
     description: '"Baki the Grappler"',
   },
   {
-    image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+    image: itachiImg,
     date: "13/05/2024",
     title: "Đường Tam",
     description: '"Đấu La Đại Lục"',
