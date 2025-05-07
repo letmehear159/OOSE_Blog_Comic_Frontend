@@ -40,3 +40,9 @@
 .read-the-docs {
   color: #888;
 } */
+
+.custom-select .ant-select-selector {
+  background-color: #994ea0 !important;
+  color: white !important;
+  border-color: #555 !important;
+}
