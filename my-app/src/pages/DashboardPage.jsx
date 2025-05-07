@@ -54,7 +54,7 @@ const DashboardPage = () => {
   }
 
   return (
-    <div className="bg-[#1a0d16] min-h-screen text-white px-4 py-6 sm:ml-32">
+    <div className="bg-[#000000] min-h-screen text-white px-4 py-6 sm:ml-32">
       <Title level={3} style={{ color: "white" }}>Thống kê hệ thống</Title>
 
       <Row gutter={[16, 16]}>
