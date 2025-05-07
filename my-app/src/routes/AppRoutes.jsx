@@ -6,6 +6,7 @@ import ReviewPage from "../pages/ReviewPage.jsx";
 import CharacterPage from "../pages/CharacterPage.jsx";
 import Homepage from "../pages/Homepage.jsx";
 import ViewBlogPage from "../pages/ViewBlogPage.jsx";
+import UserPage from "../pages/UserPage.jsx";
 
 const AppRoutes = () => (
   <Routes>
@@ -14,6 +15,7 @@ const AppRoutes = () => (
       <Route path="review-truyen" element={<ReviewPage />} />
       <Route path="nhanvat" element={<CharacterPage />} />
       <Route path="view-blog" element={<ViewBlogPage />} />
+      <Route path="users" element={<UserPage />} />
     </Route>
   </Routes>
 );
