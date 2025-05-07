@@ -1,5 +1,8 @@
-## Create navigation folder in src/component 
-## Create 2 files Navbar.jsx and Sidebar.jsx inside navigation folder
-## Comment all the code in App.cs
-## Change the code in App.jsx
-## That's all 
+## Mock data: 
+### Create a mock data in /src/data_testing folder 
+
+## in vite.config.js 
+### Change the url from localhost:XXXX to localhost:XXXX/admin
+
+## in component: 
+### create a manage folder: including 4 usecases
