@@ -11,4 +11,4 @@ export const getAllUsers = () => {
 export const getCurrentUser = () => {
   return axios.get(URL_BACKEND + '/api/v1/auth/account')
 }
-export const getUserById = (id) => axios.get(`/api/users/${id}`)
+export const getUserById = (id) => axios.get(`/api/v1/users/${id}`)

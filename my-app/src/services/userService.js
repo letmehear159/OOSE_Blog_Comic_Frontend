@@ -1,5 +1,6 @@
 // Business Logic Layer: xử lý logic giữa UI và API
-import { getUserById, getCurrentUser, getAllUsers } from '../api/userApi'
+import { getUserById, getCurrentUser, getAllUsers, URL_BACKEND } from '../api/userApi'
+import axios from '../api/axios.customize.js'
 
 // Lấy tất cả users
 export const fetchAllUsers = async () => {
@@ -33,6 +34,18 @@ export const fetchAccount = async () => {
     return response.data
   } catch (error) {
     console.error(`Error fetching user with token:`, error)
+    throw error
+  }
+}
+
+export const resetNewPassword = async (email, newPassword) => {
+
+  try {
+    const response = await axios.put(URL_BACKEND + `/api/v1/users/email/${email}`, {
+      password: newPassword
+    })
+    return response.data.data
+  } catch (error) {
     throw error
   }
 }

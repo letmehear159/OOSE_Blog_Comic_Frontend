@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
 import { URL_BACKEND } from '../api/userApi.js'
 import { registerAPI } from '../services/authService.js'
-import { resentOTPApi, sentOTPApi } from '../services/otpService.js'
+import { resentOTPService, sentOTPService } from '../services/otpService.js'
 import { IMAGE_URL } from '../constants/images.js'
 
 const RegisterPage = () => {
@@ -47,7 +47,7 @@ const RegisterPage = () => {
     try {
       const userId = localStorage.getItem('userId')
       const otp = values.otp
-      const res = await sentOTPApi(otp, userId)
+      const res = await sentOTPService(otp, userId, null)
       message.success('Xác thực thành công')
       localStorage.removeItem('userId')
       setStep(3)
@@ -60,7 +60,7 @@ const RegisterPage = () => {
     try {
       const userId = localStorage.getItem('userId')
       setIsLoading(true)
-      const res = await resentOTPApi(userId)
+      const res = await resentOTPService(userId)
       message.success('Gửi mới OTP thành công')
     } catch (error) {
       message.error('Gặp lỗi khi gửi mới OTP')

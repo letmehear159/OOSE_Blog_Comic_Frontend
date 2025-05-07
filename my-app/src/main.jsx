@@ -10,6 +10,7 @@ import { AuthWrapper } from './context/auth.context.jsx'
 import Callback from './callback/CallBack.jsx'
 import { EditBlogCharacterPage } from './pages/EditBlogCharacterPage.jsx'
 import { ViewBlogCharacterPage } from './pages/ViewBlogCharacterPage.jsx'
+import ForgotPasswordPage from './pages/ForgotPasswordPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
   {
     path: '/character/:id',
     element: <ViewBlogCharacterPage/>
+  },
+  {
+    path: '/forgot-password',
+    element: <ForgotPasswordPage/>
   }
 
 ])
