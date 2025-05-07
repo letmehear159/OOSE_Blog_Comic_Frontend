@@ -19,7 +19,7 @@ export const fetchUserById = async (id) => {
   try {
     const response = await getUserById(id)
     // Xử lý hoặc kiểm tra dữ liệu nếu cần
-    return response.data
+    return response
   } catch (error) {
     console.error(`Error fetching user with ID ${id}:`, error)
     throw error
@@ -31,7 +31,7 @@ export const fetchAccount = async () => {
   try {
     const response = await getCurrentUser()
     // Xử lý hoặc kiểm tra dữ liệu nếu cần
-    return response.data
+    return response
   } catch (error) {
     console.error(`Error fetching user with token:`, error)
     throw error
@@ -44,7 +44,7 @@ export const resetNewPassword = async (email, newPassword) => {
     const response = await axios.put(URL_BACKEND + `/api/v1/users/email/${email}`, {
       password: newPassword
     })
-    return response.data.data
+    return response
   } catch (error) {
     throw error
   }

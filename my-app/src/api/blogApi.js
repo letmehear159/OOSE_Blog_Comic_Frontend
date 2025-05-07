@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from './axios.customize.js'
 import { URL_BACKEND } from './userApi.js'
 
 export const saveImageCharacterBlogAPI = (formData) => {

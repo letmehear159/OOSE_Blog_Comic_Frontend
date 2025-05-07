@@ -15,7 +15,7 @@ export const registerAPI = async (username, password, email, displayName) => {
   try {
     const response = await register(username, password, email, displayName)
     // Xử lý hoặc kiểm tra dữ liệu nếu cần
-    return response.data
+    return response
   } catch (error) {
     throw error
   }

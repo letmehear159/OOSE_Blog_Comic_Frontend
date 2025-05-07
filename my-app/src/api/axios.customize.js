@@ -36,10 +36,11 @@ const processQueue = (error, token = null) => {
 instance.interceptors.response.use(
   (response) => {
     // Nếu dùng format ApiResponse<T>
-    if (response.data && response.data.data !== undefined) {
-      return response.data
+    if (response?.data?.data !== undefined) {
+      return response.data.data // <-- chỉ trả về phần "data thực"
     }
-    return response.data || response
+
+    return response.data // fallback nếu format không đúng
   },
   async (error) => {
     const originalRequest = error.config
