@@ -2,10 +2,10 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import "../index.css";
 import App from "../App.jsx";
-import ReviewPage from "../views/ReviewPage.jsx";
-import CharacterPage from "../views/CharacterPage.jsx";
-import Homepage from "../views/Homepage.jsx";
-import ViewBlogPage from "../views/ViewBlogPage.jsx";
+import ReviewPage from "../pages/ReviewPage.jsx";
+import CharacterPage from "../pages/CharacterPage.jsx";
+import Homepage from "../pages/Homepage.jsx";
+import ViewBlogPage from "../pages/ViewBlogPage.jsx";
 
 const AppRoutes = () => (
   <Routes>
