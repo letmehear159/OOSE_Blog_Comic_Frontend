@@ -1,4 +1,15 @@
 @import "tailwindcss";
 
+@layer base {
+  .app {
+    @apply flex relative h-screen;
+  }
 
-
+  .content {
+    @apply h-full w-full font-sans;
+  }
+    
+  .pro-sidebar {
+    @apply h-screen;
+  }
+}
