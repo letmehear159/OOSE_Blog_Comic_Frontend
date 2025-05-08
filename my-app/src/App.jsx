@@ -1,10 +1,10 @@
+import Navbar from "./components/Header/Navbar";
+import { Outlet } from "react-router-dom";
+import AppFooter from "./components/Footer/AppFooter";
 import { useContext, useEffect, useState } from 'react'
 import './App.css'
 import { AuthContext } from './context/auth.context.jsx'
-import { fetchAccountAPI } from './services/userService.js'
-import { Button, message, Spin } from 'antd'
-
-function App () {
+function App() {
   const { user, setUser, isLoading, setIsLoading } = useContext(AuthContext)
 
   useEffect(() => {
@@ -24,13 +24,21 @@ function App () {
     }
   }, [])
 
-  console.log(">>> Check user ",user)
   return (
-    isLoading === true ? <Spin/> :
-      <>
-        Lấy dữ liệu thành công
-      </>
-  )
+    <>
+      <div className="app-container min-h-screen flex flex-col">
+        <div className="header-container">
+          <Navbar />
+        </div>
+        <div className="content-container">
+          <Outlet />
+        </div>
+        <div className="footer-container">
+          <AppFooter />
+        </div>
+      </div>
+    </>
+  );
 }
 
-export default App
+export default App;

@@ -49,8 +49,19 @@ const router = createBrowserRouter([
   {
     path: '/forgot-password',
     element: <ForgotPasswordPage/>
-  }
-
+  },
+  {
+    path: '/review-truyen',
+    element: <ReviewPage/>
+  },
+  {
+    path: '/nhanvat',
+    element: <CharacterPage/>
+  },
+  {
+    path: '/view-blog',
+    element: <ViewBlogPage/>
+  },
 ])
 
 createRoot(document.getElementById('root')).render(
