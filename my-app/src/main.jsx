@@ -15,12 +15,18 @@ import { NewBlogCharacterPage } from './pages/NewBlogCharacterPage.jsx'
 import CharacterPage from './pages/CharacterPage.jsx'
 import ReviewPage from './pages/ReviewPage.jsx'
 import ViewBlogPage from './pages/ViewBlogPage.jsx'
+import Homepage from './pages/Homepage.jsx'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App/>,
     children: [
+      {
+        index: true,
+        element: <Homepage/>
+
+      },
       {
         path: '/new-character',
         element: <NewBlogCharacterPage/>
