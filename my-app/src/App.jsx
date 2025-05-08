@@ -4,6 +4,7 @@ import AppFooter from "./components/Footer/AppFooter";
 import { useContext, useEffect, useState } from 'react'
 import './App.css'
 import { AuthContext } from './context/auth.context.jsx'
+import { fetchAccountAPI } from './services/userService.js'
 function App() {
   const { user, setUser, isLoading, setIsLoading } = useContext(AuthContext)
 

@@ -20,7 +20,37 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App/>,
-    children: []
+    children: [
+      {
+        path: '/new-character',
+        element: <NewBlogCharacterPage/>
+      },
+
+      {
+        path: '/edit-character/:id',
+        element: <EditBlogCharacterPage/>
+      },
+      {
+        path: '/character/:id',
+        element: <ViewBlogCharacterPage/>
+      },
+      {
+        path: '/forgot-password',
+        element: <ForgotPasswordPage/>
+      },
+      {
+        path: '/review-truyen',
+        element: <ReviewPage/>
+      },
+      {
+        path: '/nhanvat',
+        element: <CharacterPage/>
+      },
+      {
+        path: '/view-blog',
+        element: <ViewBlogPage/>
+      },
+    ]
   },
   {
     path: '/login',
@@ -36,35 +66,7 @@ const router = createBrowserRouter([
     path: '/callback',
     element: <Callback/>
   },
-  {
-    path: '/new-character',
-    element: <NewBlogCharacterPage/>
-  },
 
-  {
-    path: '/edit-character/:id',
-    element: <EditBlogCharacterPage/>
-  },
-  {
-    path: '/character/:id',
-    element: <ViewBlogCharacterPage/>
-  },
-  {
-    path: '/forgot-password',
-    element: <ForgotPasswordPage/>
-  },
-  {
-    path: '/review-truyen',
-    element: <ReviewPage/>
-  },
-  {
-    path: '/nhanvat',
-    element: <CharacterPage/>
-  },
-  {
-    path: '/view-blog',
-    element: <ViewBlogPage/>
-  },
 ])
 
 createRoot(document.getElementById('root')).render(
