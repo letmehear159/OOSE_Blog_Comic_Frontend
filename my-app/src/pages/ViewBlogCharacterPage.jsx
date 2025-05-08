@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getBlogByIdService, getBlogComicById } from '../services/blogService.js'
+import { getBlogCharacterByIdServiceAPI, getBlogComicByIdAPI } from '../services/blogService.js'
 import { Button, Layout, message } from 'antd'
 import { Character } from '../components/Character.jsx'
 import { useParams } from 'react-router-dom'
@@ -18,12 +18,12 @@ export const ViewBlogCharacterPage = () => {
   useEffect(() => {
     if (!id) return
 
-    getBlogByIdService(id)
+    getBlogCharacterByIdServiceAPI(id)
       .then(
         (res) => {
           setBlog(res)
           if (res.comicId !== null) {
-            getBlogComicById(res.comicId).then((res) => {
+            getBlogComicByIdAPI(res.comicId).then((res) => {
               console.log('>>> Check blog comic ', res)
               setBlogComic(res)
             })

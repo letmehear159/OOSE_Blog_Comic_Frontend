@@ -56,7 +56,7 @@ import {
 import translations from 'ckeditor5/translations/vi.js'
 import 'ckeditor5/ckeditor5.css'
 import { Button } from 'antd'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { URL_BACKEND } from '../api/userApi.js'
 import { saveImageCharacterBlogService, savePreviewImageCharacterBlogService } from '../services/blogService.js'
@@ -134,7 +134,7 @@ const processContentAndUploadImages = async (htmlContent, saveDataService) => {
   return doc.body.innerHTML
 }
 
-const RichTextEditor = ({ setResult, setPreview, isImageSaved, setIsImageSaved, saveBlog }) => {
+const RichTextEditor = ({ result, setResult, setPreview, isImageSaved, setIsImageSaved, saveBlog }) => {
   const [content, setContent] = useState('<i>Nhập nội dung bài viết...</i>')
   const handleSaveButton = async () => {
     const processedContent = await processContentAndUploadImages(content, saveImageCharacterBlogService)
@@ -150,7 +150,11 @@ const RichTextEditor = ({ setResult, setPreview, isImageSaved, setIsImageSaved, 
     const processedContent = await processContentAndUploadImages(content, savePreviewImageCharacterBlogService)
     setPreview(processedContent)
   }
-
+  useEffect(() => {
+    if (result && result.trim().length > 0) {
+      setContent(result)
+    }
+  }, [result])
   return (
     <>
       <style>{customHeadingStyles}</style>

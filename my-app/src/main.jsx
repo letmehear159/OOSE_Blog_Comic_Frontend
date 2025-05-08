@@ -11,6 +11,7 @@ import Callback from './callback/CallBack.jsx'
 import { EditBlogCharacterPage } from './pages/EditBlogCharacterPage.jsx'
 import { ViewBlogCharacterPage } from './pages/ViewBlogCharacterPage.jsx'
 import ForgotPasswordPage from './pages/ForgotPasswordPage.jsx'
+import { NewBlogCharacterPage } from './pages/NewBlogCharacterPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -33,7 +34,12 @@ const router = createBrowserRouter([
     element: <Callback/>
   },
   {
-    path: '/edit-character',
+    path: '/new-character',
+    element: <NewBlogCharacterPage/>
+  },
+
+  {
+    path: '/edit-character/:id',
     element: <EditBlogCharacterPage/>
   },
   {

@@ -3,7 +3,7 @@ import { IMAGE_URL } from '../constants/images.js'
 import { URL_BACKEND_IMAGES } from '../api/userApi.js'
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { getBlogInsightsOfThisCharacter, getListRelatedCharacter } from '../services/blogService.js'
+import { getBlogInsightsOfThisCharacterAPI, getListRelatedCharacterAPI } from '../services/blogService.js'
 
 const loadListBlog = (characters) => {
   return (
@@ -23,7 +23,7 @@ export const RelatedBlogIcon = ({ hasBlog, blogComic, blogCharacterId }) => {
   const [relatedInsightBlogs, setRelatedInsightBlogs] = useState(null)
   const getCharacter = async () => {
     try {
-      const res = await getListRelatedCharacter(blogComic.id)
+      const res = await getListRelatedCharacterAPI(blogComic.id)
       setRelatedCharacters(res)
     } catch (error) {
       message.error('Không thể lấy danh sách nhân vật ')
@@ -31,7 +31,7 @@ export const RelatedBlogIcon = ({ hasBlog, blogComic, blogCharacterId }) => {
   }
   const getInsight = async () => {
     try {
-      const res = await getBlogInsightsOfThisCharacter(blogCharacterId)
+      const res = await getBlogInsightsOfThisCharacterAPI(blogCharacterId)
       setRelatedInsightBlogs(res)
     } catch (error) {
       message.error('Không thể lấy danh sách các bài viêt cảm hứng từ nhân vật này ')

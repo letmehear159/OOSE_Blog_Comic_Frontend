@@ -1,32 +1,49 @@
 // import RichTextEditor from '../editor/RichTextEditor.jsx'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import RichTextEditor from '../editor/RichTextEditor.jsx'
 import { customImageAlignStyles } from '../editor/editorCustomStyleConstant.jsx'
 import { EditCharacterInfo } from '../components/EditCharacterInfo.jsx'
 import { Divider, Image, Input, message } from 'antd'
 import { AuthContext } from '../context/auth.context.jsx'
-import {
-  getBlogCharacterByIdServiceAPI,
-  getBlogComicByIdAPI,
-  saveBlogCharacterServiceAPI, updateBlogCharacterAPI
-} from '../services/blogService.js'
+import { saveBlogCharacterServiceAPI } from '../services/blogService.js'
 import { URL_BACKEND_IMAGES } from '../api/userApi.js'
 import { SearchBlogComic } from '../components/SearchBlogComic.jsx'
-import { useParams } from 'react-router-dom'
+import { NewCharacterInfo } from '../components/NewCharacterInfo.jsx'
 
-export const EditBlogCharacterPage = () => {
+const characterData = {
+  vietName: ' ',
+  chineseName: ' ',
+  pseudonym: ' ',
+  otherName: ' ',
+  age: 10000,
+  gender: ' ',
+  faction: ' ',
+  race: ' ',
+  realm: ' ',
+  cultivationRealm: ' ',
+  bodyRealm: ' ',
+  combatPower: ' ',
+  alias: ' ',
+  status: ' ',
+  betrothed: ' ',
+  sect: ' ',
+  clan: ' ',
+  bloodLine: ' ',
+}
+
+export const NewBlogCharacterPage = () => {
   const { user } = useContext(AuthContext)
-  const { id } = useParams()
+  const { uploadCharacterAvatar, setUploadCharacterAvatar } = useContext(AuthContext)
   // HTML content của bài viết
-  const [result, setResult] = useState(null)
+  const [result, setResult] = useState('')
   const [preview, setPreview] = useState('')
   const [isImageSaved, setIsImageSaved] = useState(false)
-  const [blogComic, setBlogComic] = useState(null)
-  const [blogCharacter, setBlogCharacter] = useState(null)
-  const [character, setCharacter] = useState(null)
+  // Thông tin nhân vật, tương ứng với CharacterReq trong BE
+  const [character, setCharacter] = useState(characterData)
+  // Tiêu đề
   const [blogTitle, setBlogTitle] = useState('')
-  const [blogCharacterThumbnail, setBlogCharacterThumbnail] = useState(null)
-  const { uploadCharacterAvatar } = useContext(AuthContext)
+  const [blogComic, setBlogComic] = useState(null)
+
   const saveBlog = async () => {
 
     const blogCharacterReq = {
@@ -37,55 +54,32 @@ export const EditBlogCharacterPage = () => {
       comicId: blogComic === null ? null : blogComic.id,
     }
     try {
-      const response = await updateBlogCharacterAPI(blogCharacterReq, blogCharacterThumbnail, id)
-      message.success('Sửa bài viết thành công')
+      const response = await saveBlogCharacterServiceAPI(blogCharacterReq, uploadCharacterAvatar)
+      message.success('Tạo bài viết thành công')
+
+      // Reset các input và state
+      setBlogTitle('')              // Reset tiêu đề
+      setBlogComic(null)            // Reset truyện
+      setCharacter(characterData)   // Reset thông tin nhân vật về mặc định
+      setResult('')                 // Reset nội dung bài viết
+      setPreview('')                // Reset bản xem trước
+      setIsImageSaved(false)        // Reset trạng thái lưu ảnh
+      setUploadCharacterAvatar(null)
+
     } catch (error) {
       message.error(error.data)
     }
   }
 
-  useEffect(() => {
-    if (!id) return
-
-    const getBlogCharacter = async () => {
-      try {
-        const res = await getBlogCharacterByIdServiceAPI(id)
-        setBlogCharacter(res)
-        setCharacter(res.character)
-        setBlogTitle(res.title)
-        setResult(res.content)
-        setBlogCharacterThumbnail(res.thumbnail)
-      } catch (error) {
-        message.error('Lỗi khi lấy dữ liệu bài viết về nhân vật')
-      }
-    }
-
-    getBlogCharacter()
-  }, [id])
-
-  useEffect(() => {
-    if (!blogCharacter?.comicId) return
-
-    const getBlogComic = async () => {
-      try {
-        const res = await getBlogComicByIdAPI(blogCharacter.comicId)
-        setBlogComic(res)
-      } catch (error) {
-        message.error('Lỗi khi lấy dữ liệu truyện của nhân vật')
-      }
-    }
-
-    getBlogComic()
-  }, [blogCharacter])
-
   return (
+
     <>
       <style>{customImageAlignStyles}</style>
       <div className="grid grid-cols-12 gap-6">
         {/* Main content section */}
         <div className="col-span-9 mr-6 p-4 bg-white rounded-lg shadow-sm">
           {/* SearchBlogComic Component */}
-          <SearchBlogComic blogComic={blogComic} setBlogComic={setBlogComic}/>
+          <SearchBlogComic setBlogComic={setBlogComic}/>
 
           {/* Input section */}
           <div className="flex items-center mb-4 h-12">
@@ -103,7 +97,6 @@ export const EditBlogCharacterPage = () => {
 
           {/* RichTextEditor */}
           <RichTextEditor
-            result={result}
             setResult={setResult}
             setPreview={setPreview}
             isImageSaved={isImageSaved}
@@ -125,9 +118,7 @@ export const EditBlogCharacterPage = () => {
 
         {/* Sidebar Section */}
         <div className="col-span-3 p-4 bg-white rounded-lg shadow-sm">
-          <EditCharacterInfo character={character} setCharacter={setCharacter}
-                             setBlogCharacterThumbnail={setBlogCharacterThumbnail}
-                             blogCharacterThumbnail={blogCharacter !== null ? blogCharacterThumbnail : null}/>
+          <NewCharacterInfo character={character} setCharacter={setCharacter}/>
         </div>
       </div>
     </>
