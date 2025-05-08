@@ -12,6 +12,9 @@ import { EditBlogCharacterPage } from './pages/EditBlogCharacterPage.jsx'
 import { ViewBlogCharacterPage } from './pages/ViewBlogCharacterPage.jsx'
 import ForgotPasswordPage from './pages/ForgotPasswordPage.jsx'
 import { NewBlogCharacterPage } from './pages/NewBlogCharacterPage.jsx'
+import CharacterPage from './pages/CharacterPage.jsx'
+import ReviewPage from './pages/ReviewPage.jsx'
+import ViewBlogPage from './pages/ViewBlogPage.jsx'
 
 const router = createBrowserRouter([
   {
