@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { Button, Card, Form, Input, Typography, message } from 'antd'
 import { LockOutlined, MailOutlined, NumberOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
-import { resentOTPForgotPasswordService, sentOTPService } from '../services/otpService.js'
-import { resetNewPassword } from '../services/userService.js'
+import { resentOTPPasswordAPI, sentOTPAPI } from '../services/otpService.js'
+import { resetNewPasswordAPI } from '../services/userService.js'
 
 // Mới code UI, chưa có logic kiểm tra email, OTP, và update mật khẩu trong database
 
@@ -19,7 +19,7 @@ const ForgotPasswordPage = () => {
     console.log('Gửi mã OTP tới email:', values.email)
     // TODO: gọi API gửi OTP
     try {
-      const reponse = await resentOTPForgotPasswordService(values.email)
+      const reponse = await resentOTPPasswordAPI(values.email)
       localStorage.setItem('email', values.email)
       setStep(2)
       message.success('Đã gửi mã OTP tới email của bạn!')
@@ -34,7 +34,7 @@ const ForgotPasswordPage = () => {
     console.log('Xác minh OTP:', values.otp)
     try {
       const email = localStorage.getItem('email')
-      const res = await sentOTPService(values.otp, null, email)
+      const res = await sentOTPAPI(values.otp, null, email)
       message.success('Mã OTP chính xác!')
       setStep(3)
     } catch (error) {
@@ -49,7 +49,7 @@ const ForgotPasswordPage = () => {
   const handleResetPassword = async (values) => {
     try {
       const email = localStorage.getItem('email')
-      const response = await resetNewPassword(email, values.newPassword)
+      const response = await resetNewPasswordAPI(email, values.newPassword)
       localStorage.removeItem('email')
       message.success('Đặt lại mật khẩu thành công! Vui lòng đăng nhập lại.')
       navigate('/login')

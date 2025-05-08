@@ -1,9 +1,13 @@
-import { getCurrentUser } from '../api/userApi.js'
-import { login, register } from '../api/authApi.js'
+
+import axios from '/src/api/axios.customize.js'
+import { URL_BACKEND } from '../constants/api.js'
 
 export const loginAPI = async (username, password) => {
   try {
-    const response = await login(username, password)
+    const response = await axios.post(URL_BACKEND + '/api/v1/auth/login', {
+      identifier: username,
+      password: password
+    })
     // Xử lý hoặc kiểm tra dữ liệu nếu cần
     return response
   } catch (error) {
@@ -13,7 +17,12 @@ export const loginAPI = async (username, password) => {
 
 export const registerAPI = async (username, password, email, displayName) => {
   try {
-    const response = await register(username, password, email, displayName)
+    const response = await axios.post(URL_BACKEND + '/api/v1/auth/register', {
+      username: username,
+      password: password,
+      email: email,
+      displayName: displayName,
+    })
     // Xử lý hoặc kiểm tra dữ liệu nếu cần
     return response
   } catch (error) {

@@ -1,17 +1,16 @@
-// import RichTextEditor from '../editor/RichTextEditor.jsx'
 import { useContext, useEffect, useState } from 'react'
 import RichTextEditor from '../editor/RichTextEditor.jsx'
 import { customImageAlignStyles } from '../editor/editorCustomStyleConstant.jsx'
-import { EditCharacterInfo } from '../components/EditCharacterInfo.jsx'
-import { Divider, Image, Input, message } from 'antd'
+import { EditCharacterInfo } from '../components/blog-character/EditCharacterInfo.jsx'
+import { Divider, Input, message } from 'antd'
 import { AuthContext } from '../context/auth.context.jsx'
 import {
-  getBlogCharacterByIdServiceAPI,
-  getBlogComicByIdAPI,
-  saveBlogCharacterServiceAPI, updateBlogCharacterAPI
+  getBlogCharacterAPI,
+  getBlogComicAPI,
+   updateBlogCharacterAPI
 } from '../services/blogService.js'
-import { URL_BACKEND_IMAGES } from '../api/userApi.js'
-import { SearchBlogComic } from '../components/SearchBlogComic.jsx'
+
+import { SearchBlogComic } from '../components/blog-character/SearchBlogComic.jsx'
 import { useParams } from 'react-router-dom'
 
 export const EditBlogCharacterPage = () => {
@@ -49,7 +48,7 @@ export const EditBlogCharacterPage = () => {
 
     const getBlogCharacter = async () => {
       try {
-        const res = await getBlogCharacterByIdServiceAPI(id)
+        const res = await getBlogCharacterAPI(id)
         setBlogCharacter(res)
         setCharacter(res.character)
         setBlogTitle(res.title)
@@ -68,7 +67,7 @@ export const EditBlogCharacterPage = () => {
 
     const getBlogComic = async () => {
       try {
-        const res = await getBlogComicByIdAPI(blogCharacter.comicId)
+        const res = await getBlogComicAPI(blogCharacter.comicId)
         setBlogComic(res)
       } catch (error) {
         message.error('Lỗi khi lấy dữ liệu truyện của nhân vật')

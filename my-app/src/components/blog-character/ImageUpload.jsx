@@ -1,27 +1,20 @@
-import React, {  useEffect, useRef, useState } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { Image } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import { URL_BACKEND_IMAGES } from '../api/userApi.js'
+import { AuthContext } from '../../context/auth.context.jsx'
 
-const EditImageUpload = ({ blogCharacterThumbnail, setBlogCharacterThumbnail }) => {
+const ImageUpload = () => {
   const [imgSrc, setImgSrc] = useState('')
   const inputRef = useRef(null)
+  const { setUploadCharacterAvatar } = useContext(AuthContext)
   const handleImageClick = () => {
     inputRef.current?.click()
   }
 
-  useEffect(() => {
-    if (
-      blogCharacterThumbnail !== null
-    ) {
-      setImgSrc(`${URL_BACKEND_IMAGES}/${blogCharacterThumbnail}`)
-    }
-  }, [blogCharacterThumbnail])
-
   const handleFileChange = (e) => {
     const file = e.target.files[0]
     if (!file) return
-    setBlogCharacterThumbnail(file)
+    setUploadCharacterAvatar(file)
 
     const reader = new FileReader()
     reader.onload = () => {
@@ -72,4 +65,4 @@ const EditImageUpload = ({ blogCharacterThumbnail, setBlogCharacterThumbnail }) 
   )
 }
 
-export default EditImageUpload
+export default ImageUpload

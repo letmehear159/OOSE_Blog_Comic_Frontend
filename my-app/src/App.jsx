@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 import './App.css'
 import { AuthContext } from './context/auth.context.jsx'
-import { fetchAccount } from './services/userService.js'
+import { fetchAccountAPI } from './services/userService.js'
 import { Button, message, Spin } from 'antd'
 
 function App () {
@@ -10,7 +10,7 @@ function App () {
   useEffect(() => {
     if (localStorage.getItem('access_token')) {
       setIsLoading(true)
-      const userPromise = fetchAccount()
+      const userPromise = fetchAccountAPI()
       userPromise
         .then(user => {
           setUser(user)

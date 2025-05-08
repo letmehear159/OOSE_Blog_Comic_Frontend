@@ -1,16 +1,11 @@
-import { login } from '../api/authApi.js'
-import {
-  getBlogByIdAPI,
-  saveBlogCharacterAPI,
-  saveImageCharacterBlogAPI,
-  savePreviewImageCharacterBlogAPI
-} from '../api/blogApi.js'
 import axios from '../api/axios.customize.js'
-import { URL_BACKEND } from '../api/userApi.js'
+import { URL_BACKEND } from '../constants/api.js'
 
-export const saveImageCharacterBlogService = async (formData) => {
+export const saveCharacterThumbnailAPI = async (formData) => {
   try {
-    const response = await saveImageCharacterBlogAPI(formData)
+    const response = await axios.post(URL_BACKEND + '/api/v1/upload', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
     // Xử lý hoặc kiểm tra dữ liệu nếu cần
     return response
   } catch (error) {
@@ -18,9 +13,11 @@ export const saveImageCharacterBlogService = async (formData) => {
   }
 }
 
-export const savePreviewImageCharacterBlogService = async (formData) => {
+export const savePreviewThumbnailCharacterAPI = async (formData) => {
   try {
-    const response = await savePreviewImageCharacterBlogAPI(formData)
+    const response = await axios.post(URL_BACKEND + '/api/v1/upload/preview', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
     // Xử lý hoặc kiểm tra dữ liệu nếu cần
     return response
   } catch (error) {
@@ -28,7 +25,7 @@ export const savePreviewImageCharacterBlogService = async (formData) => {
   }
 }
 
-export const saveBlogCharacterServiceAPI = async (blogCharacterRequest, thumbnail) => {
+export const saveBlogCharacterAPI = async (blogCharacterRequest, thumbnail) => {
   try {
     const formData = new FormData()
     const jsonBlob = new Blob(
@@ -37,7 +34,9 @@ export const saveBlogCharacterServiceAPI = async (blogCharacterRequest, thumbnai
     )
     formData.append('blogCharacterRequest', jsonBlob)
     formData.append('thumbnail', thumbnail)
-    const response = await saveBlogCharacterAPI(formData)
+    const response = await axios.post(URL_BACKEND + '/api/v1/blog-character', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
     // Xử lý hoặc kiểm tra dữ liệu nếu cần
     return response
   } catch (error) {
@@ -45,9 +44,9 @@ export const saveBlogCharacterServiceAPI = async (blogCharacterRequest, thumbnai
   }
 }
 
-export const getBlogCharacterByIdServiceAPI = async (id) => {
+export const getBlogCharacterAPI = async (id) => {
   try {
-    const response = await getBlogByIdAPI(id)
+    const response = await axios.get(URL_BACKEND + `/api/v1/blog-character/${id}`)
     // Xử lý hoặc kiểm tra dữ liệu nếu cần
     return response
   } catch (error) {
@@ -55,7 +54,7 @@ export const getBlogCharacterByIdServiceAPI = async (id) => {
   }
 }
 
-export const getBlogComicByIdAPI = async (id) => {
+export const getBlogComicAPI = async (id) => {
   try {
     const response = await axios.get(URL_BACKEND + `/api/v1/blog-comic/${id}`)
     // Xử lý hoặc kiểm tra dữ liệu nếu cần
@@ -65,7 +64,7 @@ export const getBlogComicByIdAPI = async (id) => {
   }
 }
 
-export const getListRelatedCharacterAPI = async (comicId) => {
+export const getRelatedCharactersAPI = async (comicId) => {
   try {
     const response = await axios.get(URL_BACKEND + `/api/v1/blog-character/related-characters/${comicId}`)
     // Xử lý hoặc kiểm tra dữ liệu nếu cần
@@ -75,7 +74,7 @@ export const getListRelatedCharacterAPI = async (comicId) => {
   }
 }
 
-export const getBlogInsightsOfThisCharacterAPI = async (blogCharacterId) => {
+export const getInsightsCharacterAPI = async (blogCharacterId) => {
   try {
     const response = await axios.get(URL_BACKEND + `/api/v1/blog-insight/character/${blogCharacterId}`)
     // Xử lý hoặc kiểm tra dữ liệu nếu cần

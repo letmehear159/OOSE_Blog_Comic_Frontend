@@ -1,13 +1,13 @@
-import { characterMeta } from '../meta/CharacterMeta.jsx'
+import { characterMeta } from '../../meta/CharacterMeta.jsx'
 import ClickableImageUpload from './ImageUpload.jsx'
 import React, { useState } from 'react'
-import { IMAGE_URL } from '../constants/images.js'
+import { IMAGE_URL } from '../../constants/images.js'
 import { Button, Divider, Form, Input, Modal } from 'antd'
 import { CharacterInfo } from './CharacterInfo.jsx'
 import ImageUpload from './ImageUpload.jsx'
+import EditImageUpload from './EditImageUpload.jsx'
 
-
-export const NewCharacterInfo = ({ character, setCharacter }) => {
+export const EditCharacterInfo = ({ character, setCharacter, blogCharacterThumbnail, setBlogCharacterThumbnail }) => {
   const [form] = Form.useForm()
 
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -42,7 +42,30 @@ export const NewCharacterInfo = ({ character, setCharacter }) => {
           <div className={'col-span-4 mr-5 bg-amber-200'}>
           </div>
           <div className={'col-span-8  px-5'}>
-            <Form layout={'vertical'} className={'font-bold'} form={form} onFinish={(values) => onSaveInfo(values)}>
+            <Form layout={'vertical'} className={'font-bold'} form={form} onFinish={(values) => onSaveInfo(values)}
+                  initialValues={{
+                    vietName: character?.vietName || '',  // Nếu không có vietName, dùng giá trị mặc định là ''
+                    chineseName: character?.chineseName || '',
+                    englishName: character?.englishName || '',
+                    otherName: character?.otherName || '',
+                    alias: character?.alias || '',
+                    age: character?.age || '',
+                    gender: character?.gender || '',
+                    pseudonym: character?.pseudonym || '',
+                    status: character?.status || '',
+                    causeOfDeath: character?.causeOfDeath || '',
+                    betrothed: character?.betrothed || '',
+                    faction: character?.faction || '',
+                    sect: character?.sect || '',
+                    clan: character?.clan || '',
+                    race: character?.race || '',
+                    bloodLine: character?.bloodLine || '',
+                    realm: character?.realm || '',
+                    cultivationRealm: character?.cultivationRealm || '',
+                    bodyRealm: character?.bodyRealm || '',
+                    combatPower: character?.combatPower || '',
+                    firstAppearance: character?.firstAppearance || ''
+                  }}>
               <div className={'flex justify-center'}>
                 <div className={'bg-purple-500 font-bold text-white p-1 w-1/2 rounded-2xl'}>Thông Tin</div>
               </div>
@@ -123,7 +146,6 @@ export const NewCharacterInfo = ({ character, setCharacter }) => {
                 <Input/>
               </Form.Item>
             </Form>
-
           </div>
         </div>
       </Modal>
@@ -136,12 +158,13 @@ export const NewCharacterInfo = ({ character, setCharacter }) => {
           </div>
         </div>
         <div className={'border-1 border-purple-500-300'}>
-          <Input placeHolder={'Tên nhân vật'} value={character !== null ? character.vietName : null}
+          <Input placeHolder={'Tên nhân vật'} value={character !== null ? character.vietName : ''}
                  className={
                    '!text-center !py-3 !px-[9px] !h-[2.5rem] !bg-amber-200 !font-bold'
                  }
           />
-          <ImageUpload/>
+          <EditImageUpload blogCharacterThumbnail={blogCharacterThumbnail}
+                           setBlogCharacterThumbnail={setBlogCharacterThumbnail}/>
           <CharacterInfo character={character}/>
         </div>
       </div>

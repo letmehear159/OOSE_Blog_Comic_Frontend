@@ -1,4 +1,4 @@
-import { characterMeta } from '../meta/CharacterMeta.jsx'
+import { characterMeta } from '../../meta/CharacterMeta.jsx'
 import { useEffect } from 'react'
 
 export const CharacterInfo = ({ character }) => {

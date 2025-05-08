@@ -1,9 +1,7 @@
-import { Avatar, Divider, Image } from 'antd'
-import { IMAGE_URL } from '../constants/images.js'
-import { URL_BACKEND_IMAGES } from '../api/userApi.js'
-import { Link } from 'react-router-dom'
+import { Avatar } from 'antd'
 import { useEffect, useState } from 'react'
-import { getBlogInsightsOfThisCharacterAPI, getListRelatedCharacterAPI } from '../services/blogService.js'
+import { getInsightsCharacterAPI, getRelatedCharactersAPI } from '../../services/blogService.js'
+import { URL_BACKEND_IMAGES } from '../../constants/images.js'
 
 const loadListBlog = (characters) => {
   return (
@@ -23,7 +21,7 @@ export const RelatedBlogIcon = ({ hasBlog, blogComic, blogCharacterId }) => {
   const [relatedInsightBlogs, setRelatedInsightBlogs] = useState(null)
   const getCharacter = async () => {
     try {
-      const res = await getListRelatedCharacterAPI(blogComic.id)
+      const res = await getRelatedCharactersAPI(blogComic.id)
       setRelatedCharacters(res)
     } catch (error) {
       message.error('Không thể lấy danh sách nhân vật ')
@@ -31,7 +29,7 @@ export const RelatedBlogIcon = ({ hasBlog, blogComic, blogCharacterId }) => {
   }
   const getInsight = async () => {
     try {
-      const res = await getBlogInsightsOfThisCharacterAPI(blogCharacterId)
+      const res = await getInsightsCharacterAPI(blogCharacterId)
       setRelatedInsightBlogs(res)
     } catch (error) {
       message.error('Không thể lấy danh sách các bài viêt cảm hứng từ nhân vật này ')

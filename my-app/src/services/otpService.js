@@ -1,9 +1,13 @@
-import { register } from '../api/authApi.js'
-import { resendOTPAPI, resendOTPForgotPasswordAPI, sentOTPAPI } from '../api/otpApi.js'
+import axios from '../api/axios.customize.js'
+import { URL_BACKEND } from '../constants/api.js'
 
-export const sentOTPService = async (otp, userId, email) => {
+export const sentOTPAPI = async (otp, userId, email) => {
   try {
-    const response = await sentOTPAPI(otp, userId, email)
+    const response = await axios.post(URL_BACKEND + `/api/v1/otp`, {
+      otp: otp,
+      userId: userId,
+      email: email
+    })
     // Xử lý hoặc kiểm tra dữ liệu nếu cần
     return response
   } catch (error) {
@@ -11,9 +15,9 @@ export const sentOTPService = async (otp, userId, email) => {
   }
 }
 
-export const resentOTPService = async (userId) => {
+export const resentOTPAPI = async (userId) => {
   try {
-    const response = await resendOTPAPI(userId)
+    const response = await axios.get(URL_BACKEND + `/api/v1/otp?userId=${userId}`)
     // Xử lý hoặc kiểm tra dữ liệu nếu cần
     return response
   } catch (error) {
@@ -21,9 +25,9 @@ export const resentOTPService = async (userId) => {
   }
 }
 
-export const resentOTPForgotPasswordService = async (email) => {
+export const resentOTPPasswordAPI = async (email) => {
   try {
-    const response = await resendOTPForgotPasswordAPI(email)
+    const response = await axios.get(URL_BACKEND + `/api/v1/otp/forgot-password?email=${email}`)
     // Xử lý hoặc kiểm tra dữ liệu nếu cần
     return response
   } catch (error) {

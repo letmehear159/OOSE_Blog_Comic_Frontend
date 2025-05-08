@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
-import { getBlogCharacterByIdServiceAPI, getBlogComicByIdAPI } from '../services/blogService.js'
+import { getBlogCharacterAPI, getBlogComicAPI } from '../services/blogService.js'
 import { Button, Layout, message } from 'antd'
-import { Character } from '../components/Character.jsx'
+import { Character } from '../components/blog-character/Character.jsx'
 import { useParams } from 'react-router-dom'
 import { customImageAlignStyles } from '../editor/editorCustomStyleConstant.jsx'
 import { Content } from 'antd/es/layout/layout.js'
 import Sider from 'antd/es/layout/Sider.js'
 import { LeftOutlined, MenuFoldOutlined, MenuUnfoldOutlined, RightOutlined } from '@ant-design/icons'
-import { RelatedBlog } from '../components/RelatedBlog.jsx'
-import { RelatedBlogIcon } from '../components/RelatedBlogIcon.jsx'
+import { RelatedBlog } from '../components/character-related-blogs/RelatedBlog.jsx'
+import { RelatedBlogIcon } from '../components/character-related-blogs/RelatedBlogIcon.jsx'
 
 export const ViewBlogCharacterPage = () => {
   const { id } = useParams()
@@ -18,12 +18,12 @@ export const ViewBlogCharacterPage = () => {
   useEffect(() => {
     if (!id) return
 
-    getBlogCharacterByIdServiceAPI(id)
+    getBlogCharacterAPI(id)
       .then(
         (res) => {
           setBlog(res)
           if (res.comicId !== null) {
-            getBlogComicByIdAPI(res.comicId).then((res) => {
+            getBlogComicAPI(res.comicId).then((res) => {
               console.log('>>> Check blog comic ', res)
               setBlogComic(res)
             })

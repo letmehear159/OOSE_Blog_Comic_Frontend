@@ -1,8 +1,6 @@
 import { Image } from 'antd'
-import { IMAGE_URL } from '../constants/images.js'
-import { characterMeta } from '../meta/CharacterMeta.jsx'
+import {  URL_BACKEND_IMAGES } from '../../constants/images.js'
 import { CharacterInfo } from './CharacterInfo.jsx'
-import { URL_BACKEND, URL_BACKEND_IMAGES } from '../api/userApi.js'
 
 const character = {
   vietName: 'Đỗ Ti',

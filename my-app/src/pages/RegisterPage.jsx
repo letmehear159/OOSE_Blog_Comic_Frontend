@@ -1,10 +1,11 @@
 import { Button, Checkbox, Divider, Form, Image, Input, message, Space } from 'antd'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import React, { useState } from 'react'
-import { URL_BACKEND } from '../api/userApi.js'
+
 import { registerAPI } from '../services/authService.js'
-import { resentOTPService, sentOTPService } from '../services/otpService.js'
+import { resentOTPAPI, sentOTPAPI } from '../services/otpService.js'
 import { IMAGE_URL } from '../constants/images.js'
+import { URL_BACKEND } from '../constants/api.js'
 
 const RegisterPage = () => {
   const location = useLocation()
@@ -47,7 +48,7 @@ const RegisterPage = () => {
     try {
       const userId = localStorage.getItem('userId')
       const otp = values.otp
-      const res = await sentOTPService(otp, userId, null)
+      const res = await sentOTPAPI(otp, userId, null)
       message.success('Xác thực thành công')
       localStorage.removeItem('userId')
       setStep(3)
@@ -60,7 +61,7 @@ const RegisterPage = () => {
     try {
       const userId = localStorage.getItem('userId')
       setIsLoading(true)
-      const res = await resentOTPService(userId)
+      const res = await resentOTPAPI(userId)
       message.success('Gửi mới OTP thành công')
     } catch (error) {
       message.error('Gặp lỗi khi gửi mới OTP')
@@ -113,7 +114,7 @@ const RegisterPage = () => {
                   label="Password"
                 >
 
-                  <Input.Password  placeholder={'Input password'}/>
+                  <Input.Password placeholder={'Input password'}/>
                 </Form.Item>
 
                 <Button className="w-full  "

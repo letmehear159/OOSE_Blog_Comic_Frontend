@@ -57,9 +57,8 @@ import translations from 'ckeditor5/translations/vi.js'
 import 'ckeditor5/ckeditor5.css'
 import { Button } from 'antd'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
-import { URL_BACKEND } from '../api/userApi.js'
-import { saveImageCharacterBlogService, savePreviewImageCharacterBlogService } from '../services/blogService.js'
+
+import { saveCharacterThumbnailAPI, savePreviewThumbnailCharacterAPI } from '../services/blogService.js'
 import { customHeadingStyles } from './editorCustomStyleConstant.jsx'
 
 // Custom Base64 Upload Adapter
@@ -137,7 +136,7 @@ const processContentAndUploadImages = async (htmlContent, saveDataService) => {
 const RichTextEditor = ({ result, setResult, setPreview, isImageSaved, setIsImageSaved, saveBlog }) => {
   const [content, setContent] = useState('<i>Nhập nội dung bài viết...</i>')
   const handleSaveButton = async () => {
-    const processedContent = await processContentAndUploadImages(content, saveImageCharacterBlogService)
+    const processedContent = await processContentAndUploadImages(content, saveCharacterThumbnailAPI)
     setResult(processedContent)
     if (isImageSaved === false) {
       setIsImageSaved(true)
@@ -147,7 +146,7 @@ const RichTextEditor = ({ result, setResult, setPreview, isImageSaved, setIsImag
     }
   }
   const handlePreviewButton = async () => {
-    const processedContent = await processContentAndUploadImages(content, savePreviewImageCharacterBlogService)
+    const processedContent = await processContentAndUploadImages(content, savePreviewThumbnailCharacterAPI)
     setPreview(processedContent)
   }
   useEffect(() => {

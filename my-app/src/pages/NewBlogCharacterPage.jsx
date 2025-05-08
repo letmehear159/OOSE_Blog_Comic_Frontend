@@ -1,14 +1,11 @@
-// import RichTextEditor from '../editor/RichTextEditor.jsx'
 import { useContext, useState } from 'react'
 import RichTextEditor from '../editor/RichTextEditor.jsx'
 import { customImageAlignStyles } from '../editor/editorCustomStyleConstant.jsx'
-import { EditCharacterInfo } from '../components/EditCharacterInfo.jsx'
-import { Divider, Image, Input, message } from 'antd'
+import { Divider, Input, message } from 'antd'
 import { AuthContext } from '../context/auth.context.jsx'
-import { saveBlogCharacterServiceAPI } from '../services/blogService.js'
-import { URL_BACKEND_IMAGES } from '../api/userApi.js'
-import { SearchBlogComic } from '../components/SearchBlogComic.jsx'
-import { NewCharacterInfo } from '../components/NewCharacterInfo.jsx'
+import { saveBlogCharacterAPI } from '../services/blogService.js'
+import { SearchBlogComic } from '../components/blog-character/SearchBlogComic.jsx'
+import { NewCharacterInfo } from '../components/blog-character/NewCharacterInfo.jsx'
 
 const characterData = {
   vietName: ' ',
@@ -54,7 +51,7 @@ export const NewBlogCharacterPage = () => {
       comicId: blogComic === null ? null : blogComic.id,
     }
     try {
-      const response = await saveBlogCharacterServiceAPI(blogCharacterReq, uploadCharacterAvatar)
+      const response = await saveBlogCharacterAPI(blogCharacterReq, uploadCharacterAvatar)
       message.success('Tạo bài viết thành công')
 
       // Reset các input và state

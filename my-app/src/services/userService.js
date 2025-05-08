@@ -1,11 +1,11 @@
 // Business Logic Layer: xử lý logic giữa UI và API
-import { getUserById, getCurrentUser, getAllUsers, URL_BACKEND } from '../api/userApi'
 import axios from '../api/axios.customize.js'
+import { URL_BACKEND } from '../constants/api.js'
 
 // Lấy tất cả users
 export const fetchAllUsers = async () => {
   try {
-    const response = await getAllUsers()
+    const response = await axios.get(URL_BACKEND + '/api/v1/users')
     // Có thể xử lý format data ở đây nếu muốn
     return response.data
   } catch (error) {
@@ -17,7 +17,7 @@ export const fetchAllUsers = async () => {
 // Lấy thông tin user theo ID
 export const fetchUserById = async (id) => {
   try {
-    const response = await getUserById(id)
+    const response = await axios.get(URL_BACKEND + `/api/v1/users/${id}`)
     // Xử lý hoặc kiểm tra dữ liệu nếu cần
     return response
   } catch (error) {
@@ -27,9 +27,9 @@ export const fetchUserById = async (id) => {
 }
 
 // Lấy dữ liệu người dùng khi có token
-export const fetchAccount = async () => {
+export const fetchAccountAPI = async () => {
   try {
-    const response = await getCurrentUser()
+    const response = await axios.get(URL_BACKEND + '/api/v1/auth/account')
     // Xử lý hoặc kiểm tra dữ liệu nếu cần
     return response
   } catch (error) {
@@ -38,7 +38,7 @@ export const fetchAccount = async () => {
   }
 }
 
-export const resetNewPassword = async (email, newPassword) => {
+export const resetNewPasswordAPI = async (email, newPassword) => {
 
   try {
     const response = await axios.put(URL_BACKEND + `/api/v1/users/email/${email}`, {
