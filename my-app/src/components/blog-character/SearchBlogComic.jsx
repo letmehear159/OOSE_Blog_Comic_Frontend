@@ -1,35 +1,39 @@
-import { Image, Input, message } from 'antd'
-import { useEffect, useState } from 'react'
-import { getAllBlogComicsAPI } from '../../services/blogService.js'
-import { URL_BACKEND_IMAGES } from '../../constants/images.js'
+import { Image, Input, message } from "antd";
+import { useEffect, useState } from "react";
+import { getAllBlogComicsAPI } from "../../services/blogService.js";
+import { URL_BACKEND_IMAGES } from "../../constants/images.js";
 
 export const SearchBlogComic = ({ setBlogComic }) => {
-  const [blogs, setBlogs] = useState(null)
-  const [search, setSearch] = useState('')
+  const [blogs, setBlogs] = useState(null);
+  const [search, setSearch] = useState("");
   useEffect(() => {
-    getAllBlogComics()
-  }, [])
+    getAllBlogComics();
+  }, []);
   const getAllBlogComics = async () => {
     try {
-      const res = await getAllBlogComicsAPI()
-      setBlogs(res)
+      const res = await getAllBlogComicsAPI();
+      setBlogs(res);
     } catch (error) {
-      message.error('Gặp lỗi khi lấy danh sách truyện')
-
+      message.error("Gặp lỗi khi lấy danh sách truyện");
     }
-  }
+  };
 
-  const filteredBlogs = blogs === null ? null : blogs.filter(blog =>
-    blog.title.toLowerCase().includes(search.toLowerCase())
-  )
+  const filteredBlogs =
+    blogs === null
+      ? null
+      : blogs.filter((blog) => {
+          blog.title.toLowerCase().includes(search.toLowerCase());
+        });
 
   const handleChooseBlog = (blogComic) => {
-    setBlogComic(blogComic)
-  }
+    setBlogComic(blogComic);
+  };
 
   return (
     <>
-      <div className="text-left text-lg font-medium mb-2">Nhân vật này thuộc truyện:</div>
+      <div className="text-left text-lg font-medium mb-2">
+        Nhân vật này thuộc truyện:
+      </div>
 
       <div className="flex mb-4">
         <Input.Search
@@ -41,10 +45,11 @@ export const SearchBlogComic = ({ setBlogComic }) => {
         />
       </div>
 
-      <div
-        className="border border-gray-200 rounded-md shadow-inner p-4 text-left w-[400px] overflow-y-auto h-[200px] mb-10 bg-white">
-        {filteredBlogs===null ? (
-          <div className="text-gray-500 italic">Không tìm thấy kết quả phù hợp.</div>
+      <div className="border border-gray-200 rounded-md shadow-inner p-4 text-left w-[400px] overflow-y-auto h-[200px] mb-10 bg-white">
+        {filteredBlogs === null ? (
+          <div className="text-gray-500 italic">
+            Không tìm thấy kết quả phù hợp.
+          </div>
         ) : (
           filteredBlogs.map((blog) => (
             <div
@@ -58,14 +63,13 @@ export const SearchBlogComic = ({ setBlogComic }) => {
                   className="w-full h-full !object-contain"
                 />
               </div>
-              <h3 className="font-semibold text-sm text-gray-800">{blog.title}</h3>
-
+              <h3 className="font-semibold text-sm text-gray-800">
+                {blog.title}
+              </h3>
             </div>
           ))
         )}
       </div>
-
     </>
-  )
-
-}
+  );
+};
