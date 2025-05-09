@@ -10,6 +10,7 @@ import { AuthWrapper } from './context/auth.context.jsx'
 import Callback from './callback/CallBack.jsx'
 import DashboardPage from './pages/DashboardPage.jsx'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
+import SearchResultPage from './pages/SearchByKWResultPage'
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
   {
     path: '/forgot-password',
     element: <ForgotPasswordPage />
+  },
+  {
+    path: '/search',
+    element: <SearchResultPage />
   }
 ])
 
