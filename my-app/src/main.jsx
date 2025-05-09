@@ -1,4 +1,3 @@
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
@@ -10,13 +9,14 @@ import { AuthWrapper } from "./context/auth.context.jsx";
 import Callback from "./callback/CallBack.jsx";
 import { EditBlogCharacterPage } from "./pages/EditBlogCharacterPage.jsx";
 import { ViewBlogCharacterPage } from "./pages/ViewBlogCharacterPage.jsx";
-import ForgotPasswordPage from "./pages/ForgotPasswordPage.jsx";
 import { NewBlogCharacterPage } from "./pages/NewBlogCharacterPage.jsx";
 import CharacterPage from "./pages/CharacterPage.jsx";
 import ReviewPage from "./pages/ReviewPage.jsx";
 import ViewBlogPage from "./pages/ViewBlogPage.jsx";
 import Homepage from "./pages/Homepage.jsx";
-
+import DashboardPage from './pages/DashboardPage.jsx'
+import ForgotPasswordPage from './pages/ForgotPasswordPage'
+import SearchResultPage from './pages/SearchResultPage'
 const router = createBrowserRouter([
   {
     path: "/",
@@ -69,6 +69,18 @@ const router = createBrowserRouter([
     path: "/callback",
     element: <Callback />,
   },
+  {
+    path: '/dashboard',
+    element: <DashboardPage />
+  },
+  {
+    path: '/forgot-password',
+    element: <ForgotPasswordPage />
+  },
+  {
+    path: '/search',
+    element: <SearchResultPage />
+  }
 ]);
 
 createRoot(document.getElementById("root")).render(

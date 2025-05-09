@@ -1,7 +1,7 @@
 import Navbar from "./components/Header/Navbar";
 import { Outlet } from "react-router-dom";
 import AppFooter from "./components/Footer/AppFooter";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import "./App.css";
 import { AuthContext } from "./context/auth.context.jsx";
 import { fetchAccountAPI } from "./services/userService.js";
