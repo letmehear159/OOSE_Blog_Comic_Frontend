@@ -49,3 +49,13 @@ export const resetNewPasswordAPI = async (email, newPassword) => {
     throw error
   }
 }
+
+export const getUsersByIdsAPI = async (ids) => {
+  const queryString = ids.map(id => `authorIds=${id}`).join('&')
+  try {
+    const response = await axios.get(URL_BACKEND + `/api/v1/users/listId?${queryString}`)
+    return response
+  } catch (error) {
+    throw error
+  }
+}

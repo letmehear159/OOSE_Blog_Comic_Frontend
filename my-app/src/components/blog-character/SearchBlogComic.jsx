@@ -12,7 +12,7 @@ export const SearchBlogComic = ({ setBlogComic }) => {
   const getAllBlogComics = async () => {
     try {
       const res = await getAllBlogComicsAPI()
-      setBlogs(res)
+      setBlogs(res.result)
     } catch (error) {
       message.error('Gặp lỗi khi lấy danh sách truyện')
 
