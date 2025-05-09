@@ -1,5 +1,8 @@
 import React from "react";
 
+// Line 67 (search bar) => Thêm logic search by keyword + logic hiện gợi ý search (đã có UI của gợi ý seacrh components/SearchSuggestion.jsx)
+// Giống với search bar của "SearchResultPage"
+// Line 74 (button "Tìm kiếm nâng cao") => Thêm logic redirect qua trang "SearchResultPage"
 export default function Navbar() {
   return (
     <div>
@@ -47,8 +50,9 @@ export default function Navbar() {
                 </svg>
               </button>
             </div>
-            <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-              <div class="flex shrink-0 items-center">
+
+            <div class="flex flex-1 items-center sm:ml-6">
+              <div class="flex shrink-0 items-center mr-4">
                 <img
                   class="h-8 w-auto"
                   src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
@@ -56,7 +60,28 @@ export default function Navbar() {
                 />
               </div>
             </div>
-            <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+
+            <div class="absolute inset-y-0 right-0 flex items-center gap-3 pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+              <div class="hidden sm:flex items-center gap-2 w-full max-w-md">
+
+                <input
+                  type="text"
+                  placeholder="Tìm kiếm..."
+                  class="w-full rounded-md bg-gray-800 border border-gray-600 !text-white px-3 py-1.5 placeholder-gray-400 focus:outline-none"
+                    // TODO: Thêm logic search
+                />
+
+                <button
+                  type="button"
+                  class="rounded-md bg-blue-600 hover:bg-blue-700 !text-white px-3 py-1.5 text-sm font-medium focus:outline-none"
+                  onClick={() => {
+                    // TODO: redirect qua trang "SearchResultPage"
+                  }}
+                >
+                  Tìm kiếm nâng cao
+                </button>
+              </div>
+
               <button
                 type="button"
                 class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
@@ -100,9 +125,10 @@ export default function Navbar() {
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </nav>
     </div>
-  );
+  )
 }
