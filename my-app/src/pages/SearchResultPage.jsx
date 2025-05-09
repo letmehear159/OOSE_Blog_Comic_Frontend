@@ -14,7 +14,7 @@ import { HeartFilled } from "@ant-design/icons";
 // User sẽ chọn cách search ở thanh Navbar (đối với search by title thì nhập trực tiếp vô thanh seach bar)
 // Dù chọn cách nào cũng sẽ redirect qua trang "SearchResultPage"
 
-// Thêm logic search by keyword + logic hiện gợi ý search (đã có UI của gợi ý seacrh)
+// Thêm logic search by keyword + logic hiện gợi ý search (UI của gợi ý search components/SearchSuggestion.jsx)
 // Thêm logic query database để hiển thị các category/tag + search by category/tag
 // Thêm logic query những blogger có liên quan đến các blog được tìm thấy 
 // Thêm logic save favourite blog ở button ♥ của mỗi card blog + logic redirect qua trang cá nhân của blogger

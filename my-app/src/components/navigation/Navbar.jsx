@@ -1,6 +1,6 @@
 import React from "react";
 
-// Line 67 (search bar) => Thêm logic search by keyword + logic hiện gợi ý search (đã có UI của gợi ý seacrh components/SearchSuggestion.jsx)
+// Line 67 (search bar) => Thêm logic search by keyword + logic hiện gợi ý search (UI của gợi ý search components/SearchSuggestion.jsx)
 // Giống với search bar của "SearchResultPage"
 // Line 74 (button "Tìm kiếm nâng cao") => Thêm logic redirect qua trang "SearchResultPage"
 export default function Navbar() {
