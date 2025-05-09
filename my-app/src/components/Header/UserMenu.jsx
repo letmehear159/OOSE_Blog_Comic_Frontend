@@ -25,6 +25,7 @@ const menuOptions = [
     ),
     onClick: () => alert("Go to profile!"),
   },
+
   {
     label: "Setting",
     icon: (

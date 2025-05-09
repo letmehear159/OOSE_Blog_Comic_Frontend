@@ -109,14 +109,14 @@ const Homepage = () => {
 
   return (
     <div className="bg-gray-50 flex flex-col flex-1 min-h-screen">
-      <div className="flex justify-center p-10 gap-30 mx-10 ">
+      <div className="flex justify-center p-10 gap-5 mx-10 ">
         <div></div>
-        <div className="w-4/6 text-black p-6 flex flex-col gap-6 items-cente h-full ">
+        <div className="w-4/6 text-black p-6 flex flex-col gap-3 items-cente h-full ">
           {pagedReviews.map((item, idx) => (
             <HorizontalCard key={startIdx + idx} {...item} />
           ))}
         </div>
-        <div className=" w-2/6 h-full text-black bg-gray-100 rounded-xl p-6 flex flex-col mt-6 gap-4 items-center ">
+        <div className=" w-2/6 h-full text-black bg-gray-100 rounded-xl p-6 flex flex-col mt-6 gap-3 items-center ">
           <h1 className="text-2xl font-bold text-red-500">Truyện nổi bật</h1>
           {topReviews.map((item, idx) => (
             <CardTrending key={idx} {...item} />

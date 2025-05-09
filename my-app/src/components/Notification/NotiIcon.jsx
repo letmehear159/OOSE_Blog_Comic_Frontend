@@ -33,6 +33,35 @@ const notifications = [
 
 const NoticeIcon = () => {
   const [open, setOpen] = useState(false);
+  const [notifications, setNotifications] = useState([
+    {
+      id: "000000001",
+      avatar:
+        "https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png",
+      title: "Bạn nhận được 14 báo cáo mới",
+      description: "Kiểm tra các báo cáo tuần này trong dashboard.",
+      datetime: "2024-06-10 09:00",
+      read: false,
+    },
+    {
+      id: "000000002",
+      avatar:
+        "https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png",
+      title: "Tài khoản đã được cập nhật",
+      description: "Thông tin cá nhân của bạn đã thay đổi.",
+      datetime: "2024-06-09 15:30",
+      read: false,
+    },
+    {
+      id: "000000003",
+      avatar:
+        "https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png",
+      title: "Có bài viết mới từ bạn bè",
+      description: "",
+      datetime: "2024-06-08 20:10",
+      read: false,
+    },
+  ]);
   const ref = useRef();
 
   // Đóng dropdown khi click ra ngoài
@@ -45,10 +74,19 @@ const NoticeIcon = () => {
   }, []);
 
   const handleClear = () => {
-    // Xử lý clear notification ở đây
-    alert("Đã xóa tất cả thông báo!");
-    // setNotifications([]); // Nếu muốn clear thực sự
+    setNotifications(notifications.map((noti) => ({ ...noti, read: true })));
   };
+
+  const handleNotificationClick = (notificationId) => {
+    setNotifications(
+      notifications.map((noti) =>
+        noti.id === notificationId ? { ...noti, read: true } : noti
+      )
+    );
+  };
+
+  const unreadCount = notifications.filter((noti) => !noti.read).length;
+
   return (
     <div className="relative pt-2" ref={ref}>
       <button
@@ -68,9 +106,9 @@ const NoticeIcon = () => {
             d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
           />
         </svg>
-        {notifications.length > 0 && (
+        {unreadCount > 0 && (
           <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1.5">
-            {notifications.length}
+            {unreadCount}
           </span>
         )}
       </button>
@@ -88,6 +126,7 @@ const NoticeIcon = () => {
                   <li
                     key={item.id}
                     className="flex gap-3 px-4 py-4 hover:bg-gray-100 cursor-pointer border-b last:border-b-0 relative"
+                    onClick={() => handleNotificationClick(item.id)}
                   >
                     <img
                       src={item.avatar}

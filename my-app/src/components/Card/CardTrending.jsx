@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const TopReviewCard = ({ index, avatar, title, date }) => {
   return (
     <Link to={`/${slugify(title)}`}>
-      <div className="w-full hover:shadow-lg transition-shadow duration-300 rounded-xl">
+      <div className="w-full hover:shadow-lg transition-shadow duration-300 rounded-xl px-4">
         <div className="flex items-center gap-4 p-5 ">
           {/* Avatar + Rank Badge */}
           <div className="relative">
