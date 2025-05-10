@@ -86,7 +86,7 @@ export const getInsightsCharacterAPI = async (blogCharacterId) => {
 
 export const getAllBlogComicsAPI = async () => {
   try {
-    const response = await axios.get(URL_BACKEND + `/api/v1/blog-comic`)
+    const response = await axios.get(URL_BACKEND + `/api/v1/blog-comic/all`)
     // Xử lý hoặc kiểm tra dữ liệu nếu cần
     return response
   } catch (error) {
@@ -124,12 +124,123 @@ export const searchBlogByKeywordAPI = async (keyword, page, size) => {
   }
 }
 
-export const searchBlogWithFilter = async (categories,tags, page, size) => {
+export const searchBlogWithFilter = async (categories, tags, page, size) => {
 
   const categoryIds = categories.join(',')
   const tagIds = tags.join(',')
   try {
-    const response = await axios.get(URL_BACKEND + `/api/v1/blogs/filter?categoryIds=${categoryIds}&tagIds=${tagIds}&page=${page}&size=${size}`)
+    const response = await axios.get(
+      URL_BACKEND + `/api/v1/blogs/filter?categoryIds=${categoryIds}&tagIds=${tagIds}&page=${page}&size=${size}`)
+    // Xử lý hoặc kiểm tra dữ liệu nếu cần
+    return response
+  } catch (error) {
+    throw error
+  }
+}
+
+export const getAllBlogCharactersAPI = async () => {
+  try {
+    const response = await axios.get(URL_BACKEND + `/api/v1/blog-character/all`)
+    // Xử lý hoặc kiểm tra dữ liệu nếu cần
+    return response
+  } catch (error) {
+    throw error
+  }
+}
+
+export const saveBlogComicAPI = async (blogComicReq, thumbnail) => {
+  try {
+    const formData = new FormData()
+    const jsonBlob = new Blob(
+      [JSON.stringify(blogComicReq)],
+      { type: 'application/json' }
+    )
+    formData.append('blogComicRequest', jsonBlob)
+    formData.append('thumbnail', thumbnail)
+    const response = await axios.post(URL_BACKEND + '/api/v1/blog-comic', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+    // Xử lý hoặc kiểm tra dữ liệu nếu cần
+    return response
+  } catch (error) {
+    throw error
+  }
+}
+
+export const saveBlogInsightAPI = async (blogInsightReq, thumbnail) => {
+  try {
+    const formData = new FormData()
+    const jsonBlob = new Blob(
+      [JSON.stringify(blogInsightReq)],
+      { type: 'application/json' }
+    )
+    formData.append('blogInsightReq', jsonBlob)
+    formData.append('thumbnail', thumbnail)
+    const response = await axios.post(URL_BACKEND + '/api/v1/blog-insight', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+    // Xử lý hoặc kiểm tra dữ liệu nếu cần
+    return response
+  } catch (error) {
+    throw error
+  }
+}
+
+export const getBlogByIdAPI = async (id) => {
+  try {
+    const response = await axios.get(URL_BACKEND + `/api/v1/blogs/${id}`)
+    // Xử lý hoặc kiểm tra dữ liệu nếu cần
+    return response
+  } catch (error) {
+    throw error
+  }
+}
+
+export const getBlogInsightByIdAPI = async (id) => {
+  try {
+    const response = await axios.get(URL_BACKEND + `/api/v1/blog-insight/${id}`)
+    // Xử lý hoặc kiểm tra dữ liệu nếu cần
+    return response
+  } catch (error) {
+    throw error
+  }
+}
+
+export const updateBlogComicAPI = async (blogComicRequest, thumbnail, id) => {
+  try {
+    const formData = new FormData()
+    const jsonBlob = new Blob(
+      [JSON.stringify(blogComicRequest)],
+      { type: 'application/json' }
+    )
+    formData.append('blogComicReq', jsonBlob)
+    if (thumbnail !== null) {
+      formData.append('thumbnail', thumbnail)
+    }
+    const response = await axios.put(URL_BACKEND + `/api/v1/blog-comic/${id}`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
+    // Xử lý hoặc kiểm tra dữ liệu nếu cần
+    return response
+  } catch (error) {
+    throw error
+  }
+}
+
+export const updateBlogInsightAPI = async (blogInsightRequest, thumbnail, id) => {
+  try {
+    const formData = new FormData()
+    const jsonBlob = new Blob(
+      [JSON.stringify(blogInsightRequest)],
+      { type: 'application/json' }
+    )
+    formData.append('blogInsightReq', jsonBlob)
+    if (thumbnail !== null) {
+      formData.append('thumbnail', thumbnail)
+    }
+    const response = await axios.put(URL_BACKEND + `/api/v1/blog-insight/${id}`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
     // Xử lý hoặc kiểm tra dữ liệu nếu cần
     return response
   } catch (error) {

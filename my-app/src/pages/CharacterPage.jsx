@@ -9,9 +9,8 @@ const comics = [
     date: "15/03/2024",
     title: "Itachi Uchiha",
     description: '"Naruto Shippuden"',
-    tag:"Tu Tiên",
-    type:"Tu Tiên",
-
+    tag: "Tu Tiên",
+    type: "Tu Tiên",
   },
   {
     image: itachiImg,

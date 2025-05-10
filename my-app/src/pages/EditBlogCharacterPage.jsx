@@ -1,17 +1,18 @@
 import { useContext, useEffect, useState } from 'react'
 import RichTextEditor from '../editor/RichTextEditor.jsx'
 import { customImageAlignStyles } from '../editor/editorCustomStyleConstant.jsx'
-import { EditCharacterInfo } from '../components/blog-character/EditCharacterInfo.jsx'
+import { EditCharacterInfo } from '../components/blog/EditCharacterInfo.jsx'
 import { Divider, Input, message } from 'antd'
 import { AuthContext } from '../context/auth.context.jsx'
 import {
   getBlogCharacterAPI,
   getBlogComicAPI,
-   updateBlogCharacterAPI
+  updateBlogCharacterAPI,
 } from '../services/blogService.js'
 
-import { SearchBlogComic } from '../components/blog-character/SearchBlogComic.jsx'
+import { SearchBlogComic } from '../components/blog/SearchBlogComic.jsx'
 import { useParams } from 'react-router-dom'
+import { URL_BACKEND_IMAGES } from '../constants/images.js'
 
 export const EditBlogCharacterPage = () => {
   const { user } = useContext(AuthContext)
@@ -26,8 +27,7 @@ export const EditBlogCharacterPage = () => {
   const [blogTitle, setBlogTitle] = useState('')
   const [blogCharacterThumbnail, setBlogCharacterThumbnail] = useState(null)
   const { uploadCharacterAvatar } = useContext(AuthContext)
-  const saveBlog = async () => {
-
+  const updateBlog = async () => {
     const blogCharacterReq = {
       title: blogTitle,
       authorId: 4,
@@ -36,7 +36,11 @@ export const EditBlogCharacterPage = () => {
       comicId: blogComic === null ? null : blogComic.id,
     }
     try {
-      const response = await updateBlogCharacterAPI(blogCharacterReq, blogCharacterThumbnail, id)
+      const response = await updateBlogCharacterAPI(
+        blogCharacterReq,
+        blogCharacterThumbnail,
+        id
+      )
       message.success('Sửa bài viết thành công')
     } catch (error) {
       message.error(error.data)
@@ -61,6 +65,8 @@ export const EditBlogCharacterPage = () => {
 
     getBlogCharacter()
   }, [id])
+
+
 
   useEffect(() => {
     if (!blogCharacter?.comicId) return
@@ -96,7 +102,8 @@ export const EditBlogCharacterPage = () => {
               onChange={(e) => setBlogTitle(e.target.value)}
             />
             <div className="ml-6 font-bold text-gray-800">
-              Thuộc truyện: {blogComic === null ? 'Chưa chọn truyện' : blogComic.title}
+              Thuộc truyện:{' '}
+              {blogComic === null ? 'Chưa chọn truyện' : blogComic.title}
             </div>
           </div>
 
@@ -107,11 +114,13 @@ export const EditBlogCharacterPage = () => {
             setPreview={setPreview}
             isImageSaved={isImageSaved}
             setIsImageSaved={setIsImageSaved}
-            saveBlog={saveBlog}
+            saveBlog={updateBlog}
           />
 
           {/* Preview section */}
-          <div className="text-left mt-9 text-xl font-semibold text-gray-900">Bản xem trước</div>
+          <div className="text-left mt-9 text-xl font-semibold text-gray-900">
+            Bản xem trước
+          </div>
           <Divider className="!mt-0"/>
 
           <div className="border rounded-md p-4 bg-gray-50 mt-4">
@@ -124,12 +133,16 @@ export const EditBlogCharacterPage = () => {
 
         {/* Sidebar Section */}
         <div className="col-span-3 p-4 bg-white rounded-lg shadow-sm">
-          <EditCharacterInfo character={character} setCharacter={setCharacter}
-                             setBlogCharacterThumbnail={setBlogCharacterThumbnail}
-                             blogCharacterThumbnail={blogCharacter !== null ? blogCharacterThumbnail : null}/>
+          <EditCharacterInfo
+            character={character}
+            setCharacter={setCharacter}
+            setBlogCharacterThumbnail={setBlogCharacterThumbnail}
+            blogCharacterThumbnail={
+              blogCharacter !== null ? blogCharacterThumbnail : null
+            }
+          />
         </div>
       </div>
     </>
-
   )
 }

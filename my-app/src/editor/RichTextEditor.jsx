@@ -159,7 +159,7 @@ const RichTextEditor = ({ result, setResult, setPreview, isImageSaved, setIsImag
       <style>{customHeadingStyles}</style>
       <CKEditor
         editor={ClassicEditor}
-        data={content}
+        data={result}
         config={{
           plugins: [
             Alignment,
