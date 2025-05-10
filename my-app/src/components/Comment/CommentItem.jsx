@@ -16,31 +16,21 @@ class CommentItem extends React.Component {
     super(props);
     this.state = {
       replying: false,
-      editing: false,
-      editContent: props.comment.content,
       menuOpen: false,
     };
+    this.menuRef = React.createRef();
+    this.buttonRef = React.createRef();
   }
 
   handleAction = async (action) => {
     const { comment } = this.props;
-    const { handleAddComment, handleUpdateComment, handleDeleteComment } = this.context;
+    const { handleAddComment, handleDeleteComment } = this.context;
     switch (action) {
       case 'reply':
         this.setState({ replying: true });
         break;
       case 'cancel-reply':
         this.setState({ replying: false });
-        break;
-      case 'edit':
-        this.setState({ editing: true });
-        break;
-      case 'cancel-edit':
-        this.setState({ editing: false, editContent: comment.content });
-        break;
-      case 'submit-edit':
-        await handleUpdateComment(comment.id, this.state.editContent);
-        this.setState({ editing: false });
         break;
       case 'delete':
         await handleDeleteComment(comment.id);
@@ -63,9 +53,28 @@ class CommentItem extends React.Component {
     }
   };
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.menuOpen && !prevState.menuOpen) {
+      document.addEventListener('mousedown', this.handleClickOutside);
+    } else if (!this.state.menuOpen && prevState.menuOpen) {
+      document.removeEventListener('mousedown', this.handleClickOutside);
+    }
+  }
+
+  handleClickOutside = (event) => {
+    if (
+      this.menuRef.current &&
+      !this.menuRef.current.contains(event.target) &&
+      this.buttonRef.current &&
+      !this.buttonRef.current.contains(event.target)
+    ) {
+      this.setState({ menuOpen: false });
+    }
+  };
+
   render() {
     const { comment, blogId, currentUserRole, level } = this.props;
-    const { replying, editing, editContent, menuOpen } = this.state;
+    const { replying, menuOpen } = this.state;
 
     // Menu actions for three-dot icon
     const menuActions = [];
@@ -88,81 +97,62 @@ class CommentItem extends React.Component {
       });
     }
 
-    const borderColors = [
-      'border-gray-200', // cấp 1
-      'border-gray-100', // cấp 2
-      'border-gray-50',  // cấp 3
-    ];
-    const borderColor = borderColors[level] || 'border-gray-50';
-    const marginLeft = `ml-${Math.min(8 + level * 4, 20)}`; // ml-8, ml-12, ml-16, ml-20
-
     return (
       <div className="mb-4 flex gap-3">
-        {/* Avatar placeholder */}
-        <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 font-bold">
-          {comment.user?.[0] || 'U'}
+        {/* Avatar */}
+        <div className="flex flex-col items-center pt-2">
+          <div className="w-9 h-9 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 font-bold">
+            {comment.user?.[0] || 'U'}
+          </div>
         </div>
         <div className="flex-1">
-          <div className="flex items-center gap-2">
-            <span className="font-semibold">{comment.user}</span>
-            {comment.role && comment.role !== 'user' && (
-              <Tag color={this.getRoleTagColor(comment.role)}>
-                {comment.role === 'admin' ? 'Quản trị viên' :
-                  comment.role === 'blogger' ? 'Tác giả' :
-                    comment.role === 'moderator' ? 'Người kiểm duyệt' : comment.role}
-              </Tag>
-            )}
-            <Tooltip title={comment.createdAt}>
-              <span className="text-xs text-gray-400">{new Date(comment.createdAt).toLocaleString('vi-VN')}</span>
-            </Tooltip>
-            {/* Three dot icon menu */}
-            <div className="ml-auto relative">
-              <Button
-                size="small"
-                type="text"
-                icon={<MoreOutlined />}
-                onClick={() => this.setState({ menuOpen: !menuOpen })}
-              />
-              {menuOpen && (
-                <div className="absolute right-0 z-10 bg-white border rounded shadow-md mt-2 min-w-[120px]">
-                  {menuActions.map(action => (
-                    <div
-                      key={action.key}
-                      className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-                      onClick={() => { action.onClick(); this.setState({ menuOpen: false }); }}
-                    >
-                      {action.icon}
-                      <span>{action.label}</span>
-                    </div>
-                  ))}
-                </div>
+          {/* Box riêng cho mỗi comment */}
+          <div className="rounded-xl bg-white px-4 pt-2 pb-3 shadow border border-gray-200 relative">
+            <div className="flex items-center gap-2 min-h-[36px]">
+              <span className="font-semibold leading-9">{comment.user}</span>
+              {comment.role && comment.role !== 'user' && (
+                <Tag color={this.getRoleTagColor(comment.role)}>
+                  {comment.role === 'admin' ? 'Quản trị viên' :
+                    comment.role === 'blogger' ? 'Tác giả' :
+                      comment.role === 'moderator' ? 'Người kiểm duyệt' : comment.role}
+                </Tag>
               )}
+              <Tooltip title={comment.createdAt}>
+                <span className="text-xs text-gray-400 leading-9">{new Date(comment.createdAt).toLocaleString('vi-VN')}</span>
+              </Tooltip>
+              {/* Three dot icon menu */}
+              <div className="ml-auto relative">
+                <Button
+                  size="small"
+                  type="text"
+                  icon={<MoreOutlined />}
+                  ref={this.buttonRef}
+                  onClick={() => this.setState({ menuOpen: !menuOpen })}
+                />
+                {menuOpen && (
+                  <div ref={this.menuRef} className="absolute right-0 z-10 bg-white border rounded shadow-md mt-2 min-w-[120px]">
+                    {menuActions.map(action => (
+                      <div
+                        key={action.key}
+                        className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+                        onClick={() => { action.onClick(); this.setState({ menuOpen: false }); }}
+                      >
+                        {action.icon}
+                        <span>{action.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="my-1 text-base text-gray-800">
+              <span>{comment.content}</span>
+            </div>
+            <div className="flex gap-2 mt-2 items-center">
+              <Button size="small" type="link" onClick={() => this.handleAction('reply')}>Trả lời</Button>
             </div>
           </div>
-          <div className="my-1">
-            {editing ? (
-              <div className="space-y-2">
-                <textarea
-                  className="w-full border rounded p-2"
-                  value={editContent}
-                  onChange={e => this.setState({ editContent: e.target.value })}
-                  rows={3}
-                />
-                <Space>
-                  <Button size="small" type="primary" onClick={() => this.handleAction('submit-edit')} disabled={!editContent.trim()}>
-                    Lưu
-                  </Button>
-                  <Button size="small" onClick={() => this.handleAction('cancel-edit')}>Huỷ</Button>
-                </Space>
-              </div>
-            ) : (
-              <span>{comment.content}</span>
-            )}
-          </div>
-          <div className="flex gap-2 mt-2 items-center">
-            <Button size="small" type="link" onClick={() => this.handleAction('reply')}>Trả lời</Button>
-          </div>
-          {/* Children */}
+          {/* Children - mỗi comment con là 1 box riêng, không nằm trong box cha */}
           {replying && (
             <div className="mt-2">
               <CommentBox
@@ -178,20 +168,17 @@ class CommentItem extends React.Component {
               <Button size="small" onClick={() => this.handleAction('cancel-reply')} className="mt-1">Huỷ</Button>
             </div>
           )}
-          {/* Áp dụng Composite Pattern ở đây */}
           {comment.children && comment.children.length > 0 && (
-            <div
-              className={`${marginLeft} mt-2 border-l ${borderColor} pl-4`}
-              style={{ borderLeftWidth: 4, borderLeftColor: 'rgba(163, 163, 165, 0.4)' }}
-            >
+            <div className="mt-2 space-y-3">
               {comment.children.map(child => (
-                <CommentItem
-                  key={child.id}
-                  comment={child}
-                  blogId={blogId}
-                  currentUserRole={currentUserRole}
-                  level={level + 1}
-                />
+                <div key={child.id} className="pl-8">
+                  <CommentItem
+                    comment={child}
+                    blogId={blogId}
+                    currentUserRole={currentUserRole}
+                    level={level + 1}
+                  />
+                </div>
               ))}
             </div>
           )}
