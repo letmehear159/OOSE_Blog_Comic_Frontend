@@ -26,7 +26,7 @@ function CommentBox({ onSubmit, parentId = null, blogId, placeholder = 'Nhập b
         placeholder={placeholder}
         rows={3}
       />
-      <div>
+      <div className="flex justify-end mt-2 relative">
         <Button
           type="primary"
           onClick={handleSend}
@@ -36,7 +36,7 @@ function CommentBox({ onSubmit, parentId = null, blogId, placeholder = 'Nhập b
           Gửi bình luận
         </Button>
         {currentUserRole !== 'user' && (
-          <span className="ml-3 text-sm text-gray-500">
+          <span className="absolute left-0 bottom-0 text-xs text-gray-400 ml-1 mb-1">
             Bạn đang bình luận với tư cách {
               currentUserRole === 'admin' ? 'Quản trị viên' : 
               currentUserRole === 'blogger' ? 'Tác giả' : 
@@ -49,4 +49,4 @@ function CommentBox({ onSubmit, parentId = null, blogId, placeholder = 'Nhập b
   );
 }
 
-export default CommentBox; 
+export default CommentBox;

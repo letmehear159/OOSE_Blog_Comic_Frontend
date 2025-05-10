@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, Card, Table, Button, Input, Select, Modal, Tag, Space, message } from 'antd';
 import { DeleteOutlined, SearchOutlined, FilterOutlined, EyeOutlined, ExclamationCircleOutlined, StopOutlined } from '@ant-design/icons';
-import { CommentProvider } from '../components/Comment/CommentContext';
+import { CommentProvider } from '../context/CommentContext';
 
 const { Title, Text, Paragraph } = Typography;
 const { Option } = Select;
