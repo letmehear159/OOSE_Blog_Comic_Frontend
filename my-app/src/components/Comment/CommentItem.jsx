@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Tooltip, Space, Tag } from 'antd';
-import { MoreOutlined, DeleteOutlined, EyeInvisibleOutlined, FlagOutlined } from '@ant-design/icons';
+import { MoreOutlined, DeleteOutlined, EyeInvisibleOutlined, FlagOutlined, ArrowDownOutlined, ArrowUpOutlined, LikeOutlined, DislikeOutlined, MessageOutlined } from '@ant-design/icons';
 import { CommentContext } from '../../context/CommentContext';
 import CommentBox from './CommentBox';
 import ReportButton from '../Report/ReportButton';
@@ -17,6 +17,8 @@ class CommentItem extends React.Component {
     this.state = {
       replying: false,
       menuOpen: false,
+      showChildren: false, // Thêm state để điều khiển việc hiển thị children
+      reaction: null, // 'like' | 'dislike' | null
     };
     this.menuRef = React.createRef();
     this.buttonRef = React.createRef();
@@ -74,7 +76,7 @@ class CommentItem extends React.Component {
 
   render() {
     const { comment, blogId, currentUserRole, level } = this.props;
-    const { replying, menuOpen } = this.state;
+    const { replying, menuOpen, showChildren } = this.state;
 
     // Menu actions for three-dot icon
     const menuActions = [];
@@ -149,9 +151,59 @@ class CommentItem extends React.Component {
               <span>{comment.content}</span>
             </div>
             <div className="flex gap-2 mt-2 items-center">
-              <Button size="small" type="link" onClick={() => this.handleAction('reply')}>Trả lời</Button>
+              {/* Nút trả lời dạng image button */}
+              <Button
+                size="small"
+                type="text"
+                icon={<MessageOutlined style={{ fontSize: 18 }} />}
+                onClick={() => this.handleAction('reply')}
+                title="Trả lời"
+                className="hover:text-blue-500"
+              />
+              {/* Nút Like */}
+              <Button
+                size="small"
+                type="text"
+                icon={<LikeOutlined style={{ fontSize: 18, color: this.state.reaction === 'like' ? '#1677ff' : undefined }} />}
+                onClick={() => this.setState({ reaction: this.state.reaction === 'like' ? null : 'like' })}
+                title="Thích"
+                className={this.state.reaction === 'like' ? 'text-blue-500' : ''}
+              />
+              {/* Nút Dislike */}
+              <Button
+                size="small"
+                type="text"
+                icon={<DislikeOutlined style={{ fontSize: 18, color: this.state.reaction === 'dislike' ? '#f5222d' : undefined }} />}
+                onClick={() => this.setState({ reaction: this.state.reaction === 'dislike' ? null : 'dislike' })}
+                title="Không thích"
+                className={this.state.reaction === 'dislike' ? 'text-red-500' : ''}
+              />
             </div>
           </div>
+          {/* Nếu có children, hiển thị preview ra ngoài box */}
+          {comment.children && comment.children.length > 0 && !showChildren && (
+            <div className="mt-2 pl-2">
+              <span
+                className="font-bold text-black cursor-pointer hover:underline flex items-center gap-1"
+                onClick={() => this.setState({ showChildren: true })}
+              >
+                <ArrowDownOutlined className="mr-1" />
+                Hiển thị các câu trả lời
+              </span>
+            </div>
+          )}
+          {/* Nếu đang mở children, hiển thị nút thu gọn */}
+          {comment.children && comment.children.length > 0 && showChildren && (
+            <div className="mt-2 pl-2">
+              <span
+                className="font-bold text-black cursor-pointer hover:underline flex items-center gap-1"
+                onClick={() => this.setState({ showChildren: false })}
+              >
+                <ArrowUpOutlined className="mr-1" />
+                Thu gọn các câu trả lời
+              </span>
+            </div>
+          )}
           {/* Children - mỗi comment con là 1 box riêng, không nằm trong box cha */}
           {replying && (
             <div className="mt-2">
@@ -168,7 +220,7 @@ class CommentItem extends React.Component {
               <Button size="small" onClick={() => this.handleAction('cancel-reply')} className="mt-1">Huỷ</Button>
             </div>
           )}
-          {comment.children && comment.children.length > 0 && (
+          {comment.children && comment.children.length > 0 && showChildren && (
             <div className="mt-2 space-y-3">
               {comment.children.map(child => (
                 <div key={child.id} className="pl-8">
