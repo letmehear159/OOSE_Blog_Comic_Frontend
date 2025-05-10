@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Button, Tooltip, Popconfirm, Space } from 'antd';
+import { Button, Tooltip, Popconfirm, Space, Tag } from 'antd';
 import { useComment } from './CommentContext';
 import CommentBox from './CommentBox';
+import ReportButton from '../Report/ReportButton';
 
-function CommentItem({ comment, blogId }) {
+function CommentItem({ comment, blogId, currentUserRole = 'user' }) {
   const { handleAddComment, handleUpdateComment, handleDeleteComment } = useComment();
   const [replying, setReplying] = useState(false);
   const [editing, setEditing] = useState(false);
@@ -37,6 +38,25 @@ function CommentItem({ comment, blogId }) {
     }
   };
 
+  // Kiểm tra xem người dùng hiện tại có quyền chỉnh sửa/xóa bình luận không
+  const canEditDelete = currentUserRole === 'admin' || 
+                        (currentUserRole === 'blogger' && comment.blogOwnerId === currentUserRole) || 
+                        comment.userId === currentUserRole;
+  
+  // Xác định màu cho role tag
+  const getRoleTagColor = (role) => {
+    switch (role) {
+      case 'admin':
+        return 'red';
+      case 'blogger':
+        return 'blue';
+      case 'moderator':
+        return 'purple';
+      default:
+        return 'default';
+    }
+  };
+
   return (
     <div className="mb-4 flex gap-3">
       {/* Avatar placeholder */}
@@ -46,6 +66,13 @@ function CommentItem({ comment, blogId }) {
       <div className="flex-1">
         <div className="flex items-center gap-2">
           <span className="font-semibold">{comment.user}</span>
+          {comment.role && comment.role !== 'user' && (
+            <Tag color={getRoleTagColor(comment.role)}>
+              {comment.role === 'admin' ? 'Quản trị viên' : 
+               comment.role === 'blogger' ? 'Tác giả' : 
+               comment.role === 'moderator' ? 'Người kiểm duyệt' : comment.role}
+            </Tag>
+          )}
           <Tooltip title={comment.createdAt}>
             <span className="text-xs text-gray-400">{new Date(comment.createdAt).toLocaleString('vi-VN')}</span>
           </Tooltip>
@@ -70,12 +97,25 @@ function CommentItem({ comment, blogId }) {
             <span>{comment.content}</span>
           )}
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 mt-2">
           <Button size="small" type="link" onClick={() => handleAction('reply')}>Trả lời</Button>
-          <Button size="small" type="link" onClick={() => handleAction('edit')}>Sửa</Button>
-          <Popconfirm title="Xoá bình luận này?" onConfirm={() => handleAction('delete')} okText="Xoá" cancelText="Huỷ">
-            <Button size="small" type="link" danger>Xoá</Button>
-          </Popconfirm>
+          
+          {/* Hiển thị nút sửa/xóa nếu người dùng có quyền */}
+          {canEditDelete && (
+            <>
+              <Button size="small" type="link" onClick={() => handleAction('edit')}>Sửa</Button>
+              <Popconfirm title="Xoá bình luận này?" onConfirm={() => handleAction('delete')} okText="Xoá" cancelText="Huỷ">
+                <Button size="small" type="link" danger>Xoá</Button>
+              </Popconfirm>
+            </>
+          )}
+
+          {/* Hiển thị nút báo cáo cho người dùng không phải admin */}
+          {currentUserRole !== 'admin' && (
+            <div className="ml-auto">
+              <ReportButton targetType="comment" targetId={comment.id} />
+            </div>
+          )}
         </div>
         {/* Children */}
         {replying && (
@@ -83,6 +123,7 @@ function CommentItem({ comment, blogId }) {
             <CommentBox
               blogId={blogId}
               parentId={comment.id}
+              currentUserRole={currentUserRole}
               onSubmit={async (data) => {
                 await handleAddComment(data);
                 setReplying(false);
@@ -95,7 +136,12 @@ function CommentItem({ comment, blogId }) {
         {comment.children && comment.children.length > 0 && (
           <div className="ml-8 mt-2 border-l pl-4">
             {comment.children.map(child => (
-              <CommentItem key={child.id} comment={child} blogId={blogId} />
+              <CommentItem 
+                key={child.id} 
+                comment={child} 
+                blogId={blogId} 
+                currentUserRole={currentUserRole} 
+              />
             ))}
           </div>
         )}

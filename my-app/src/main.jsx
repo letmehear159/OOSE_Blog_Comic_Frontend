@@ -23,6 +23,7 @@ import ReportPage from './pages/ReportPage.jsx'
 import FavouritePage from './pages/FavouritePage.jsx'
 import { ReportProvider } from './context/ReportContext'
 import FavouriteProvider from './context/FavouriteContext.jsx'
+import CommentAdminPage from './pages/CommentAdminPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -88,10 +89,13 @@ const router = createBrowserRouter([
   {
     path: '/search',
     element: <SearchResultPage />
+  },
+  {
+    path: '/forgot-password',
     element: <ForgotPasswordPage/>
   },
   {
-    path: '/user',
+    path: '/users',
     element: <UserPage/>
   },
   {
@@ -105,11 +109,19 @@ const router = createBrowserRouter([
   {
     path: 'favourite',
     element: <FavouritePage/>
+  },
+  {
+    path: '/comment-admin',
+    element: <CommentAdminPage/>
   }
 ]);
 
 createRoot(document.getElementById("root")).render(
   <AuthWrapper>
-    <RouterProvider router={router} />
+    <FavouriteProvider>
+      <ReportProvider>
+        <RouterProvider router={router} />
+      </ReportProvider>
+    </FavouriteProvider>
   </AuthWrapper>
 );
