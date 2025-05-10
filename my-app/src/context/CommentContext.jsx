@@ -144,4 +144,7 @@ export function CommentProvider({ blogId, currentUserRole = 'user', blogOwnerId,
       {children}
     </CommentContext.Provider>
   );
-} 
+}
+
+// Thêm export cho CommentContext để dùng trong class component
+export { CommentContext };
