@@ -7,7 +7,7 @@ import { resetNewPasswordAPI } from '../services/userService.js'
 
 // Mới code UI, chưa có logic kiểm tra email, OTP, và update mật khẩu trong database
 
-const { Title, Text } = Typography
+const { Title, Text } = Typography;
 
 const ForgotPasswordPage = () => {
   const [form] = Form.useForm()

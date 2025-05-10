@@ -8,10 +8,10 @@ const VerticalCard = ({ image, date, title, description, tag, type }) => {
   return (
     <Link to={`/review/${slugify(title)}`}>
       <Card
-        className="hover:shadow-lg transition-shadow duration-300"
+        className="hover:shadow-lg transition-shadow duration-300 w-full"
         hoverable
         style={{
-          width: 300,
+          maxWidth: 320,
           borderRadius: 12,
           overflow: "hidden",
         }}

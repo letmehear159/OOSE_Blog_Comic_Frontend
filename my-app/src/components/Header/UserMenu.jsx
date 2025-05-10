@@ -25,6 +25,7 @@ const menuOptions = [
     ),
     onClick: () => window.location.href = '/users',
   },
+
   {
     label: "Setting",
     icon: (

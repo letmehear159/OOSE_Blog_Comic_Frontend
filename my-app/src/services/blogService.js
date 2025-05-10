@@ -114,7 +114,28 @@ export const updateBlogCharacterAPI = async (blogCharacterRequest, thumbnail, id
     throw error
   }
 }
+export const searchBlogByKeywordAPI = async (keyword, page, size) => {
+  try {
+    const response = await axios.get(URL_BACKEND + `/api/v1/blogs/search?keyword=${keyword}&page=${page}&size=${size}`)
+    // Xử lý hoặc kiểm tra dữ liệu nếu cần
+    return response
+  } catch (error) {
+    throw error
+  }
+}
 
+export const searchBlogWithFilter = async (categories,tags, page, size) => {
+
+  const categoryIds = categories.join(',')
+  const tagIds = tags.join(',')
+  try {
+    const response = await axios.get(URL_BACKEND + `/api/v1/blogs/filter?categoryIds=${categoryIds}&tagIds=${tagIds}&page=${page}&size=${size}`)
+    // Xử lý hoặc kiểm tra dữ liệu nếu cần
+    return response
+  } catch (error) {
+    throw error
+  }
+}
 
 
 

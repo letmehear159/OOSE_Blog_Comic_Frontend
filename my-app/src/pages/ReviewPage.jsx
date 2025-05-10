@@ -71,8 +71,7 @@ const comics = [
     image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
     date: "01/05/2024",
     title: "Hệ Thống Tu Luyện Toàn Năng",
-    description:
-      '"Hệ Thống Tu Luyện Toàn Năng" theo chân nhân vật chính bá đạo sở hữu hệ thống.',
+    description: '"Hệ Thống Tu Luyện Toàn Năng" theo chân nhân vật chính ',
     tag: "Review Truyện",
     type: "Action",
   },
@@ -173,7 +172,7 @@ const ReviewPageMenu = [
   { label: "Tất cả truyện", to: "/all-comics" },
 ];
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 5;
 
 const ReviewPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
