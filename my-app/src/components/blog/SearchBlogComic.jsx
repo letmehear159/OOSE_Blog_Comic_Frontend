@@ -64,7 +64,7 @@ export const SearchBlogComic = ({ blogComic, setBlogComic }) => {
               <div
                 key={blog.id}
                 className={`group flex items-center gap-3 p-3 rounded-lg cursor-pointer hover:bg-blue-50 hover:shadow-sm transition-all duration-200
-                 ${blogComic !== null && blog.id === (blogComic.id) ? 'bg-blue-100' : 'bg-white'}`}
+                 ${blogComic !== null && blogComic !== undefined && blog.id === (blogComic.id) ? 'bg-blue-100' : 'bg-white'}`}
                 onClick={() => handleChooseBlog(blog)}
                 role="button"
                 tabIndex={0}

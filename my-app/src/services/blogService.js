@@ -84,6 +84,16 @@ export const getInsightsCharacterAPI = async (blogCharacterId) => {
   }
 }
 
+export const getInsightsComicAPI = async (blocComidId) => {
+  try {
+    const response = await axios.get(URL_BACKEND + `/api/v1/blog-insight/comic/${blocComidId}`)
+    // Xử lý hoặc kiểm tra dữ liệu nếu cần
+    return response
+  } catch (error) {
+    throw error
+  }
+}
+
 export const getAllBlogComicsAPI = async () => {
   try {
     const response = await axios.get(URL_BACKEND + `/api/v1/blog-comic/all`)

@@ -24,7 +24,7 @@ export const SelectedElement = ({ selected, type, color }) => {
   }, [selected])
   return (
     <>
-      <div className="flex flex-col items-center sm:flex-row  gap-4 max-w-4xl mx-auto px-4">
+      <div className="flex flex-col items-center sm:flex-row  gap-4 my-2 max-w-4xl mx-auto ">
         {/* Nhãn Thể loại */}
         <div
           className="flex items-center justify-center text-sm font-medium text-gray-800 bg-gray-50 px-4 py-2 rounded-lg shadow-sm w-[100px] shrink-0">
@@ -32,7 +32,7 @@ export const SelectedElement = ({ selected, type, color }) => {
         </div>
 
         {/* Danh sách thể loại đã chọn */}
-        <div className="flex flex-wrap items-center justify-start gap-3 w-full min-h-[60px]">
+        <div className="flex flex-wrap items-center justify-start gap-3 w-full ">
           {selected.length === 0 ? (
             <div className="text-gray-500 italic text-sm flex items-center h-full">
               Chưa chọn {type}
@@ -46,9 +46,7 @@ export const SelectedElement = ({ selected, type, color }) => {
                 <span className="text-sm  font-medium leading-5">{cat.name}</span>
                 <span
                   className={`${style.text} hover:text-red-500 flex items-center`}
-                  onClick={() => handleRemoveCategory(cat.id)} // Giả định có hàm xóa
                 >
-                  ✕
           </span>
               </label>
             ))

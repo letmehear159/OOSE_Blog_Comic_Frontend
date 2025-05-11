@@ -12,13 +12,13 @@ import { ViewBlogCharacterPage } from './pages/ViewBlogCharacterPage.jsx'
 import { NewBlogCharacterPage } from './pages/NewBlogCharacterPage.jsx'
 import CharacterPage from './pages/CharacterPage.jsx'
 import ReviewPage from './pages/ReviewPage.jsx'
-import ViewBlogPage from './pages/ViewBlogPage.jsx'
 import Homepage from './pages/Homepage.jsx'
 import DashboardPage from './pages/DashboardPage.jsx'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import SearchResultPage from './pages/SearchResultPage'
 import { NewBlogComicPage } from './pages/NewBlogComicPage.jsx'
 import { EditBlogComicPage } from './pages/EditBlogComicPage.jsx'
+import { ViewBlogComicPage } from './pages/ViewBlogComicPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -43,6 +43,10 @@ const router = createBrowserRouter([
         element: <ViewBlogCharacterPage/>,
       },
       {
+        path: '/comic/:id',
+        element: <ViewBlogComicPage/>,
+      },
+      {
         path: '/forgot-password',
         element: <ForgotPasswordPage/>,
       },
@@ -53,10 +57,6 @@ const router = createBrowserRouter([
       {
         path: '/review-character',
         element: <CharacterPage/>,
-      },
-      {
-        path: '/view-blog',
-        element: <ViewBlogPage/>,
       },
       {
         path: '/new-comic',

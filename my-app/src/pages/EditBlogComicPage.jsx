@@ -96,7 +96,7 @@ export const EditBlogComicPage = () => {
         }
         const response = await updateBlogComicAPI(
           blogComicReq,
-          thumbnail,id
+          thumbnail, id
         )
       } else {
         const blogInsightReq = {
@@ -111,7 +111,7 @@ export const EditBlogComicPage = () => {
         }
         const response = await updateBlogInsightAPI(
           blogInsightReq,
-          thumbnail,id
+          thumbnail, id
         )
       }
       message.success('Cập nhật bài viết thành công')
@@ -221,6 +221,7 @@ export const EditBlogComicPage = () => {
             {/* Thông tin nhân vật và truyện */}
             <div className="flex-1 text-sm font-medium text-gray-800 bg-gray-50 p-3 rounded-lg shadow-sm">
               {blogType === 'Insight' && (
+                <>
                 <span>
                   Viết về nhân vật:{' '}
                   <span
@@ -237,16 +238,14 @@ export const EditBlogComicPage = () => {
                     )}
                   </span>
                 </span>
-              )}
-
-              <span className="mx-2">|</span>
-              <span>
+                  <span className="mx-2">|</span>
+                  <span>
                 Trong truyện:{' '}
-                <span
-                  className={
-                    blogComic ? 'text-blue-600' : 'text-gray-500 italic'
-                  }
-                >
+                    <span
+                      className={
+                        blogComic ? 'text-blue-600' : 'text-gray-500 italic'
+                      }
+                    >
                   {blogComic === null ? (
                     'Chưa chọn truyện'
                   ) : (
@@ -256,6 +255,11 @@ export const EditBlogComicPage = () => {
                   )}
                 </span>
               </span>
+                </>
+
+              )}
+
+
             </div>
           </div>
 

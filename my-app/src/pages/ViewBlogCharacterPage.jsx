@@ -15,8 +15,7 @@ import {
   MenuUnfoldOutlined,
   RightOutlined,
 } from "@ant-design/icons";
-import { RelatedBlog } from "../components/character-related-blogs/RelatedBlog.jsx";
-import { RelatedBlogIcon } from "../components/character-related-blogs/RelatedBlogIcon.jsx";
+import { RelatedBlogCharacter } from "../components/character-related-blogs/RelatedBlogCharacter.jsx";
 
 export const ViewBlogCharacterPage = () => {
   const { id } = useParams();
@@ -76,10 +75,12 @@ export const ViewBlogCharacterPage = () => {
                 {collapsed ? (
                   <>
                     <div>
-                      <RelatedBlogIcon
+                      <RelatedBlogCharacter
                         hasBlog={blogComic !== null}
                         blogComic={blogComic}
                         blogCharacterId={blog.id}
+                        blogType={"Character"}
+                        loadType={"Icon"}
                       />
                     </div>
                   </>
@@ -93,10 +94,12 @@ export const ViewBlogCharacterPage = () => {
                       Những bài viết liên quan
                     </div>
                     {
-                      <RelatedBlog
+                      <RelatedBlogCharacter
                         hasBlog={blogComic !== null}
                         blogComic={blogComic}
                         blogCharacterId={blog.id}
+                        blogType={"Character"}
+                        loadType={"Full"}
                       />
                     }
                   </>
