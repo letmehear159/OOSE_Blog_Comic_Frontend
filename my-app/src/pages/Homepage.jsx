@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import HorizontalCard from "../components/Card/HorizontalCard";
 import CardTrending from "../components/Card/CardTrending";
 import AppPagination from "../components/AppPagination";
+import DisplayAuthorInfo from "../components/DisplayAuthorInfor";
 
 const reviews = [
   {
@@ -146,14 +147,14 @@ const Homepage = () => {
 
   return (
     <div className="bg-gray-50 flex flex-col flex-1 min-h-screen">
-      <div className="flex justify-center p-10  ">
+      <div className="flex justify-center p-10">
         <div></div>
-        <div className="w-4/6 text-black p-6 flex flex-col gap-3 items-cente h-full ">
+        <div className="w-4/6 text-black p-6 flex flex-col gap-3 items-center h-full">
           {pagedReviews.map((item, idx) => (
             <HorizontalCard key={startIdx + idx} {...item} />
           ))}
         </div>
-        <div className=" w-2/6 w-xs h-full text-black bg-gray-100 rounded-xl flex text-center flex-col mt-6 gap-3 items-center ml-10 p-3 ">
+        <div className="w-2/6 w-xs h-full text-black bg-gray-100 rounded-xl flex text-center flex-col mt-6 gap-3 items-center ml-10 p-3">
           <h1 className="text-2xl font-bold text-red-500 pt-6">
             Truyện nổi bật
           </h1>
@@ -163,7 +164,7 @@ const Homepage = () => {
         </div>
         <div></div>
       </div>
-      <div className="flex justify-center mx-10 pb-20 ">
+      <div className="flex justify-center mx-10 pb-20">
         <AppPagination
           current={currentPage}
           total={reviews.length}
