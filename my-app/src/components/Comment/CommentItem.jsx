@@ -17,6 +17,7 @@ import ReportButton from '../Report/ReportButton'
 import { ReportProvider, useReport } from '../../context/ReportContext.jsx'
 import ReportModal from '../Report/ReportModal.jsx'
 import { URL_BACKEND_IMAGES } from '../../constants/images.js'
+import { addCommentToBlogAPI } from '../../services/commentService.js'
 
 class CommentItem extends React.Component {
   static contextType = CommentContext
@@ -88,7 +89,7 @@ class CommentItem extends React.Component {
   }
 
   render () {
-    const { comment, blogId, currentUserRole, level } = this.props
+    const { comment, blogId, currentUserRole, level, userId, comments, setComments } = this.props
     const { replying, menuOpen, showChildren } = this.state
 
     // Menu actions for three-dot icon
@@ -111,7 +112,6 @@ class CommentItem extends React.Component {
           <ReportButton targetType={'comment'} targetId={comment.id}/>
       })
     }
-
     return (
       <div className="mb-4 flex gap-3 mx-2">
         {/* Avatar */}
@@ -233,13 +233,15 @@ class CommentItem extends React.Component {
           {replying && (
             <div className="mt-2">
               <CommentBox
+                closeBox={() => {this.setState({ replying: false })}}
                 blogId={blogId}
                 parentId={comment.id}
                 currentUserRole={currentUserRole}
-                onSubmit={async (data) => {
-                  await this.context.handleAddComment(data)
-                  this.setState({ replying: false })
-                }}
+                userId={userId}
+                onSubmit={addCommentToBlogAPI}
+                comments={comments}
+                setComments={setComments}
+
                 placeholder="Nhập phản hồi..."
               />
               <Button size="small" onClick={() => this.handleAction('cancel-reply')} className="mt-1">Huỷ</Button>
@@ -250,10 +252,13 @@ class CommentItem extends React.Component {
               {comment.children.map(child => (
                 <div key={child.id} className="pl-8">
                   <CommentItem
+                    setComments={setComments}
                     comment={child}
                     blogId={blogId}
                     currentUserRole={currentUserRole}
                     level={level + 1}
+                    userId={userId}
+                    comments={comments}
                   />
                 </div>
               ))}

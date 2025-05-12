@@ -2,10 +2,27 @@ import { useState } from 'react'
 import { Button, Input } from 'antd'
 
 function CommentBox ({
-  onSubmit, userId, parentId = null, blogId, placeholder = 'Nhập bình luận của bạn...', currentUserRole = 'user'
+  closeBox, comments, setComments, onSubmit, userId, parentId = null, blogId, placeholder = 'Nhập bình luận của bạn...',
+  currentUserRole = 'user'
 }) {
   const [content, setContent] = useState('')
   const [loading, setLoading] = useState(false)
+
+  function insertReply (comments, parentId, newComment) {
+    return comments.map(comment => {
+      if (comment.id === parentId) {
+        const updatedChildren = [...(comment.children || []), newComment]
+        return { ...comment, children: updatedChildren, hasChildComment: true }
+      } else if (comment.children && comment.children.length > 0) {
+        return {
+          ...comment,
+          children: insertReply(comment.children, parentId, newComment)
+        }
+      } else {
+        return comment
+      }
+    })
+  }
 
   const handleSend = async () => {
     if (!content.trim()) return
@@ -17,6 +34,15 @@ function CommentBox ({
       userId,
       userRole: currentUserRole
     })
+    if (parentId) {
+      const updated = insertReply(comments, parentId, res)
+      setComments(updated)
+      closeBox()
+    } else {
+      // Comment gốc
+      setComments([...comments, res])
+    }
+
     setContent('')
     setLoading(false)
   }

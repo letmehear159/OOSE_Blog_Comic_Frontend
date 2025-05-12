@@ -38,6 +38,8 @@ export const Comment = ({ blogId }) => {
             <div className={'flex justify-center '}>
               <div className="mb-4 w-[825px] !ml-11  !px-0 !bg-transparent !border-none">
                 <CommentBox
+                  setComments={setComments}
+                  comments={comments}
                   blogId={blogId}
                   userId={user.id}
                   onSubmit={addCommentToBlogAPI}
@@ -49,6 +51,7 @@ export const Comment = ({ blogId }) => {
 
             {comments !== null ? (
               <CommentList
+                setComments={setComments}
                 comments={comments}
                 blogId={blogId}
                 currentUserRole={userRole}
