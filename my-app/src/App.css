@@ -1,9 +1,3 @@
-/*.sidebar-item {*/
-/*  @apply  bg-black transition;*/
-/*}*/
-/*.sidebar-item:hover, .sidebar-item.ps-active {*/
-/*  @apply text-black bg-white;*/
-/*}*/
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -43,4 +37,10 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.custom-select .ant-select-selector {
+  background-color: #994ea0 !important;
+  color: white !important;
+  border-color: #555 !important;
 }

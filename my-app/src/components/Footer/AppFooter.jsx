@@ -1,7 +1,7 @@
 import React from "react";
 
 const Footer = () => (
-  <footer className="fixed bottom-0 left-0 w-full z-50 bg-gray-100 border-t border-gray-200">
+  <footer className="fixed bottom-0 left-0 w-full z-50 bg-gray-100 border-t  border-gray-200">
     <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
       <div className="text-gray-600 text-sm">
         © {new Date().getFullYear()} Review Comic. All rights reserved.

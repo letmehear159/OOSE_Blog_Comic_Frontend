@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import AppSidebar from "../components/Sidebar/AppSidebar";
 import VerticalCard from "../components/Card/VerticalCard";
 import AppPagination from "../components/AppPagination";
-
+import { getAllCategoryAPI } from "../services/categoryService";
+import { useEffect } from "react";
+import { message } from "antd";
 const comics = [
   {
     image:
@@ -156,16 +158,10 @@ const comics = [
   },
 ];
 
-const ReviewPageMenu = [
+let ReviewPageMenu = [
   {
     label: "Thể loại truyện",
-    children: [
-      { label: "Action", to: "/genre/action" },
-      { label: "Adventure", to: "/genre/adventure" },
-      { label: "Drama", to: "/genre/drama" },
-      { label: "Fantasy", to: "/genre/fantasy" },
-      { label: "Romance", to: "/genre/romance" },
-    ],
+    children: [],
   },
   { label: "Tất cả truyện", to: "/all-comics" },
 ];
@@ -175,11 +171,14 @@ const PAGE_SIZE = 6;
 const ReviewPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedGenre, setSelectedGenre] = useState(null);
+  const [categories, setCategories] = useState([]);
 
+  // Lọc truyện theo thể loại đã chọn
   const filteredComics = selectedGenre
     ? comics.filter((comic) => comic.types.includes(selectedGenre))
     : comics;
 
+  // Tính toán index của truyện hiển thị trên trang hiện tại
   const startIdx = (currentPage - 1) * PAGE_SIZE;
   const endIdx = startIdx + PAGE_SIZE;
   const pagedComics = filteredComics.slice(startIdx, endIdx);
@@ -190,11 +189,27 @@ const ReviewPage = () => {
     setCurrentPage(1);
   };
 
+  const getCategories = async () => {
+    try {
+      const response = await getAllCategoryAPI();
+      setCategories(response);
+      ReviewPageMenu.children = response;
+    } catch (error) {
+      message.error("Lỗi khi lấy danh mục truyện");
+    }
+  };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
   return (
     <div className="flex h-full mb-15">
       <div className="ReviewPage-sidebar">
         <AppSidebar
+          // Truyền menu và hàm xử lý sự kiện chọn thể loại
           menuItems={ReviewPageMenu}
+          // Truyền hàm xử lý sự kiện chọn thể loại
           onGenreSelect={handleGenreSelect}
         />
       </div>
