@@ -7,6 +7,8 @@ import AvatarUpload from "../components/User/AvatarUpload";
 import { jwtDecode } from "jwt-decode"; 
 
 import { 
+  fetchUserById, 
+  fetchUserByEmail, 
   fetchUserByUsername, 
   updateUser, 
   updateUserAvatarService,
@@ -37,9 +39,14 @@ const UserPage = () => {
 
         const accessToken = localStorage.getItem('access_token');
         
-        if (accessToken) {
+        if (paramId) {
+          response = await fetchUserById(paramId);
+        } else if (paramUsername) {
+          response = await fetchUserByUsername(paramUsername);
+        } else if (paramEmail) {
+          response = await fetchUserByEmail(paramEmail);
+        } else if (accessToken) {
           try {
-            // Nếu không có paramId, paramUsername, paramEmail, thử gọi API account
             response = await fetchAccountAPI();
           } catch (e) {
             try {
@@ -128,6 +135,9 @@ const UserPage = () => {
       
       setUserData(prev => ({ ...prev, ...updatedUserData }));
       message.success("Cập nhật thông tin thành công");
+      if (updatedUserData.username && updatedUserData.username !== userData.username) {
+        window.history.replaceState(null, '', `/users/${updatedUserData.username}`);
+      }
       return Promise.resolve();
     } catch (error) {
       console.error("Error updating user:", error);
