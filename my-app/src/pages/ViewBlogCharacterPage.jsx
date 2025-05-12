@@ -6,7 +6,7 @@ import {
 import { Button, Layout, message } from "antd";
 import { Character } from "../components/blog/Character.jsx";
 import { useParams } from "react-router-dom";
-import { customImageAlignStyles } from "../editor/editorCustomStyleConstant.jsx";
+import { customHeadingStyles, customImageAlignStyles } from '../editor/editorCustomStyleConstant.jsx'
 import { Content } from "antd/es/layout/layout.js";
 import Sider from "antd/es/layout/Sider.js";
 import {
@@ -16,6 +16,8 @@ import {
   RightOutlined,
 } from "@ant-design/icons";
 import { RelatedBlogCharacter } from "../components/character-related-blogs/RelatedBlogCharacter.jsx";
+import { URL_BACKEND_IMAGES } from '../constants/images.js'
+import { BloggerInfo } from '../components/blog/BloggerInfo.jsx'
 
 export const ViewBlogCharacterPage = () => {
   const { id } = useParams();
@@ -47,6 +49,7 @@ export const ViewBlogCharacterPage = () => {
   return (
     <>
       <style>{customImageAlignStyles}</style>
+      <style>{customHeadingStyles}</style>
       {!blog ? (
         <div className="text-center p-10 text-gray-500">Đang tải blog...</div>
       ) : (
@@ -120,9 +123,17 @@ export const ViewBlogCharacterPage = () => {
                 <div className="mx-8">
                   {/* Nội dung blog (giữa) sẽ chiếm 9 cột khi Sider collapse, 6 khi không */}
                   <div className={"my-8"}>
-                    <div className="font-bold text-3xl text-left mb-12">
+
+                    <div
+                      className={'font-bold py-2 my-2 text-4xl    text-[#333333]'}
+                    >
                       {blog.title}
                     </div>
+                    <BloggerInfo
+                      name={'Gọi bố đi con'}
+                      avatarUrl={`${URL_BACKEND_IMAGES}/${blog.thumbnail}`}
+                      date={Date.now()}
+                    />
                     <div
                       className="prose prose-lg max-w-none"
                       dangerouslySetInnerHTML={{ __html: blog.content }}
