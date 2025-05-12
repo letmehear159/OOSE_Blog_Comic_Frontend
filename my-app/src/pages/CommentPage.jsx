@@ -32,6 +32,7 @@ const mockComments = {
       id: '101',
       blogId: '1',
       user: 'Nguyễn Văn X',
+      role: 'user',
       content: 'Đây là một bộ manga rất hay, tôi đã theo dõi từ những chương đầu tiên!',
       createdAt: '2023-06-16T08:30:00Z',
       children: [
@@ -40,8 +41,71 @@ const mockComments = {
           parentId: '101',
           blogId: '1',
           user: 'Trần Thị Y',
+          role: 'blogger',
           content: 'Đồng ý! Cách xây dựng thế giới và nhân vật rất tuyệt vời.',
-          createdAt: '2023-06-16T09:15:00Z'
+          createdAt: '2023-06-16T09:15:00Z',
+          children: [
+            {
+              id: '301',
+              parentId: '201',
+              blogId: '1',
+              user: 'Admin',
+              role: 'admin',
+              content: 'Cảm ơn các bạn đã chia sẻ ý kiến! Hãy giữ bình luận văn minh nhé.',
+              createdAt: '2023-06-16T09:30:00Z',
+              children: []
+            },
+            {
+              id: '302',
+              parentId: '201',
+              blogId: '1',
+              user: 'Mai Lan',
+              role: 'user',
+              content: 'Mình cũng rất thích arc Wano, cực kỳ hấp dẫn!',
+              createdAt: '2023-06-16T09:35:00Z',
+              children: []
+            },
+            {
+              id: '303',
+              parentId: '201',
+              blogId: '1',
+              user: 'Blogger A',
+              role: 'blogger',
+              content: 'Theo mình, arc Marineford cũng rất đỉnh!',
+              createdAt: '2023-06-16T09:40:00Z',
+              children: []
+            },
+            {
+              id: '304',
+              parentId: '201',
+              blogId: '1',
+              user: 'Admin',
+              role: 'admin',
+              content: 'Nhắc nhở: Không spoil nội dung truyện quá nhiều nhé các bạn!',
+              createdAt: '2023-06-16T09:45:00Z',
+              children: []
+            }
+          ]
+        },
+        {
+          id: '202',
+          parentId: '101',
+          blogId: '1',
+          user: 'Blogger A',
+          role: 'blogger',
+          content: 'Mình nghĩ arc Dressrosa cũng rất đáng nhớ.',
+          createdAt: '2023-06-16T09:20:00Z',
+          children: []
+        },
+        {
+          id: '203',
+          parentId: '101',
+          blogId: '1',
+          user: 'Admin',
+          role: 'admin',
+          content: 'Các bạn hãy bình luận văn minh, tôn trọng ý kiến của nhau nhé!',
+          createdAt: '2023-06-16T09:25:00Z',
+          children: []
         }
       ]
     },
@@ -49,8 +113,36 @@ const mockComments = {
       id: '102',
       blogId: '1',
       user: 'Lê Văn Z',
+      role: 'user',
       content: 'Oda sensei thật sự là một thiên tài! Mỗi chi tiết trong truyện đều có ý nghĩa.',
       createdAt: '2023-06-17T10:20:00Z',
+      children: []
+    },
+    {
+      id: '104',
+      blogId: '1',
+      user: 'Mai Lan',
+      role: 'user',
+      content: 'Tôi thích cách tác giả xây dựng các arc rất logic.',
+      createdAt: '2023-06-18T12:00:00Z',
+      children: []
+    },
+    {
+      id: '105',
+      blogId: '1',
+      user: 'Blogger A',
+      role: 'blogger',
+      content: 'Cảm ơn mọi người đã ủng hộ bài viết!',
+      createdAt: '2023-06-18T13:00:00Z',
+      children: []
+    },
+    {
+      id: '106',
+      blogId: '1',
+      user: 'Admin',
+      role: 'admin',
+      content: 'Mọi người hãy bình luận lịch sự nhé!',
+      createdAt: '2023-06-18T14:00:00Z',
       children: []
     }
   ],
@@ -59,6 +151,7 @@ const mockComments = {
       id: '103',
       blogId: '2',
       user: 'Phạm Thị K',
+      role: 'user',
       content: 'Doraemon là một phần tuổi thơ của tôi, những bảo bối thú vị và ý nghĩa.',
       createdAt: '2023-07-21T14:05:00Z',
       children: []

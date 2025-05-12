@@ -23,177 +23,111 @@ import FavouritePage from './pages/FavouritePage.jsx'
 import { ReportProvider } from './context/ReportContext'
 import FavouriteProvider from './context/FavouriteContext.jsx'
 import CommentAdminPage from './pages/CommentAdminPage.jsx'
-
+import { ROUTES } from './constants/api.js'
 import { NewBlogComicPage } from './pages/NewBlogComicPage.jsx'
 import { EditBlogComicPage } from './pages/EditBlogComicPage.jsx'
 import { ViewBlogComicPage } from './pages/ViewBlogComicPage.jsx'
-import ErrorPage from './pages/ErrorPage.jsx'
-import TestErrorPage from './pages/TestErrorPage.jsx'
-// Error handler for async operations
-const errorHandler = async (error) => {
-  // Log the error to your error tracking service
-  console.error("Router Error:", error);
 
-  // Handle different types of errors
-  if (error instanceof Response) {
-    const data = await error.json().catch(() => ({}));
-    throw new Error(data.message || "An error occurred while fetching data");
-  }
-
-  if (error instanceof Error) {
-    throw error;
-  }
-
-  throw new Error("An unexpected error occurred");
-};
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <App />,
-    errorElement: <ErrorPage />,
+    path: ROUTES.HOME,
+    element: <App/>,
     children: [
       {
         index: true,
-        element: <Homepage />,
-        errorElement: <ErrorPage />,
-        loader: async () => {
-          try {
-            // Your homepage data fetching logic here
-            return null;
-          } catch (error) {
-            return errorHandler(error);
-          }
-        },
+        element: <Homepage/>,
       },
       {
-        path: "/new-character",
-        element: <NewBlogCharacterPage />,
-      },
-
-      {
-        path: "/edit-character/:id",
-        element: <EditBlogCharacterPage />,
+        path: ROUTES.NEW_CHARACTER,
+        element: <NewBlogCharacterPage/>,
       },
       {
-        path: "/character/:id",
-        element: <ViewBlogCharacterPage />,
-      },
-      {
-        path: "/forgot-password",
-        element: <ForgotPasswordPage />,
-      },
-      {
-        path: "/review-comic",
-        element: <ReviewPage />,
-      },
-      {
-        path: "/review-character",
-        element: <CharacterPage />,
-      },
-      // {
-      //   path: "/view-blog",
-      //   element: <ViewBlogPage />,
-      // },
-      {
-        path: '/new-comic',
+        path: ROUTES.NEW_COMIC,
         element: <NewBlogComicPage/>
       },
       {
-        path: '/edit-comic/:id',
+        path: ROUTES.VIEW_CHARACTER,
+        element: <ViewBlogCharacterPage/>,
+      },
+      {
+        path: ROUTES.VIEW_BLOG,
+        element: <ViewBlogComicPage/>
+      },
+      {
+        path: ROUTES.EDIT_COMIC,
         element: <EditBlogComicPage/>,
       },
       {
-        path: "/test-error",
-        element: <TestErrorPage />,
+        path: ROUTES.EDIT_CHARACTER,
+        element: <EditBlogCharacterPage/>,
       },
       {
-        path: "/test-error/404",
-        loader: () => {
-          throw new Response("Not Found", { status: 404 });
-        },
+        path: ROUTES.FORGOT_PASSWORD,
+        element: <ForgotPasswordPage/>,
       },
       {
-        path: "/test-error/403",
-        loader: () => {
-          throw new Response("Forbidden", { status: 403 });
-        },
+        path: ROUTES.REVIEW_COMIC,
+        element: <ReviewPage/>,
       },
       {
-        path: "/test-error/500",
-        loader: () => {
-          throw new Response("Server Error", { status: 500 });
-        },
-      },
-      {
-        path: "/test-error/network",
-        loader: () => {
-          throw new Error("Network Error: Failed to fetch data");
-        },
-      },
-      {
-        path: "/test-error/unknown",
-        loader: () => {
-          throw new Error("An unexpected error occurred");
-        },
+        path: ROUTES.REVIEW_CHARACTER,
+        element: <CharacterPage/>,
       },
     ],
   },
   {
-    path: "/login",
-    element: <LoginPage />,
+    path: ROUTES.LOGIN,
+    element: <LoginPage/>,
   },
   {
-    path: "/register",
-    element: <RegisterPage />,
+    path: ROUTES.REGISTER,
+    element: <RegisterPage/>,
   },
   {
-    path: "/callback",
-    element: <Callback />,
+    path: ROUTES.CALLBACK,
+    element: <Callback/>,
   },
   {
-    path: '/dashboard',
-    element: <DashboardPage/>
+    path: ROUTES.DASHBOARD,
+    element: <DashboardPage/>,
   },
   {
-    path: '/forgot-password',
-    element: <ForgotPasswordPage/>
+    path: ROUTES.FORGOT_PASSWORD,
+    element: <ForgotPasswordPage/>,
   },
   {
-    path: '/search',
-    element: <SearchResultPage/>
+    path: ROUTES.SEARCH,
+    element: <SearchResultPage/>,
   },
   {
-    path: '/forgot-password',
-    element: <ForgotPasswordPage/>
+    path: ROUTES.USERS,
+    element: <UserPage/>,
   },
   {
-    path: '/users',
-    element: <UserPage/>
+    path: ROUTES.COMMENT,
+    element: <CommentPage/>,
   },
   {
-    path: 'comment',
-    element: <CommentPage/>
+    path: ROUTES.REPORT,
+    element: <ReportPage/>,
   },
   {
-    path: 'report',
-    element: <ReportPage/>
+    path: ROUTES.FAVOURITE,
+    element: <FavouritePage/>,
   },
   {
-    path: 'favourite',
-    element: <FavouritePage/>
+    path: ROUTES.COMMENT_ADMIN,
+    element: <CommentAdminPage/>,
   },
-  {
-    path: '/comment-admin',
-    element: <CommentAdminPage/>
-  }
-]);
 
-createRoot(document.getElementById("root")).render(
+])
+
+createRoot(document.getElementById('root')).render(
   <AuthWrapper>
     <FavouriteProvider>
       <ReportProvider>
-        <RouterProvider router={router} />
+        <RouterProvider router={router}/>
       </ReportProvider>
     </FavouriteProvider>
   </AuthWrapper>
-);
+)
