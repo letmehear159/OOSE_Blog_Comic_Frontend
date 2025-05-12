@@ -3,7 +3,7 @@ import { Button, Checkbox, Divider, Form, Input, message, notification } from 'a
 import { Link, useNavigate } from 'react-router-dom'
 import { loginAPI } from '../services/authService.js'
 import { URL_BACKEND } from '../constants/api.js'
-
+import { ROUTES } from '../constants/api.js'
 
 const LoginPage = () => {
   const [form] = Form.useForm()
@@ -13,7 +13,7 @@ const LoginPage = () => {
     window.location.href = URL_BACKEND + '/oauth2/authorization/google'
   }
   const goToVerifyEmail = () => {
-    navigate('/register', { state: { step: 2 } })
+    navigate(ROUTES.REGISTER, { state: { step: 2 } })
   }
   const [api, contextHolder] = notification.useNotification()
   const openNotification = () => {
@@ -115,7 +115,7 @@ const LoginPage = () => {
                 </Button>
               </div>
               <p className="mt-5 text-sm text-gray-600 ">
-                Don’t Have an Account? <Link className="text-blue-600 hover:underline" to={'./23'}>Register Now.</Link>
+                Don’t Have an Account? <Link className="text-blue-600 hover:underline" to={ROUTES.REGISTER}>Register Now.</Link>
               </p>
             </div>
             <div className="mt-8 text-xs text-gray-500 flex justify-between">
