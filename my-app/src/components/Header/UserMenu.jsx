@@ -1,4 +1,33 @@
 import React, { useState, useRef, useEffect } from "react";
+import { jwtDecode } from "jwt-decode"; 
+import { ROUTES } from "../../constants/api";
+
+const getCurrentUsername = () => {
+  try {
+    const token = localStorage.getItem("access_token");
+    if (!token) return null;
+    const decoded = jwtDecode(token);
+    return (
+      decoded?.user?.username ||
+      decoded?.sub ||
+      decoded?.username ||
+      decoded?.preferred_username ||
+      null
+    );
+  } catch {
+    return null;
+  }
+};
+
+const requireToken = (callback) => {
+  return () => {
+    if (!localStorage.getItem("access_token")) {
+      window.location.href = "/login";
+      return;
+    }
+    callback();
+  };
+};
 
 const menuOptions = [
   {
@@ -23,7 +52,14 @@ const menuOptions = [
         />
       </svg>
     ),
-    onClick: () => window.location.href = '/users',
+    onClick: requireToken(() => {
+      const username = getCurrentUsername();
+      if (username) {
+        window.location.href = ROUTES.USER_BY_USERNAME.replace(":username", username);
+      } else {
+        window.location.href = ROUTES.USERS;
+      }
+    }),
   },
 
   {
@@ -44,7 +80,7 @@ const menuOptions = [
         />
       </svg>
     ),
-    onClick: () => alert("Go to setting!"),
+    onClick: requireToken(() => alert("Go to setting!")),
   },
   {
     label: "Logout",
@@ -68,11 +104,15 @@ const menuOptions = [
         />
       </svg>
     ),
-    onClick: () => alert("Logout!"),
+    onClick: requireToken(() => {
+      localStorage.removeItem("access_token");
+      window.location.href = "/";
+    }),
   },
 ];
 
 const UserMenu = () => {
+
   const [open, setOpen] = useState(false);
   const ref = useRef();
 
