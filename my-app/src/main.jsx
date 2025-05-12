@@ -27,6 +27,8 @@ import CommentAdminPage from './pages/CommentAdminPage.jsx'
 import { NewBlogComicPage } from './pages/NewBlogComicPage.jsx'
 import { EditBlogComicPage } from './pages/EditBlogComicPage.jsx'
 import { ViewBlogComicPage } from './pages/ViewBlogComicPage.jsx'
+import ErrorPage from './pages/ErrorPage.jsx'
+import TestErrorPage from './pages/TestErrorPage.jsx'
 // Error handler for async operations
 const errorHandler = async (error) => {
   // Log the error to your error tracking service
@@ -88,10 +90,10 @@ const router = createBrowserRouter([
         path: "/review-character",
         element: <CharacterPage />,
       },
-      {
-        path: "/view-blog",
-        element: <ViewBlogPage />,
-      },
+      // {
+      //   path: "/view-blog",
+      //   element: <ViewBlogPage />,
+      // },
       {
         path: '/new-comic',
         element: <NewBlogComicPage/>
@@ -99,6 +101,40 @@ const router = createBrowserRouter([
       {
         path: '/edit-comic/:id',
         element: <EditBlogComicPage/>,
+      },
+      {
+        path: "/test-error",
+        element: <TestErrorPage />,
+      },
+      {
+        path: "/test-error/404",
+        loader: () => {
+          throw new Response("Not Found", { status: 404 });
+        },
+      },
+      {
+        path: "/test-error/403",
+        loader: () => {
+          throw new Response("Forbidden", { status: 403 });
+        },
+      },
+      {
+        path: "/test-error/500",
+        loader: () => {
+          throw new Response("Server Error", { status: 500 });
+        },
+      },
+      {
+        path: "/test-error/network",
+        loader: () => {
+          throw new Error("Network Error: Failed to fetch data");
+        },
+      },
+      {
+        path: "/test-error/unknown",
+        loader: () => {
+          throw new Error("An unexpected error occurred");
+        },
       },
     ],
   },
