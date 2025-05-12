@@ -16,6 +16,14 @@ import Homepage from './pages/Homepage.jsx'
 import DashboardPage from './pages/DashboardPage.jsx'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import SearchResultPage from './pages/SearchResultPage'
+import UserPage from './pages/UserPage.jsx'
+import CommentPage from './pages/CommentPage.jsx'
+import ReportPage from './pages/ReportPage.jsx'
+import FavouritePage from './pages/FavouritePage.jsx'
+import { ReportProvider } from './context/ReportContext'
+import FavouriteProvider from './context/FavouriteContext.jsx'
+import CommentAdminPage from './pages/CommentAdminPage.jsx'
+
 import { NewBlogComicPage } from './pages/NewBlogComicPage.jsx'
 import { EditBlogComicPage } from './pages/EditBlogComicPage.jsx'
 import { ViewBlogComicPage } from './pages/ViewBlogComicPage.jsx'
@@ -59,6 +67,10 @@ const router = createBrowserRouter([
         element: <CharacterPage/>,
       },
       {
+        path: "/view-blog",
+        element: <ViewBlogPage />,
+      },
+      {
         path: '/new-comic',
         element: <NewBlogComicPage/>
       },
@@ -91,11 +103,39 @@ const router = createBrowserRouter([
   {
     path: '/search',
     element: <SearchResultPage/>
+  },
+  {
+    path: '/forgot-password',
+    element: <ForgotPasswordPage/>
+  },
+  {
+    path: '/users',
+    element: <UserPage/>
+  },
+  {
+    path: 'comment',
+    element: <CommentPage/>
+  },
+  {
+    path: 'report',
+    element: <ReportPage/>
+  },
+  {
+    path: 'favourite',
+    element: <FavouritePage/>
+  },
+  {
+    path: '/comment-admin',
+    element: <CommentAdminPage/>
   }
-])
+]);
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById("root")).render(
   <AuthWrapper>
-    <RouterProvider router={router}/>
+    <FavouriteProvider>
+      <ReportProvider>
+        <RouterProvider router={router} />
+      </ReportProvider>
+    </FavouriteProvider>
   </AuthWrapper>
-)
+);

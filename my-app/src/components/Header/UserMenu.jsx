@@ -23,7 +23,7 @@ const menuOptions = [
         />
       </svg>
     ),
-    onClick: () => alert("Go to profile!"),
+    onClick: () => window.location.href = '/users',
   },
 
   {
