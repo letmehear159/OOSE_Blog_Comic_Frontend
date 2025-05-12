@@ -14,6 +14,7 @@ export const ROUTES = {
   DASHBOARD: '/dashboard',
   FORGOT_PASSWORD: '/forgot-password',
   USERS: '/users',
+  USER_BY_USERNAME: '/users/:username', 
   COMMENT: '/comment',
   REPORT: '/report',
   FAVOURITE: '/favourite',

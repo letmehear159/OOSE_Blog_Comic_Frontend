@@ -50,7 +50,6 @@ function UserForm({ initialData, onSubmit }) {
         const userUpdateReq = {
           fullName: formData.fullName,
           email: formData.email,
-          phoneNumber: formData.phoneNumber,
           username: formData.username
         };
         
@@ -73,7 +72,7 @@ function UserForm({ initialData, onSubmit }) {
       >
         <Form layout="vertical" onFinish={handleFormSubmit} className="p-2">
           <Form.Item
-            label="Họ tên"
+            label="Tên hiển thị"
             validateStatus={errors.fullName ? 'error' : ''}
             help={errors.fullName}
           >
@@ -93,19 +92,6 @@ function UserForm({ initialData, onSubmit }) {
             <Input 
               name="email"
               value={formData.email}
-              onChange={handleInputChange}
-              className="rounded"
-            />
-          </Form.Item>
-
-          <Form.Item
-            label="Số điện thoại"
-            validateStatus={errors.phoneNumber ? 'error' : ''}
-            help={errors.phoneNumber}
-          >
-            <Input 
-              name="phoneNumber"
-              value={formData.phoneNumber}
               onChange={handleInputChange}
               className="rounded"
             />

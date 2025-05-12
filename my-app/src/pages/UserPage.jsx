@@ -4,13 +4,13 @@ import { useParams, useLocation } from "react-router-dom";
 import UserDisplay from "../components/User/UserDisplay";
 import UserForm from "../components/User/UserForm";
 import AvatarUpload from "../components/User/AvatarUpload";
+import { jwtDecode } from "jwt-decode"; 
 
 import { 
-  fetchUserById, 
-  fetchUserByEmail, 
   fetchUserByUsername, 
   updateUser, 
-  updateUserAvatarService 
+  updateUserAvatarService,
+  fetchAccountAPI  
 } from "../services/userService";
 
 const { TabPane } = Tabs;
@@ -27,68 +27,92 @@ const UserPage = () => {
   const [loading, setLoading] = useState(true);
   
   // Get URL parameters
-  const { id, username, email } = useParams();
+  const { id: paramId, username: paramUsername, email: paramEmail } = useParams();
   const location = useLocation();
-
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         setLoading(true);
         let response;
 
-        console.log("Fetching user data with params:", { id, username, email });
-
-        // Determine which API to call based on URL parameters
-        if (id) {
-          // If ID is provided in URL, fetch by ID
-          console.log("Fetching user by ID:", id);
-          response = await fetchUserById(id);
-        } else if (username) {
-          // If username is provided in URL, fetch by username
-          console.log("Fetching user by username:", username);
-          response = await fetchUserByUsername(username);
-        } else if (email) {
-          // If email is provided in URL, fetch by email
-          console.log("Fetching user by email:", email);
-          response = await fetchUserByEmail(email);
+        const accessToken = localStorage.getItem('access_token');
+        
+        if (accessToken) {
+          try {
+            // Nếu không có paramId, paramUsername, paramEmail, thử gọi API account
+            response = await fetchAccountAPI();
+          } catch (e) {
+            try {
+              const decoded = jwtDecode(accessToken);
+              
+              const username = decoded?.user?.username || decoded?.sub || decoded?.username || decoded?.preferred_username;
+              
+              if (!username) {
+                throw new Error('Không tìm thấy username trong JWT token');
+              }
+              
+              try {
+                response = await fetchUserByUsername(username);
+                
+                if (!response) {
+                  throw new Error("Không nhận được phản hồi từ API");
+                }
+                
+                if (response.status === 404 || 
+                    (response.data && 
+                     (response.data.status === 'error' || 
+                      response.data.message === 'User Not found' || 
+                      response.data.data === 'User Not found'))) {
+                  message.error(`Không tìm thấy thông tin cho người dùng ${username}`);
+                  throw new Error('Người dùng không tồn tại trong hệ thống');
+                }
+              } catch (usernameError) {
+                console.error("Lỗi khi tìm user bằng username:", usernameError);
+                message.error("Không thể tìm thấy thông tin tài khoản");
+                setLoading(false);
+                return;
+              }
+            } catch (tokenError) {
+              console.error('Lỗi khi xử lý token:', tokenError);
+              message.error('Không thể xác minh thông tin người dùng từ token');
+              setLoading(false);
+              return;
+            }
+          }
         } else {
-          // Default: use logged-in user's email from localStorage
-          const userEmail = localStorage.getItem('user_email') || 'example@email.com';
-          console.log("Fetching user by email from localStorage:", userEmail);
-          response = await fetchUserByEmail(userEmail);
-        }
-
-        console.log("API Response:", response);
-
-        // Handle different API response structures
-        const userData = response.data || response;
-
-        // Update state with fetched data
+          message.error('Không tìm thấy thông tin người dùng, vui lòng đăng nhập');
+          setLoading(false);
+          return;
+        }        
+        const user = response.data || response;
         setUserData({
-          id: userData.id, // Make sure to store the ID for updates
-          fullName: userData.fullName || '',
-          email: userData.email || '',
-          phoneNumber: userData.phoneNumber || '',
-          username: userData.username || '',
-          role: userData.role || 'user',
-          avatar: userData.avatar || null
+          id: user.id,
+          fullName: user.fullName|| user.displayName || '',
+          email: user.email || '',
+          phoneNumber: user.phoneNumber || '',
+          username: user.username || '',
+          role: user.role || 'user',
+          avatar: user.avatar || null
         });
-
-        console.log("User data set:", userData);
       } catch (error) {
-        console.error("Error fetching user data:", error);
-        message.error("Không thể tải thông tin người dùng");
+        if (
+          error?.response?.data?.message === 'Handle All exception' &&
+          (error?.response?.data?.data === 'User Not found' || error?.response?.data?.message === 'User Not found')
+        ) {
+          message.error('Không tìm thấy người dùng này trong hệ thống!');
+        } else {
+          message.error('Không thể tải thông tin người dùng');
+        }
+        console.error('Error fetching user data:', error);
       } finally {
         setLoading(false);
       }
     };
 
     fetchUserData();
-  }, [id, username, email, location.pathname]);
-
+  }, [paramId, paramUsername, paramEmail, location.pathname]);
   const handleUserUpdate = async (updatedData) => {
     try {
-      // Chuyển đổi dữ liệu sang định dạng UserUpdateReq của backend
       const userUpdateReq = {
         fullName: updatedData.fullName,
         email: updatedData.email,
