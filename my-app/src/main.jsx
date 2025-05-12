@@ -50,7 +50,7 @@ const router = createBrowserRouter([
         element: <ViewBlogCharacterPage/>,
       },
       {
-        path: ROUTES.VIEW_BLOG,
+        path: ROUTES.VIEW_COMIC,
         element: <ViewBlogComicPage/>
       },
       {

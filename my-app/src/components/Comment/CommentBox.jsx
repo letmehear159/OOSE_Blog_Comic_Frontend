@@ -1,25 +1,28 @@
-import { useState } from 'react';
-import { Button, Input } from 'antd';
+import { useState } from 'react'
+import { Button, Input } from 'antd'
 
-function CommentBox({ onSubmit, parentId = null, blogId, placeholder = 'Nhập bình luận của bạn...', currentUserRole = 'user' }) {
-  const [content, setContent] = useState('');
-  const [loading, setLoading] = useState(false);
+function CommentBox ({
+  onSubmit, userId, parentId = null, blogId, placeholder = 'Nhập bình luận của bạn...', currentUserRole = 'user'
+}) {
+  const [content, setContent] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleSend = async () => {
-    if (!content.trim()) return;
-    setLoading(true);
-    await onSubmit({ 
-      blogId, 
-      content, 
+    if (!content.trim()) return
+    setLoading(true)
+    const res = await onSubmit({
+      blogId,
+      content,
       parentId,
+      userId,
       userRole: currentUserRole
-    });
-    setContent('');
-    setLoading(false);
-  };
+    })
+    setContent('')
+    setLoading(false)
+  }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 ">
       <Input.TextArea
         value={content}
         onChange={e => setContent(e.target.value)}
@@ -38,15 +41,14 @@ function CommentBox({ onSubmit, parentId = null, blogId, placeholder = 'Nhập b
         {currentUserRole !== 'user' && (
           <span className="absolute left-0 bottom-0 text-xs text-gray-400 ml-1 mb-1">
             Bạn đang bình luận với tư cách {
-              currentUserRole === 'admin' ? 'Quản trị viên' : 
-              currentUserRole === 'blogger' ? 'Tác giả' : 
-              currentUserRole === 'moderator' ? 'Người kiểm duyệt' : currentUserRole
-            }
+            currentUserRole === 'admin' ? 'Quản trị viên' :
+              currentUserRole === 'blogger' ? 'Tác giả' : currentUserRole
+          }
           </span>
         )}
       </div>
     </div>
-  );
+  )
 }
 
-export default CommentBox;
+export default CommentBox

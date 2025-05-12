@@ -25,6 +25,16 @@ export const resentOTPAPI = async (userId) => {
   }
 }
 
+export const resentOTPEmailAPI = async (email) => {
+  try {
+    const response = await axios.get(URL_BACKEND + `/api/v1/otp/email/${email}`)
+    // Xử lý hoặc kiểm tra dữ liệu nếu cần
+    return response
+  } catch (error) {
+    throw error
+  }
+}
+
 export const resentOTPPasswordAPI = async (email) => {
   try {
     const response = await axios.get(URL_BACKEND + `/api/v1/otp/forgot-password?email=${email}`)

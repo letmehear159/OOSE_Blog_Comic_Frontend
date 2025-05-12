@@ -51,6 +51,9 @@ function ReportModal() {
       details: reason === 'Khác' ? details : ''
     };
     console.log('Gửi báo cáo:', reportData);
+    const reportReq={
+
+    }
     closeReport();
   };
 

@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import {
   getBlogByIdAPI,
   getBlogCharacterAPI,
   getBlogComicAPI,
   getBlogInsightByIdAPI,
 } from '../services/blogService.js'
+import { Comment } from '../components/Comment/Comment.jsx'
 import { Button, Image, Layout, message } from 'antd'
 import { Link, useParams } from 'react-router-dom'
 import { customImageAlignStyles } from '../editor/editorCustomStyleConstant.jsx'
@@ -20,6 +21,7 @@ import { RelatedBlogCharacter } from '../components/character-related-blogs/Rela
 import { SelectedElement } from '../components/blog/SelectedElement.jsx'
 import { IMAGE_URL, URL_BACKEND_IMAGES } from '../constants/images.js'
 import { BloggerInfo } from '../components/blog/BloggerInfo.jsx'
+import { AuthContext } from '../context/auth.context.jsx'
 
 export const ViewBlogComicPage = () => {
   const { id } = useParams()
@@ -29,7 +31,6 @@ export const ViewBlogComicPage = () => {
   const [blogComic, setBlogComic] = useState(null)
   useEffect(() => {
     if (!id) return
-
     getBlog(id)
   }, [id])
 
@@ -80,7 +81,7 @@ export const ViewBlogComicPage = () => {
                 </div>
               )}
 
-              <div className="text-center py-4 font-bold">
+              <div className="text-center  py-4 font-bold">
                 {collapsed ? (
                   <>
                     {blog.type === 'COMIC' && <RelatedBlogCharacter
@@ -214,6 +215,7 @@ export const ViewBlogComicPage = () => {
                   </div>
                 </div>
               </Content>
+              <Comment blogId={blog.id}/>
             </Layout>
           </Layout>
         </>

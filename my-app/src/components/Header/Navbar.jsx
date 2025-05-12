@@ -2,8 +2,12 @@
 import { NavLink } from "react-router-dom";
 import NotiIcon from "../Notification/NotiIcon";
 import UserMenu from "./UserMenu";
+import { useContext } from 'react'
+import { AuthContext } from '../../context/auth.context.jsx'
 
 const Navbar = () => {
+  const { user } = useContext(AuthContext)
+  console.log('>>> Check user', user)
   return (
     <nav className="flex items-center justify-between px-6 h-16 bg-blue-500 mt-2 border-b border-gray-200 rounded-lg">
       {/* Logo + Links */}
@@ -11,7 +15,7 @@ const Navbar = () => {
         {/* Logo */}
         <div className="flex items-center">
           <img
-            src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"
+            src= "https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"
             alt="Logo"
             className="h-10"
           />
