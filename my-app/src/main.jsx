@@ -24,10 +24,11 @@ import FavouritePage from './pages/FavouritePage.jsx'
 import { ReportProvider } from './context/ReportContext'
 import FavouriteProvider from './context/FavouriteContext.jsx'
 import CommentAdminPage from './pages/CommentAdminPage.jsx'
+import { ROUTES } from "./constants/api.js";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: ROUTES.HOME,
     element: <App />,
     children: [
       {
@@ -35,85 +36,79 @@ const router = createBrowserRouter([
         element: <Homepage />,
       },
       {
-        path: "/new-character",
+        path: ROUTES.NEW_CHARACTER,
         element: <NewBlogCharacterPage />,
       },
-
       {
-        path: "/edit-character/:id",
+        path: ROUTES.EDIT_CHARACTER,
         element: <EditBlogCharacterPage />,
       },
       {
-        path: "/character/:id",
+        path: ROUTES.CHARACTER,
         element: <ViewBlogCharacterPage />,
       },
       {
-        path: "/forgot-password",
+        path: ROUTES.FORGOT_PASSWORD,
         element: <ForgotPasswordPage />,
       },
       {
-        path: "/review-comic",
+        path: ROUTES.REVIEW_COMIC,
         element: <ReviewPage />,
       },
       {
-        path: "/review-character",
+        path: ROUTES.REVIEW_CHARACTER,
         element: <CharacterPage />,
       },
       {
-        path: "/view-blog",
+        path: ROUTES.VIEW_BLOG,
         element: <ViewBlogPage />,
       },
     ],
   },
   {
-    path: "/login",
+    path: ROUTES.LOGIN,
     element: <LoginPage />,
   },
   {
-    path: "/register",
+    path: ROUTES.REGISTER,
     element: <RegisterPage />,
   },
-
   {
-    path: "/callback",
+    path: ROUTES.CALLBACK,
     element: <Callback />,
   },
   {
-    path: '/dashboard',
-    element: <DashboardPage />
+    path: ROUTES.DASHBOARD,
+    element: <DashboardPage />,
   },
   {
-    path: '/forgot-password',
-    element: <ForgotPasswordPage />
+    path: ROUTES.FORGOT_PASSWORD,
+    element: <ForgotPasswordPage />,
   },
   {
-    path: '/search',
-    element: <SearchResultPage />
+    path: ROUTES.SEARCH,
+    element: <SearchResultPage />,
   },
   {
-    path: '/forgot-password',
-    element: <ForgotPasswordPage/>
+    path: ROUTES.USERS,
+    element: <UserPage />,
   },
   {
-    path: '/users',
-    element: <UserPage/>
+    path: ROUTES.COMMENT,
+    element: <CommentPage />,
   },
   {
-    path: 'comment',
-    element: <CommentPage/>
+    path: ROUTES.REPORT,
+    element: <ReportPage />,
   },
   {
-    path: 'report',
-    element: <ReportPage/>
+    path: ROUTES.FAVOURITE,
+    element: <FavouritePage />,
   },
   {
-    path: 'favourite',
-    element: <FavouritePage/>
+    path: ROUTES.COMMENT_ADMIN,
+    element: <CommentAdminPage />,
   },
-  {
-    path: '/comment-admin',
-    element: <CommentAdminPage/>
-  }
 ]);
 
 createRoot(document.getElementById("root")).render(
