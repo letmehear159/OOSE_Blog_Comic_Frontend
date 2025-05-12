@@ -27,44 +27,66 @@ import CommentAdminPage from './pages/CommentAdminPage.jsx'
 import { NewBlogComicPage } from './pages/NewBlogComicPage.jsx'
 import { EditBlogComicPage } from './pages/EditBlogComicPage.jsx'
 import { ViewBlogComicPage } from './pages/ViewBlogComicPage.jsx'
+// Error handler for async operations
+const errorHandler = async (error) => {
+  // Log the error to your error tracking service
+  console.error("Router Error:", error);
 
+  // Handle different types of errors
+  if (error instanceof Response) {
+    const data = await error.json().catch(() => ({}));
+    throw new Error(data.message || "An error occurred while fetching data");
+  }
+
+  if (error instanceof Error) {
+    throw error;
+  }
+
+  throw new Error("An unexpected error occurred");
+};
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <App/>,
+    path: "/",
+    element: <App />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
-        element: <Homepage/>,
+        element: <Homepage />,
+        errorElement: <ErrorPage />,
+        loader: async () => {
+          try {
+            // Your homepage data fetching logic here
+            return null;
+          } catch (error) {
+            return errorHandler(error);
+          }
+        },
       },
       {
-        path: '/new-character',
-        element: <NewBlogCharacterPage/>,
+        path: "/new-character",
+        element: <NewBlogCharacterPage />,
       },
 
       {
-        path: '/edit-character/:id',
-        element: <EditBlogCharacterPage/>,
+        path: "/edit-character/:id",
+        element: <EditBlogCharacterPage />,
       },
       {
-        path: '/character/:id',
-        element: <ViewBlogCharacterPage/>,
+        path: "/character/:id",
+        element: <ViewBlogCharacterPage />,
       },
       {
-        path: '/comic/:id',
-        element: <ViewBlogComicPage/>,
+        path: "/forgot-password",
+        element: <ForgotPasswordPage />,
       },
       {
-        path: '/forgot-password',
-        element: <ForgotPasswordPage/>,
+        path: "/review-comic",
+        element: <ReviewPage />,
       },
       {
-        path: '/review-comic',
-        element: <ReviewPage/>,
-      },
-      {
-        path: '/review-character',
-        element: <CharacterPage/>,
+        path: "/review-character",
+        element: <CharacterPage />,
       },
       {
         path: "/view-blog",
@@ -81,16 +103,16 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: '/login',
-    element: <LoginPage/>,
+    path: "/login",
+    element: <LoginPage />,
   },
   {
-    path: '/register',
-    element: <RegisterPage/>,
+    path: "/register",
+    element: <RegisterPage />,
   },
   {
-    path: '/callback',
-    element: <Callback/>,
+    path: "/callback",
+    element: <Callback />,
   },
   {
     path: '/dashboard',

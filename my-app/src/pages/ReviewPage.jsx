@@ -10,8 +10,8 @@ const comics = [
     title: "Phàm Nhân Tu Tiên",
     description:
       '"Phàm Nhân Tu Tiên" kể về hành trình nghịch thiên cải mệnh của Hàn Lập.',
-    tag: "Review Truyện",
-    type: "Action",
+    tags: ["Review Truyện", "Phân Tích", "Nhân Vật"],
+    types: ["Action", "Adventure", "Fantasy"],
   },
   {
     image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
@@ -19,8 +19,8 @@ const comics = [
     title: "Tiên Nghịch",
     description:
       '"Tiên Nghịch" xoay quanh Vương Lâm và con đường tu tiên đầy bi thương.',
-    tag: "Review Truyện",
-    type: "Action",
+    tags: ["Review Truyện", "Phân Tích"],
+    types: ["Action", "Drama", "Fantasy"],
   },
   {
     image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
@@ -28,8 +28,8 @@ const comics = [
     title: "Ngã Dục Phong Thiên",
     description:
       '"Ngã Dục Phong Thiên" là câu chuyện về Lâm Phàm và con đường nghịch thiên.',
-    tag: "Review Truyện",
-    type: "Action",
+    tags: ["Review Truyện", "Nhân Vật", "Phân Tích"],
+    types: ["Action", "Fantasy", "Adventure"],
   },
   {
     image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
@@ -37,8 +37,8 @@ const comics = [
     title: "Tru Tiên",
     description:
       '"Tru Tiên" là hành trình tu tiên và đấu tranh nội tâm của Trương Tiểu Phàm.',
-    tag: "Review Truyện",
-    type: "Action",
+    tags: ["Review Truyện", "Phân Tích"],
+    types: ["Action", "Romance", "Fantasy"],
   },
   {
     image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
@@ -46,8 +46,8 @@ const comics = [
     title: "Đấu Phá Thương Khung",
     description:
       '"Đấu Phá Thương Khung" kể về Tiêu Viêm cùng hành trình phục thù và cường hóa.',
-    tag: "Review Truyện",
-    type: "Action",
+    tags: ["Review Truyện", "Nhân Vật"],
+    types: ["Action", "Adventure", "Fantasy"],
   },
   {
     image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
@@ -55,8 +55,8 @@ const comics = [
     title: "Bách Luyện Thành Thần",
     description:
       '"Bách Luyện Thành Thần" nói về La Chinh vượt qua khó khăn để tu luyện đỉnh cao.',
-    tag: "Review Truyện",
-    type: "Action",
+    tags: ["Review Truyện", "Phân Tích"],
+    types: ["Action", "Adventure", "Fantasy"],
   },
   {
     image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
@@ -64,16 +64,16 @@ const comics = [
     title: "Tuyệt Thế Đường Môn",
     description:
       '"Tuyệt Thế Đường Môn" là phần tiếp theo trong thế giới Đấu La, đầy hấp dẫn.',
-    tag: "Review Truyện",
-    type: "Action",
+    tags: ["Review Truyện", "Phân Tích"],
+    types: ["Action", "Adventure", "Fantasy"],
   },
   {
     image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
     date: "01/05/2024",
     title: "Hệ Thống Tu Luyện Toàn Năng",
     description: '"Hệ Thống Tu Luyện Toàn Năng" theo chân nhân vật chính ',
-    tag: "Review Truyện",
-    type: "Action",
+    tags: ["Review Truyện", "Phân Tích"],
+    types: ["Action", "Adventure", "Fantasy"],
   },
   {
     image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
@@ -81,8 +81,8 @@ const comics = [
     title: "Đế Bá",
     description:
       '"Đế Bá" kể về Lý Thất Dạ - người sống hàng vạn năm và nắm giữ bí mật kinh thiên.',
-    tag: "Review Truyện",
-    type: "Action",
+    tags: ["Review Truyện", "Phân Tích"],
+    types: ["Action", "Drama", "Fantasy"],
   },
   {
     image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
@@ -90,96 +90,33 @@ const comics = [
     title: "Vũ Động Càn Khôn",
     description:
       '"Vũ Động Càn Khôn" xoay quanh hành trình nghịch chuyển vận mệnh của Lâm Động.',
-    tag: "Review Truyện",
-    type: "Action",
-  },
-  {
-    image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-    date: "25/07/2024",
-    title: "Thôn Phệ Tinh Không",
-    description:
-      '"Thôn Phệ Tinh Không" là cuộc phiêu lưu giữa các vì sao của La Phong.',
-    tag: "Review Truyện",
-    type: "Action",
-  },
-  {
-    image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-    date: "30/04/2024",
-    title: "Cầu Ma",
-    description:
-      '"Cầu Ma" khắc họa hành trình tìm kiếm bản ngã và đối mặt số phận của Tô Minh.',
-    tag: "Review Truyện",
-    type: "Action",
-  },
-  {
-    image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-    date: "12/10/2025",
-    title: "Ma Thiên Ký",
-    description:
-      '"Ma Thiên Ký" kể về Lạc Bắc - một người phàm bước lên con đường tu tiên nghịch thiên.',
-    tag: "Review Truyện",
-    type: "Action",
-  },
-  {
-    image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-    date: "09/06/2024",
-    title: "Tiên Giới",
-    description:
-      '"Tiên Giới" là câu chuyện đầy thần bí và hiểm nguy nơi giới tiên tồn tại.',
-    tag: "Review Truyện",
-    type: "Action",
-  },
-  {
-    image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-    date: "28/08/2025",
-    title: "Kiếm Lai",
-    description:
-      '"Kiếm Lai" là hành trình phiêu lưu và tu luyện kiếm đạo của một kẻ vô danh.',
-    tag: "Review Truyện",
-    type: "Action",
+    tags: ["Review Truyện", "Phân Tích"],
+    types: ["Action", "Adventure", "Fantasy"],
   },
 ];
+
 const ReviewPageMenu = [
   {
     label: "Thể loại truyện",
     children: [
       { label: "Action", to: "/genre/action" },
       { label: "Adventure", to: "/genre/adventure" },
-      { label: "Anime", to: "/genre/anime" },
-      { label: "Chuyển Sinh", to: "/genre/chuyen-sinh" },
-      { label: "Comedy", to: "/genre/comedy" },
-      { label: "Cổ Đại", to: "/genre/co-dai" },
-      { label: "Doujinshi", to: "/genre/doujinshi" },
       { label: "Drama", to: "/genre/drama" },
       { label: "Fantasy", to: "/genre/fantasy" },
-      { label: "Gender Bender", to: "/genre/gender-bender" },
-      { label: "Historical", to: "/genre/historical" },
-      { label: "Horror", to: "/genre/horror" },
-      { label: "Live action", to: "/genre/live-action" },
-      { label: "Manga", to: "/genre/manga" },
-      { label: "Manhua", to: "/genre/manhua" },
-      { label: "Manhwa", to: "/genre/manhwa" },
-      { label: "Ngôn Tình", to: "/genre/ngon-tinh" },
-      { label: "Psychological", to: "/genre/psychological" },
       { label: "Romance", to: "/genre/romance" },
-      { label: "School Life", to: "/genre/school-life" },
-      { label: "Sci-fi", to: "/genre/sci-fi" },
-      { label: "Sports", to: "/genre/sports" },
-      { label: "Supernatural", to: "/genre/supernatural" },
-      { label: "Truyện Màu", to: "/genre/truyen-mau" },
     ],
   },
   { label: "Tất cả truyện", to: "/all-comics" },
 ];
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 6;
 
 const ReviewPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedGenre, setSelectedGenre] = useState(null); // <-- thêm state
+  const [selectedGenre, setSelectedGenre] = useState(null);
 
   const filteredComics = selectedGenre
-    ? comics.filter((comic) => comic.type === selectedGenre)
+    ? comics.filter((comic) => comic.types.includes(selectedGenre))
     : comics;
 
   const startIdx = (currentPage - 1) * PAGE_SIZE;
@@ -193,15 +130,15 @@ const ReviewPage = () => {
   };
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-full mb-15">
       <div className="ReviewPage-sidebar">
         <AppSidebar
           menuItems={ReviewPageMenu}
-          onGenreSelect={handleGenreSelect} // <-- truyền callback
+          onGenreSelect={handleGenreSelect}
         />
       </div>
-      <div className="ReviewPage-content flex flex-col flex-1 pt-10 px-4">
-        <div className="flex flex-wrap gap-8 justify-center">
+      <div className="ReviewPage-content flex flex-col flex-1 pt-10 px-3">
+        <div className="flex flex-wrap gap-5 justify-center">
           {pagedComics.length > 0 ? (
             pagedComics.map((comic, idx) => (
               <VerticalCard key={startIdx + idx} {...comic} />

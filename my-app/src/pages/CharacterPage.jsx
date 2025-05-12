@@ -9,50 +9,64 @@ const comics = [
     date: "15/03/2024",
     title: "Itachi Uchiha",
     description: '"Naruto Shippuden"',
-    tag: "Tu Tiên",
-    type: "Tu Tiên",
+    tags: ["Phân Tích", "Nhân Vật"],
+    types: ["Action", "Adventure", "Fantasy"],
   },
   {
     image: itachiImg,
     date: "02/07/2024",
     title: "Lâm Phàm",
     description: '"Ngã Dục Phong Thiên"',
+    tags: ["Phân Tích", "Nhân Vật"],
+    types: ["Action", "Adventure", "Fantasy"],
   },
   {
     image: itachiImg,
     date: "22/11/2025",
     title: "Gojou Satoru",
     description: '"Jujutsu Kaisen"',
+    tags: ["Phân Tích", "Nhân Vật"],
+    types: ["Action", "Adventure", "Fantasy"],
   },
   {
     image: itachiImg,
     date: "08/09/2025",
     title: "Trương Tiểu Phàm",
     description: '"Tru Tiên"',
+    tags: ["Phân Tích", "Nhân Vật"],
+    types: ["Action", "Adventure", "Fantasy"],
   },
   {
     image: itachiImg,
     date: "30/12/2024",
     title: "Levi Ackerman",
     description: '"Attack on Titan"',
+    tags: ["Phân Tích", "Nhân Vật"],
+    types: ["Action", "Adventure", "Fantasy"],
   },
   {
     image: itachiImg,
     date: "18/06/2024",
     title: "Vương Lâm",
     description: '"Tiên Nghịch"',
+    tags: ["Phân Tích", "Nhân Vật"],
+    types: ["Action", "Adventure", "Fantasy"],
   },
   {
     image: itachiImg,
     date: "04/01/2025",
     title: "Killua Zoldyck",
     description: '"Hunter x Hunter"',
+    tags: ["Phân Tích", "Nhân Vật"],
+    types: ["Action", "Adventure", "Fantasy"],
   },
   {
     image: itachiImg,
     date: "10/10/2025",
     title: "Hàn Lập",
     description: '"Phàm Nhân Tu Tiên"',
+    tags: ["Phân Tích", "Nhân Vật"],
+    types: ["Action", "Adventure", "Fantasy"],
   },
   {
     image: itachiImg,
@@ -67,7 +81,7 @@ const comics = [
     description: '"Đấu La Đại Lục"',
   },
 ];
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 6;
 
 const CharacterPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
