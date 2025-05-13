@@ -263,8 +263,8 @@ const ReviewPage = () => {
   }, []);
 
   return (
-    <div className="flex h-full mb-15">
-      <div className="ReviewPage-sidebar">
+    <div className="flex h-full ">
+      <div>
         <AppSidebar
           // Truyền menu và hàm xử lý sự kiện chọn thể loại
           menuItems={ReviewPageMenu}
@@ -272,7 +272,7 @@ const ReviewPage = () => {
           onGenreSelect={handleGenreSelect}
         />
       </div>
-      <div className="ReviewPage-content flex flex-col flex-1 pt-10 px-3">
+      <div className="flex flex-col flex-1 pt-10 px-3">
         <div className="flex flex-wrap gap-5 justify-center">
           {pagedComics.length > 0 ? (
             pagedComics.map((comic, idx) => (

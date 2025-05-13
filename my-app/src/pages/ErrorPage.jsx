@@ -1,73 +1,44 @@
 import React from "react";
-import { useNavigate, useRouteError } from "react-router-dom";
-import { Button, Typography, Space, Result } from "antd";
-import { WarningOutlined } from "@ant-design/icons";
-
-const { Title, Text } = Typography;
+import { useNavigate } from "react-router-dom";
 
 const ErrorPage = () => {
   const navigate = useNavigate();
-  const error = useRouteError();
-
-  // Function to get error message based on error type
-  const getErrorMessage = () => {
-    if (error.status === 404) {
-      return "The page you're looking for doesn't exist.";
-    }
-    if (error.status === 403) {
-      return "You don't have permission to access this page.";
-    }
-    if (error.status === 500) {
-      return "Something went wrong on our end. Please try again later.";
-    }
-    return "We apologize for the inconvenience. The page you're looking for might have been removed, had its name changed, or is temporarily unavailable.";
-  };
-
-  // Function to get error title based on error type
-  const getErrorTitle = () => {
-    if (error.status === 404) return "Page Not Found";
-    if (error.status === 403) return "Access Denied";
-    if (error.status === 500) return "Server Error";
-    return "Something went wrong";
-  };
 
   return (
-    <Result
-      status="error"
-      title={getErrorTitle()}
-      subTitle={getErrorMessage()}
-      icon={<WarningOutlined style={{ fontSize: "64px", color: "#ff4d4f" }} />}
-      extra={[
-        <Space direction="vertical" size="large" style={{ width: "100%" }}>
-          {error.message && (
-            <Text
-              type="secondary"
-              style={{
-                display: "block",
-                backgroundColor: "#f5f5f5",
-                padding: "16px",
-                borderRadius: "4px",
-                fontFamily: "monospace",
-                maxWidth: "600px",
-                margin: "0 auto",
-              }}
-            >
-              {error.message}
-            </Text>
-          )}
-          <Button
-            type="primary"
-            size="large"
-            onClick={() => navigate("/")}
-            style={{
-              minWidth: "200px",
-            }}
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center px-4">
+      <div className="max-w-lg w-full text-center">
+        <div className="mb-8">
+          <h1 className="text-9xl font-bold bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-transparent">
+            404
+          </h1>
+          <div className="w-24 h-1 bg-gradient-to-r from-red-500 to-red-600 rounded-full mx-auto mt-4"></div>
+        </div>
+
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
+          Oops! Trang không tồn tại
+        </h2>
+
+        <p className="text-gray-600 mb-8">
+          Có vẻ như trang bạn đang tìm kiếm không tồn tại hoặc đã bị di chuyển.
+        </p>
+
+        <div className="space-y-4">
+          <button
+            onClick={() => navigate(-1)}
+            className="w-full sm:w-auto px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors duration-300"
           >
-            Return to Home
-          </Button>
-        </Space>,
-      ]}
-    />
+            Quay lại trang trước
+          </button>
+
+          <button
+            onClick={() => navigate("/")}
+            className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-lg hover:from-red-600 hover:to-red-700 transition-all duration-300 shadow-md hover:shadow-lg"
+          >
+            Về trang chủ
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 

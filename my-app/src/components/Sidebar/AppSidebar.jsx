@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 
 // AppSidebar.js
 const AppSidebar = ({ menuItems, onGenreSelect }) => (
-  <Sidebar className="h-full w-full">
-    <div className="h-full max-h-screen overflow-y-auto bg-white border-r border-gray-200">
+  <Sidebar className="h-full w-full sticky top-0">
+    <div className="h-full overflow-y-auto bg-white border-r border-gray-200">
       <Menu
         menuItemStyles={{
           button: {
