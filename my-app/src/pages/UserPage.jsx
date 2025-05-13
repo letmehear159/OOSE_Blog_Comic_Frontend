@@ -12,13 +12,15 @@ import {
   fetchUserByUsername, 
   updateUser, 
   updateUserAvatarService,
-  fetchAccountAPI  
+  fetchAccountAPI,
+  updateUserToken // Thêm import
 } from "../services/userService";
 
 const { TabPane } = Tabs;
 
 const UserPage = () => {
   const [userData, setUserData] = useState({
+    id: null,
     fullName: '',
     email: '',
     phoneNumber: '',
@@ -38,33 +40,25 @@ const UserPage = () => {
         let response;
 
         const accessToken = localStorage.getItem('access_token');
-        
-        if (paramId) {
-          response = await fetchUserById(paramId);
-        } else if (paramUsername) {
-          response = await fetchUserByUsername(paramUsername);
-        } else if (paramEmail) {
-          response = await fetchUserByEmail(paramEmail);
+        let username = paramUsername;
+        if (!username && accessToken) {
+          try {
+            const decoded = jwtDecode(accessToken);
+            username = decoded?.user?.username || decoded?.sub || decoded?.username || decoded?.preferred_username;
+          } catch {}
+        }
+
+        if (username) {
+          response = await fetchUserByUsername(username);
         } else if (accessToken) {
           try {
             response = await fetchAccountAPI();
           } catch (e) {
             try {
               const decoded = jwtDecode(accessToken);
-              
               const username = decoded?.user?.username || decoded?.sub || decoded?.username || decoded?.preferred_username;
-              
-              if (!username) {
-                throw new Error('Không tìm thấy username trong JWT token');
-              }
-              
               try {
                 response = await fetchUserByUsername(username);
-                
-                if (!response) {
-                  throw new Error("Không nhận được phản hồi từ API");
-                }
-                
                 if (response.status === 404 || 
                     (response.data && 
                      (response.data.status === 'error' || 
@@ -74,14 +68,12 @@ const UserPage = () => {
                   throw new Error('Người dùng không tồn tại trong hệ thống');
                 }
               } catch (usernameError) {
-                console.error("Lỗi khi tìm user bằng username:", usernameError);
                 message.error("Không thể tìm thấy thông tin tài khoản");
                 setLoading(false);
                 return;
               }
             } catch (tokenError) {
-              console.error('Lỗi khi xử lý token:', tokenError);
-              message.error('Không thể xác minh thông tin người dùng từ token');
+              message.error('Không thể xác minh thông tin người dùng');
               setLoading(false);
               return;
             }
@@ -100,7 +92,7 @@ const UserPage = () => {
           username: user.username || '',
           role: user.role || 'user',
           avatar: user.avatar || null
-        });
+        });        
       } catch (error) {
         if (
           error?.response?.data?.message === 'Handle All exception' &&
@@ -118,6 +110,7 @@ const UserPage = () => {
 
     fetchUserData();
   }, [paramId, paramUsername, paramEmail, location.pathname]);
+  
   const handleUserUpdate = async (updatedData) => {
     try {
       const userUpdateReq = {
@@ -126,18 +119,40 @@ const UserPage = () => {
         phoneNumber: updatedData.phoneNumber,
         username: updatedData.username
       };
-      
-      console.log("Updating user with data:", userUpdateReq);
-      const response = await updateUser(userData.id, userUpdateReq);
-      
-      // Handle different API response structures
+      // Bước 1: Cập nhật user
+      await updateUser(userData.id, userUpdateReq);
+      // Bước 2: Nếu username hoặc email thay đổi thì lấy lại access token mới
+      let needNewToken = false;
+      if (
+        updatedData.username !== userData.username ||
+        updatedData.email !== userData.email
+      ) {
+        needNewToken = true;
+      }
+      if (needNewToken) {
+        const newAccessToken = await updateUserToken(userData.id, userUpdateReq);
+        if (newAccessToken) {
+          localStorage.setItem('access_token', newAccessToken);
+          
+          // Decode token mới để lấy thông tin username mới
+          try {
+            const decoded = jwtDecode(newAccessToken);
+            const newUsername = decoded?.user?.username || decoded?.sub || decoded?.username || decoded?.preferred_username;
+            
+            // Cập nhật URL theo username mới nếu khác với URL hiện tại
+            if (newUsername && window.location.pathname !== `/users/${newUsername}`) {
+              window.history.replaceState(null, '', `/users/${newUsername}`);
+            }
+          } catch (err) {
+            console.error("Không thể decode token mới:", err);
+          }
+        }
+      }
+      // Bước 3: Luôn fetch lại user bằng id để cập nhật UI
+      const response = await fetchUserById(userData.id);
       const updatedUserData = response.data || response;
-      
       setUserData(prev => ({ ...prev, ...updatedUserData }));
       message.success("Cập nhật thông tin thành công");
-      if (updatedUserData.username && updatedUserData.username !== userData.username) {
-        window.history.replaceState(null, '', `/users/${updatedUserData.username}`);
-      }
       return Promise.resolve();
     } catch (error) {
       console.error("Error updating user:", error);

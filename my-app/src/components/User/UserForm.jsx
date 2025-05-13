@@ -56,7 +56,7 @@ function UserForm({ initialData, onSubmit }) {
         await onSubmit(userUpdateReq);
         message.success('Cập nhật thông tin thành công');
       } catch (error) {
-        message.error('Có lỗi xảy ra khi cập nhật thông tin');
+        // message.error('Có lỗi xảy ra khi cập nhật thông tin');
       } finally {
         setLoading(false);
       }
@@ -126,4 +126,4 @@ function UserForm({ initialData, onSubmit }) {
   );
 }
 
-export default UserForm; 
+export default UserForm;

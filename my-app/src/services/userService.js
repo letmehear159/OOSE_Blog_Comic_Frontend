@@ -90,7 +90,36 @@ export const updateUserAvatarService = async (id, avatar) => {
   }
 }
 
-
+export const updateUserToken = async (id, userData) => {
+  try {
+    // Gửi dữ liệu cập nhật user lên BE, nhận về access token mới
+    const response = await axios.put(URL_BACKEND + `/api/v1/users/token/${id}`, userData);
+    
+    // Trường hợp 1: Backend trả về string token trực tiếp (không qua axios transformResponse)
+    if (typeof response === 'string') {
+      return response;
+    }
+    
+    // Trường hợp 2: Response thông thường
+    if (response && response.data) {
+      // Kiểm tra data là string
+      if (typeof response.data === 'string') {
+        return response.data;
+      } 
+      // Kiểm tra data.data tồn tại
+      else if (response.data.data) {
+        return response.data.data;
+      }
+    }
+    
+    // Log thông tin debug nhưng không ảnh hưởng đến người dùng
+    console.debug('updateUserToken response format:', response);
+    return response; // Trả về bất kỳ thứ gì backend đã gửi
+  } catch (error) {
+    console.error('updateUserToken: Lỗi khi gọi API', error);
+    throw error;
+  }
+}
 
 export const getUsersByIdsAPI = async (ids) => {
   const queryString = ids.map(id => `authorIds=${id}`).join('&')

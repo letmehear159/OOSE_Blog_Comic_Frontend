@@ -90,7 +90,7 @@ const router = createBrowserRouter([
     element: <SearchResultPage />,
   },
   {
-    path: ROUTES.USERS,
+    path: ROUTES.USER_BY_USERNAME,
     element: <UserPage />,
   },
   {

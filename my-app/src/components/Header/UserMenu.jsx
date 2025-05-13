@@ -1,33 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { jwtDecode } from "jwt-decode"; 
-import { ROUTES } from "../../constants/api";
-
-const getCurrentUsername = () => {
-  try {
-    const token = localStorage.getItem("access_token");
-    if (!token) return null;
-    const decoded = jwtDecode(token);
-    return (
-      decoded?.user?.username ||
-      decoded?.sub ||
-      decoded?.username ||
-      decoded?.preferred_username ||
-      null
-    );
-  } catch {
-    return null;
-  }
-};
-
-const requireToken = (callback) => {
-  return () => {
-    if (!localStorage.getItem("access_token")) {
-      window.location.href = "/login";
-      return;
-    }
-    callback();
-  };
-};
+import { ROUTES } from '../../constants/api.js';
 
 const menuOptions = [
   {
@@ -52,14 +24,29 @@ const menuOptions = [
         />
       </svg>
     ),
-    onClick: requireToken(() => {
-      const username = getCurrentUsername();
-      if (username) {
-        window.location.href = ROUTES.USER_BY_USERNAME.replace(":username", username);
-      } else {
-        window.location.href = ROUTES.USERS;
+    onClick: () => {
+      // Lấy access_token và decode username
+      const accessToken = localStorage.getItem('access_token');
+      let username = '';
+      if (accessToken) {
+        try {
+          const decoded = JSON.parse(atob(accessToken.split('.')[1]));
+          username = decoded?.user?.username || decoded?.sub || decoded?.username || decoded?.preferred_username || '';
+        } catch (e) {
+          // fallback nếu jwtDecode có sẵn
+          try {
+            // eslint-disable-next-line
+            const { jwtDecode } = require('jwt-decode');
+            username = jwtDecode(accessToken)?.user?.username || jwtDecode(accessToken)?.sub || jwtDecode(accessToken)?.username || jwtDecode(accessToken)?.preferred_username || '';
+          } catch {}
+        }
       }
-    }),
+      if (username) {
+        window.location.href = ROUTES.USER_BY_USERNAME.replace(':username', username);
+      } else {
+        window.location.href = ROUTES.LOGIN;
+      }
+    },
   },
 
   {
@@ -80,7 +67,7 @@ const menuOptions = [
         />
       </svg>
     ),
-    onClick: requireToken(() => alert("Go to setting!")),
+    onClick: () => alert("Go to setting!"),
   },
   {
     label: "Logout",
@@ -104,15 +91,11 @@ const menuOptions = [
         />
       </svg>
     ),
-    onClick: requireToken(() => {
-      localStorage.removeItem("access_token");
-      window.location.href = "/";
-    }),
+    onClick: () => alert("Logout!"),
   },
 ];
 
 const UserMenu = () => {
-
   const [open, setOpen] = useState(false);
   const ref = useRef();
 
