@@ -138,18 +138,12 @@ const NoticeIcon = () => {
                       className="w-14 h-14 rounded-full object-cover"
                     />
                     <div className="flex-1 min-w-0 pr-6 relative">
-                      <div
-                        className={`text-gray-900 text-sm leading-relaxed ${
-                          !item.read ? "font-bold" : ""
-                        }`}
-                      >
+                      <div className={`text-gray-900 text-sm leading-relaxed`}>
                         {truncateText(item.content)}
                       </div>
                       <div
                         className={`text-xs mt-1 ${
-                          !item.read
-                            ? "text-[#6BB0FF] font-bold"
-                            : "text-gray-400"
+                          !item.read ? "text-[#6BB0FF]" : "text-gray-400"
                         }`}
                       >
                         {item.date}

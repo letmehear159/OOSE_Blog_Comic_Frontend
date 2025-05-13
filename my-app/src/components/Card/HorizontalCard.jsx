@@ -37,7 +37,7 @@ const HorizontalCard = ({
         <img
           src={image}
           alt={title}
-          className="w-48 h-36 object-cover rounded-lg flex-shrink-0"
+          className="w-65 h-40 object-cover rounded-lg flex-shrink-0"
         />
 
         {/* right column */}

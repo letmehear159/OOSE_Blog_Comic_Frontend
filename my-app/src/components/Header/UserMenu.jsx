@@ -18,7 +18,7 @@ const menuOptions = [
         />
       </svg>
     ),
-    onClick: () => window.location.href = '/users',
+    onClick: () => (window.location.href = "/users"),
   },
   {
     label: "Setting",

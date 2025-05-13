@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import HorizontalCard from "../components/Card/HorizontalCard";
 import CardTrending from "../components/Card/CardTrending";
 import AppPagination from "../components/AppPagination";
-import DisplayAuthorInfo from "../components/DisplayAuthorInfor";
+import PostActions from "../components/PostActions";
 
 const reviews = [
   {
-    image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+    image: "https://mashle.pw/teaser/img/common/og-image2.png?v=0.01",
     title:
       "[Review] MASHLE Magic and Muscles | Giới thiệu, Nhân vật, Thuật ngữ",
     description:
@@ -21,7 +21,8 @@ const reviews = [
     viewCount: 2345,
   },
   {
-    image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+    image:
+      "https://images-cdn.ubuy.co.in/633ff507f2c2205fdc02a68b-one-piece-poster-bathroom-decor-anime.jpg",
     title: "[Review] One Piece | Hành trình tìm kiếm kho báu của Luffy",
     description:
       "Theo chân Monkey D. Luffy và băng hải tặc Mũ Rơm trong cuộc phiêu lưu tìm kiếm kho báu One Piece. Một câu chuyện về tình bạn, ước mơ và sự dũng cảm.",
@@ -35,7 +36,8 @@ const reviews = [
     viewCount: 5678,
   },
   {
-    image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+    image:
+      "https://product.hstatic.net/200000343865/product/tuyen-tap-tranh-masashi-kishimoto---uzumaki-naruto---artbook-naruto_97a974e02df3425190436ac7da622711.jpg",
     title: "[Review] Naruto | Câu chuyện về ninja huyền thoại",
     description:
       "Hành trình trở thành Hokage của Uzumaki Naruto - cậu bé ninja đầy nghị lực. Một câu chuyện về sự kiên trì, tình bạn và sức mạnh của ý chí.",
@@ -49,7 +51,8 @@ const reviews = [
     viewCount: 3456,
   },
   {
-    image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+    image:
+      "https://i5.walmartimages.com/seo/Attack-on-Titan-Season-3-Key-Art-Wall-Poster-22-375-x-34_f002ede2-a2f0-4a7a-9205-98e9ce384008.dd678b04443e2bed5b423b794b465e6a.jpeg",
     title: "[Review] Attack on Titan | Bi kịch của nhân loại",
     description:
       "Trong thế giới nơi loài người bị đe dọa bởi Titan, Eren Yeager và những người bạn chiến đấu để bảo vệ nhân loại. Một câu chuyện đầy bi kịch và bất ngờ.",
@@ -63,7 +66,7 @@ const reviews = [
     viewCount: 2789,
   },
   {
-    image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+    image: "https://m.media-amazon.com/images/I/71m+TO40vWL._AC_SL1200_.jpg",
     title: "[Review] Demon Slayer | Cuộc chiến chống quỷ",
     description:
       "Tanjiro Kamado bắt đầu hành trình trở thành Kiếm Sĩ Diệt Quỷ để cứu em gái và trả thù cho gia đình. Một câu chuyện về tình thân và lòng dũng cảm.",
@@ -77,7 +80,8 @@ const reviews = [
     viewCount: 2345,
   },
   {
-    image: "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
+    image:
+      "https://thecomicbookstore.in/wp-content/uploads/2022/09/TCBS2515-1-scaled.jpg",
     title: "[Review] Jujutsu Kaisen | Thế giới phép thuật hiện đại",
     description:
       "Yuji Itadori bước vào thế giới của các pháp sư Jujutsu và lời nguyền. Một câu chuyện về sức mạnh, trách nhiệm và sự hy sinh.",
@@ -148,7 +152,18 @@ const Homepage = () => {
   return (
     <div className="bg-gray-50 flex flex-col flex-1 min-h-screen">
       <div className="flex justify-center p-10">
-        <div></div>
+        <div>
+          <PostActions
+            likes={pagedReviews[0]?.rateCount || 0}
+            comments={pagedReviews[0]?.commentCount || 0}
+            saves={pagedReviews[0]?.saveCount || 0}
+            isSaved={false}
+            onLike={(newLikes) => console.log("Likes updated:", newLikes)}
+            onComment={() => console.log("Comment clicked")}
+            onSave={(isSaved) => console.log("Save status:", isSaved)}
+            onShare={() => console.log("Share clicked")}
+          />
+        </div>
         <div className="w-4/6 text-black p-6 flex flex-col gap-3 items-center h-full">
           {pagedReviews.map((item, idx) => (
             <HorizontalCard key={startIdx + idx} {...item} />

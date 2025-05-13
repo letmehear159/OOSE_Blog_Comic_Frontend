@@ -23,22 +23,22 @@ const AppSidebar = ({ menuItems, onGenreSelect }) => (
       >
         {menuItems.map((item) =>
           item.children ? (
-            <SubMenu key={item.name} name={item.name}>
+            <SubMenu key={item.label} label={item.label}>
               {item.children.map((child) => (
                 <MenuItem
-                  key={child.name}
-                  onClick={() => onGenreSelect(child.name)} // <-- Gửi name
+                  key={child.label}
+                  onClick={() => onGenreSelect(child.label)} // <-- Gửi label
                 >
-                  {child.name}
+                  {child.label}
                 </MenuItem>
               ))}
             </SubMenu>
           ) : (
             <MenuItem
-              key={item.name}
+              key={item.label}
               onClick={() => onGenreSelect(null)} // <-- null để hiển thị tất cả
             >
-              {item.name}
+              {item.label}
             </MenuItem>
           )
         )}

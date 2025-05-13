@@ -47,7 +47,7 @@ const VerticalCard = ({
             <img
               alt={title}
               src={image}
-              style={{ width: "100%", height: 180, objectFit: "cover" }}
+              style={{ width: "100%", height: 280, objectFit: "cover" }}
             />
             <div
               className="absolute top-2 left-2 flex flex-wrap gap-1"
