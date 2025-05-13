@@ -105,7 +105,26 @@ const UserMenu = () => {
   ]
 
   const goToLogin = () => {
-    navigate(ROUTES.LOGIN)
+    const accessToken = localStorage.getItem('access_token');
+    let username = '';
+    if (accessToken) {
+      try {
+        const decoded = JSON.parse(atob(accessToken.split('.')[1]));
+        username = decoded?.user?.username || decoded?.sub || decoded?.username || decoded?.preferred_username || '';
+      } catch (e) {
+        // fallback nếu jwtDecode có sẵn
+        try {
+          // eslint-disable-next-line
+          const { jwtDecode } = require('jwt-decode');
+          username = jwtDecode(accessToken)?.user?.username || jwtDecode(accessToken)?.sub || jwtDecode(accessToken)?.username || jwtDecode(accessToken)?.preferred_username || '';
+        } catch {}
+      }
+      }
+    if (username) {
+      window.location.href = ROUTES.USER_BY_USERNAME.replace(':username', username);
+      } else {
+      window.location.href = ROUTES.LOGIN;
+    }
   }
   const handleLogout = () => {
     localStorage.removeItem('access_token')
