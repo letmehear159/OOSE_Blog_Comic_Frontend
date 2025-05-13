@@ -28,16 +28,23 @@ const Navbar = () => {
         {/* Navigation Links */}
         <div className="flex items-center gap-6 ml-6">
           <NavLink
-            to="/review-comic"
+            to={`${ROUTES.REVIEW_COMIC}`}
             className="text-white hover:text-gray-600 font-medium transition"
           >
             Review Truyện
           </NavLink>
           <NavLink
-            to="/review-character"
+            to={`${ROUTES.REVIEW_CHARACTER}`}
             className="text-white hover:text-gray-600 font-medium transition"
           >
             Nhân Vật
+          </NavLink>
+
+          <NavLink
+            to={`${ROUTES.REVIEW_INSIGHT}`}
+            className="text-white hover:text-gray-600 font-medium transition"
+          >
+            Bình Phẩm
           </NavLink>
         </div>
       </div>

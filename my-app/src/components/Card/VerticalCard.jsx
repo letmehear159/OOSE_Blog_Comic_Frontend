@@ -5,9 +5,12 @@ import { Link } from 'react-router-dom'
 import slugify from '../../utils/format'
 import { URL_BACKEND_IMAGES } from '../../constants/images.js'
 import { formatDatetimeWithTimeFirst } from '../../services/helperService.js'
+import { ROUTES } from '../../constants/api.js'
 
 const VerticalCard = (props) => {
   const {
+    id,
+    type,
     thumbnail,
     createdAt,
     title,
@@ -16,7 +19,9 @@ const VerticalCard = (props) => {
     categories = [],
   } = props
   return (
-    <Link to={`/review/${slugify(title)}`}>
+
+    <Link to={type !== null && type.toLowerCase() === 'character' ? `${ROUTES.getViewCharacter(
+      id)}` : `${ROUTES.getViewComic(id)}`}>
       <Card
         className="hover:shadow-lg transition-shadow duration-300"
         hoverable
@@ -30,7 +35,7 @@ const VerticalCard = (props) => {
             <img
               alt={title}
               src={`${URL_BACKEND_IMAGES}/${thumbnail}`}
-              style={{ width: '100%', height: 180, objectFit: 'cover' }}
+              style={{ width: '100%', height: 300, objectFit: 'cover' }}
             />
             <div
               style={{
