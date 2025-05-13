@@ -1,11 +1,19 @@
-import React from 'react'
-import { Card } from 'antd'
-import { ShareAltOutlined, EllipsisOutlined } from '@ant-design/icons'
+import React, { useEffect, useState } from 'react'
+import { Card, message } from 'antd'
 import { Link } from 'react-router-dom'
-import slugify from '../../utils/format'
 import { URL_BACKEND_IMAGES } from '../../constants/images.js'
 import { formatDatetimeWithTimeFirst } from '../../services/helperService.js'
 import { ROUTES } from '../../constants/api.js'
+import {
+  ShareAltOutlined,
+  EllipsisOutlined,
+  StarOutlined,
+  EyeOutlined,
+  MessageOutlined,
+  BookOutlined,
+} from '@ant-design/icons'
+import { getCommentCountOfBlogAPI } from '../../services/commentService.js'
+import { getFavouriteCountBlogAPI } from '../../services/favoriteService.js'
 
 const VerticalCard = (props) => {
   const {
@@ -15,9 +23,41 @@ const VerticalCard = (props) => {
     createdAt,
     title,
     introduction,
+    rating,
+    rateCount,
+    view,
     tags = [],
     categories = [],
   } = props
+
+  const [commentCount, setCommentCount] = useState(null)
+  const [saveCount, setSaveCount] = useState(null)
+
+  useEffect(() => {
+    getCommentCount()
+    getFavoriteCount()
+  }, [id])
+
+  const getCommentCount = async () => {
+    try {
+      const res = await getCommentCountOfBlogAPI(id)
+      setCommentCount(res)
+    } catch (err) {
+      message.error(err.data)
+
+    }
+  }
+
+  const getFavoriteCount = async () => {
+    try {
+      const res = await getFavouriteCountBlogAPI(id)
+      setSaveCount(res)
+    } catch (err) {
+      message.error(err.data)
+
+    }
+  }
+
   return (
 
     <Link to={type !== null && type.toLowerCase() === 'character' ? `${ROUTES.getViewCharacter(
@@ -38,16 +78,10 @@ const VerticalCard = (props) => {
               style={{ width: '100%', height: 300, objectFit: 'cover' }}
             />
             <div
-              style={{
-                position: 'absolute',
-                top: 10,
-                left: 10,
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: '4px',
-              }}
+              className="absolute top-2 left-2 flex flex-wrap gap-1"
+              style={{ maxWidth: '80%' }}
             >
-              {tags.map((tag, index) => (
+              {categories.map((tag, index) => (
                 <span
                   key={tag.id}
                   style={{
@@ -73,7 +107,7 @@ const VerticalCard = (props) => {
                 gap: '4px',
               }}
             >
-              {categories.map((category, index) => (
+              {tags.map((category, index) => (
                 <span
                   key={category.id}
                   style={{
@@ -103,7 +137,8 @@ const VerticalCard = (props) => {
             WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical',
             lineHeight: '1.4em',
-            height: '2.8em',
+            height: 'auto',
+            fontSize: '16px',
           }}
           className="hover:text-red-500"
         >
@@ -111,20 +146,36 @@ const VerticalCard = (props) => {
         </h3>
         <p
           style={{
-            color: '#333',
-            marginTop: 4,
-            fontSize: 14,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical',
+            color: '#666',
+            marginBottom: 20,
+            fontSize: 13,
             lineHeight: '1.4em',
-            height: '2.8em',
+            height: '4em',
           }}
         >
           {introduction}
         </p>
+        <div className="flex items-center justify-between mt-2 text-gray-500 text-xs pt-1">
+          <div className="flex items-center gap-0.5">
+            <span className="text-yellow-500 text-xl">★</span>
+            <span>{rating.toFixed(1)}</span>
+            <span className="text-gray-400">({rateCount})</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
+              <EyeOutlined className="text-xl"/>
+              <span>{view}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <MessageOutlined className="text-xl"/>
+              <span>{commentCount}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <BookOutlined className="text-xl"/>
+              <span>{saveCount}</span>
+            </div>
+          </div>
+        </div>
       </Card>
     </Link>
   )
