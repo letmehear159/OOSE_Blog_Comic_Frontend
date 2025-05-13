@@ -30,7 +30,7 @@ export const EditBlogCharacterPage = () => {
   const updateBlog = async () => {
     const blogCharacterReq = {
       title: blogTitle,
-      authorId: 4,
+      authorId: user.id,
       content: result,
       character: character,
       comicId: blogComic === null ? null : blogComic.id,
@@ -65,8 +65,6 @@ export const EditBlogCharacterPage = () => {
 
     getBlogCharacter()
   }, [id])
-
-
 
   useEffect(() => {
     if (!blogCharacter?.comicId) return

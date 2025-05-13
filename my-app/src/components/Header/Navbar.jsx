@@ -1,9 +1,15 @@
 // Navbar.jsx
-import { NavLink } from "react-router-dom";
-import NotiIcon from "../Notification/NotiIcon";
-import UserMenu from "./UserMenu";
+import { Link, NavLink } from 'react-router-dom'
+import NotiIcon from '../Notification/NotiIcon'
+import UserMenu from './UserMenu'
+import { useContext } from 'react'
+import { AuthContext } from '../../context/auth.context.jsx'
+import { IMAGE_URL } from '../../constants/images.js'
+import { ROUTES } from '../../constants/api.js'
 
 const Navbar = () => {
+  const { user } = useContext(AuthContext)
+  console.log('>>> Check user', user)
   return (
     <nav className="flex items-center justify-between px-6 h-16 bg-blue-500 mt-2 border-b border-gray-200 rounded-lg">
       {/* Logo + Links */}
@@ -38,7 +44,7 @@ const Navbar = () => {
 
       {/* Search box */}
       <div className="flex-1 flex justify-center">
-        <div className="relative w-full max-w-xl">
+        <div className="relative w-[300px] max-w-xl">
           <input
             type="text"
             placeholder="Search..."
@@ -51,19 +57,22 @@ const Navbar = () => {
             strokeWidth={2}
             viewBox="0 0 24 24"
           >
-            <circle cx="11" cy="11" r="8" />
-            <path d="M21 21l-4.35-4.35" strokeLinecap="round" />
+            <circle cx="11" cy="11" r="8"/>
+            <path d="M21 21l-4.35-4.35" strokeLinecap="round"/>
           </svg>
         </div>
+        <Link to={ROUTES.SEARCH}>
+          <img src={`${IMAGE_URL}/filter.png`} className={'w-9 h-9 ml-4 hover:cursor-pointer'}/>
+        </Link>
       </div>
 
       {/* Right Side */}
       <div className="flex align-center items-center gap-7">
-        <NotiIcon />
-        <UserMenu />
+        <NotiIcon/>
+        <UserMenu/>
       </div>
     </nav>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

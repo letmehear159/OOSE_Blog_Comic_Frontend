@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import {
   getBlogByIdAPI,
   getBlogCharacterAPI,
   getBlogComicAPI,
   getBlogInsightByIdAPI,
 } from '../services/blogService.js'
+import { Comment } from '../components/Comment/Comment.jsx'
 import { Button, Image, Layout, message } from 'antd'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { customImageAlignStyles } from '../editor/editorCustomStyleConstant.jsx'
 import { Content } from 'antd/es/layout/layout.js'
 import Sider from 'antd/es/layout/Sider.js'
@@ -20,6 +21,10 @@ import { RelatedBlogCharacter } from '../components/character-related-blogs/Rela
 import { SelectedElement } from '../components/blog/SelectedElement.jsx'
 import { IMAGE_URL, URL_BACKEND_IMAGES } from '../constants/images.js'
 import { BloggerInfo } from '../components/blog/BloggerInfo.jsx'
+import { AuthContext } from '../context/auth.context.jsx'
+import { DateTime } from 'luxon'
+import { formatDatetimeWithTimeFirst } from '../services/helperService.js'
+import { ROUTES } from '../constants/api.js'
 
 export const ViewBlogComicPage = () => {
   const { id } = useParams()
@@ -27,9 +32,9 @@ export const ViewBlogComicPage = () => {
   const [collapsed, setCollapsed] = useState(false)
   const [blogCharacter, setBlogCharacter] = useState(null)
   const [blogComic, setBlogComic] = useState(null)
+  const navigate=useNavigate()
   useEffect(() => {
     if (!id) return
-
     getBlog(id)
   }, [id])
 
@@ -47,6 +52,8 @@ export const ViewBlogComicPage = () => {
         )
         setBlogComic(blogComicRes)
         setBlogCharacter(blogCharacterRes)
+      } else if(res.type === 'CHARACTER'){
+        navigate(ROUTES.getViewCharacter(id))
       }
       setBlog(finalRes)
     } catch (e) {
@@ -80,7 +87,7 @@ export const ViewBlogComicPage = () => {
                 </div>
               )}
 
-              <div className="text-center py-4 font-bold">
+              <div className="text-center  py-4 font-bold">
                 {collapsed ? (
                   <>
                     {blog.type === 'COMIC' && <RelatedBlogCharacter
@@ -141,9 +148,9 @@ export const ViewBlogComicPage = () => {
                     {blog.title}
                   </div>
                   <BloggerInfo
-                    name={'Gọi bố đi con'}
+                    name={blog.author.displayName}
                     avatarUrl={`${URL_BACKEND_IMAGES}/${blog.thumbnail}`}
-                    date={Date.now()}
+                    date={formatDatetimeWithTimeFirst(blog.createdAt)}
                   />
                   <SelectedElement
                     selected={blog.categories}
@@ -214,6 +221,7 @@ export const ViewBlogComicPage = () => {
                   </div>
                 </div>
               </Content>
+              <Comment blogId={blog.id}/>
             </Layout>
           </Layout>
         </>
