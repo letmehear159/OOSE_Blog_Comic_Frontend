@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Button, Input } from 'antd'
+import { Button, Input, message } from 'antd'
 
 function CommentBox ({
   closeBox, comments, setComments, onSubmit, userId, parentId = null, blogId, placeholder = 'Nhập bình luận của bạn...',
@@ -26,6 +26,11 @@ function CommentBox ({
 
   const handleSend = async () => {
     if (!content.trim()) return
+    if (userId === null) {
+      message.error('Bạn chưa đăng nhập')
+      return
+
+    }
     setLoading(true)
     const res = await onSubmit({
       blogId,
@@ -64,7 +69,7 @@ function CommentBox ({
         >
           Gửi bình luận
         </Button>
-        {currentUserRole !== 'user' && (
+        {currentUserRole !== 'user' && currentUserRole !== 'anonymous' && (
           <span className="absolute left-0 bottom-0 text-xs text-gray-400 ml-1 mb-1">
             Bạn đang bình luận với tư cách {
             currentUserRole === 'admin' ? 'Quản trị viên' :

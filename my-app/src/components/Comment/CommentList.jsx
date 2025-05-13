@@ -4,7 +4,7 @@ import ReportModal from '../Report/ReportModal.jsx'
 import { useContext } from 'react'
 import { AuthContext } from '../../context/auth.context.jsx'
 
-function CommentList ({setComments, comments, blogId, currentUserRole = 'user' }) {
+function CommentList ({ setComments, comments, blogId, currentUserRole = 'user' }) {
   const { user } = useContext(AuthContext)
   if (!comments || comments.length === 0) {
     return <div className="text-gray-500 italic">Chưa có bình luận nào.</div>
@@ -19,7 +19,7 @@ function CommentList ({setComments, comments, blogId, currentUserRole = 'user' }
             comment={comment}
             blogId={blogId}
             currentUserRole={currentUserRole}
-            userId={user.id}
+            userId={user !== null ? user.id : null}
             comments={comments}
           />
           <ReportModal/>

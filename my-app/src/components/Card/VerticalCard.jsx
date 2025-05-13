@@ -1,17 +1,20 @@
-import React from "react";
-import { Card } from "antd";
-import { ShareAltOutlined, EllipsisOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
-import slugify from "../../utils/format";
+import React from 'react'
+import { Card } from 'antd'
+import { ShareAltOutlined, EllipsisOutlined } from '@ant-design/icons'
+import { Link } from 'react-router-dom'
+import slugify from '../../utils/format'
+import { URL_BACKEND_IMAGES } from '../../constants/images.js'
+import { formatDatetimeWithTimeFirst } from '../../services/helperService.js'
 
-const VerticalCard = ({
-  image,
-  date,
-  title,
-  description,
-  tags = [],
-  types = [],
-}) => {
+const VerticalCard = (props) => {
+  const {
+    thumbnail,
+    createdAt,
+    title,
+    introduction,
+    tags = [],
+    categories = [],
+  } = props
   return (
     <Link to={`/review/${slugify(title)}`}>
       <Card
@@ -20,82 +23,82 @@ const VerticalCard = ({
         style={{
           width: 320,
           borderRadius: 12,
-          overflow: "hidden",
+          overflow: 'hidden',
         }}
         cover={
-          <div style={{ position: "relative" }}>
+          <div style={{ position: 'relative' }}>
             <img
               alt={title}
-              src={image}
-              style={{ width: "100%", height: 180, objectFit: "cover" }}
+              src={`${URL_BACKEND_IMAGES}/${thumbnail}`}
+              style={{ width: '100%', height: 180, objectFit: 'cover' }}
             />
             <div
               style={{
-                position: "absolute",
+                position: 'absolute',
                 top: 10,
                 left: 10,
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "4px",
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '4px',
               }}
             >
               {tags.map((tag, index) => (
                 <span
-                  key={index}
+                  key={tag.id}
                   style={{
-                    background: "linear-gradient(to right, #fb7185, #f43f5e)",
-                    padding: "4px 10px",
-                    color: "white",
+                    background: 'linear-gradient(to right, #fb7185, #f43f5e)',
+                    padding: '4px 10px',
+                    color: 'white',
                     borderRadius: 20,
                     fontSize: 12,
                     fontWeight: 500,
                   }}
                 >
-                  {tag}
+                  {tag.name}
                 </span>
               ))}
             </div>
             <div
               style={{
-                position: "absolute",
+                position: 'absolute',
                 top: 40,
                 left: 10,
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "4px",
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '4px',
               }}
             >
-              {types.map((type, index) => (
+              {categories.map((category, index) => (
                 <span
-                  key={index}
+                  key={category.id}
                   style={{
-                    background: "#6366f1",
-                    padding: "3px 8px",
-                    color: "white",
+                    background: '#6366f1',
+                    padding: '3px 8px',
+                    color: 'white',
                     borderRadius: 16,
                     fontSize: 11,
                     fontWeight: 500,
                   }}
                 >
-                  {type}
+                  {category.name}
                 </span>
               ))}
             </div>
           </div>
         }
       >
-        <p style={{ marginBottom: 4, fontSize: 12, color: "#999" }}>{date}</p>
+        <p style={{ marginBottom: 4, fontSize: 12, color: '#999' }}>{formatDatetimeWithTimeFirst(createdAt)}</p>
         <h3
           style={{
             margin: 0,
             fontWeight: 600,
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            display: "-webkit-box",
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            display: '-webkit-box',
             WebkitLineClamp: 2,
-            WebkitBoxOrient: "vertical",
-            lineHeight: "1.4em",
-            height: "2.8em",
+            WebkitBoxOrient: 'vertical',
+            lineHeight: '1.4em',
+            height: '2.8em',
           }}
           className="hover:text-red-500"
         >
@@ -103,23 +106,23 @@ const VerticalCard = ({
         </h3>
         <p
           style={{
-            color: "#333",
+            color: '#333',
             marginTop: 4,
             fontSize: 14,
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            display: "-webkit-box",
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            display: '-webkit-box',
             WebkitLineClamp: 2,
-            WebkitBoxOrient: "vertical",
-            lineHeight: "1.4em",
-            height: "2.8em",
+            WebkitBoxOrient: 'vertical',
+            lineHeight: '1.4em',
+            height: '2.8em',
           }}
         >
-          {description}
+          {introduction}
         </p>
       </Card>
     </Link>
-  );
-};
+  )
+}
 
-export default VerticalCard;
+export default VerticalCard

@@ -23,9 +23,13 @@ export const ROUTES = {
   VIEW_BLOG: '/view-blog',
   CALLBACK: '/callback',
 
-
   getEditCharacter: (id) => `/edit-character/${id}`,
   getViewCharacter: (id) => `/character/${id}`,
   getViewComic: (id) => `/comic/${id}`,
   getEditComic: (id) => `/edit-comic/${id}`,
-};
+}
+
+export const PAGINATION = {
+  SIZE: 3,
+  PAGE: 0
+}

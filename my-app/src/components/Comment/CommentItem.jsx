@@ -1,10 +1,9 @@
 import React from 'react'
-import { Button, Tooltip, Space, Tag, Avatar } from 'antd'
+import { Button, Tooltip, Tag, Avatar } from 'antd'
 import {
   MoreOutlined,
   DeleteOutlined,
   EyeInvisibleOutlined,
-  FlagOutlined,
   ArrowDownOutlined,
   ArrowUpOutlined,
   LikeOutlined,
@@ -14,8 +13,6 @@ import {
 import { CommentContext } from '../../context/CommentContext'
 import CommentBox from './CommentBox'
 import ReportButton from '../Report/ReportButton'
-import { ReportProvider, useReport } from '../../context/ReportContext.jsx'
-import ReportModal from '../Report/ReportModal.jsx'
 import { URL_BACKEND_IMAGES } from '../../constants/images.js'
 import { addCommentToBlogAPI } from '../../services/commentService.js'
 
@@ -40,7 +37,7 @@ class CommentItem extends React.Component {
 
   handleAction = async (action) => {
     const { comment } = this.props
-    const { handleAddComment, handleDeleteComment } = this.context
+    const { handleDeleteComment } = this.context
     switch (action) {
       case 'reply':
         this.setState({ replying: true })
@@ -237,7 +234,7 @@ class CommentItem extends React.Component {
                 blogId={blogId}
                 parentId={comment.id}
                 currentUserRole={currentUserRole}
-                userId={userId}
+                userId={userId !== null ? userId : null}
                 onSubmit={addCommentToBlogAPI}
                 comments={comments}
                 setComments={setComments}

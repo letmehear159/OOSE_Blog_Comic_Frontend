@@ -41,7 +41,7 @@ export const Comment = ({ blogId }) => {
                   setComments={setComments}
                   comments={comments}
                   blogId={blogId}
-                  userId={user.id}
+                  userId={user !== null ? user.id : null}
                   onSubmit={addCommentToBlogAPI}
                   currentUserRole={userRole}
                 />
