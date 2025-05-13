@@ -1,65 +1,77 @@
-import React from 'react';
-import { Button, Tooltip, Space, Tag } from 'antd';
-import { MoreOutlined, DeleteOutlined, EyeInvisibleOutlined, FlagOutlined, ArrowDownOutlined, ArrowUpOutlined, LikeOutlined, DislikeOutlined, MessageOutlined } from '@ant-design/icons';
-import { CommentContext } from '../../context/CommentContext';
-import CommentBox from './CommentBox';
-import ReportButton from '../Report/ReportButton';
+import React from 'react'
+import { Button, Tooltip, Space, Tag } from 'antd'
+import {
+  MoreOutlined,
+  DeleteOutlined,
+  EyeInvisibleOutlined,
+  FlagOutlined,
+  ArrowDownOutlined,
+  ArrowUpOutlined,
+  LikeOutlined,
+  DislikeOutlined,
+  MessageOutlined
+} from '@ant-design/icons'
+import { CommentContext } from '../../context/CommentContext'
+import CommentBox from './CommentBox'
+import ReportButton from '../Report/ReportButton'
+import { ReportProvider, useReport } from '../../context/ReportContext.jsx'
+import ReportModal from '../Report/ReportModal.jsx'
 
 class CommentItem extends React.Component {
-  static contextType = CommentContext;
+  static contextType = CommentContext
   static defaultProps = {
     currentUserRole: 'user',
     level: 0,
-  };
+  }
 
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.state = {
       replying: false,
       menuOpen: false,
       showChildren: false, // Thêm state để điều khiển việc hiển thị children
       reaction: null, // 'like' | 'dislike' | null
-    };
-    this.menuRef = React.createRef();
-    this.buttonRef = React.createRef();
+    }
+    this.menuRef = React.createRef()
+    this.buttonRef = React.createRef()
   }
 
   handleAction = async (action) => {
-    const { comment } = this.props;
-    const { handleAddComment, handleDeleteComment } = this.context;
+    const { comment } = this.props
+    const { handleAddComment, handleDeleteComment } = this.context
     switch (action) {
       case 'reply':
-        this.setState({ replying: true });
-        break;
+        this.setState({ replying: true })
+        break
       case 'cancel-reply':
-        this.setState({ replying: false });
-        break;
+        this.setState({ replying: false })
+        break
       case 'delete':
-        await handleDeleteComment(comment.id);
-        break;
+        await handleDeleteComment(comment.id)
+        break
       default:
-        break;
+        break
     }
-  };
+  }
 
   getRoleTagColor = (role) => {
     switch (role) {
       case 'admin':
-        return 'red';
+        return 'red'
       case 'blogger':
-        return 'blue';
+        return 'blue'
       case 'moderator':
-        return 'purple';
+        return 'purple'
       default:
-        return 'default';
+        return 'default'
     }
-  };
+  }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate (prevProps, prevState) {
     if (this.state.menuOpen && !prevState.menuOpen) {
-      document.addEventListener('mousedown', this.handleClickOutside);
+      document.addEventListener('mousedown', this.handleClickOutside)
     } else if (!this.state.menuOpen && prevState.menuOpen) {
-      document.removeEventListener('mousedown', this.handleClickOutside);
+      document.removeEventListener('mousedown', this.handleClickOutside)
     }
   }
 
@@ -70,33 +82,36 @@ class CommentItem extends React.Component {
       this.buttonRef.current &&
       !this.buttonRef.current.contains(event.target)
     ) {
-      this.setState({ menuOpen: false });
+      this.setState({ menuOpen: false })
     }
-  };
+  }
 
-  render() {
-    const { comment, blogId, currentUserRole, level } = this.props;
-    const { replying, menuOpen, showChildren } = this.state;
+  render () {
+    const { comment, blogId, currentUserRole, level } = this.props
+    const { replying, menuOpen, showChildren } = this.state
 
     // Menu actions for three-dot icon
-    const menuActions = [];
+    const menuActions = []
     if (currentUserRole === 'admin' || currentUserRole === 'blogger') {
       menuActions.push({
         key: 'delete',
-        icon: <DeleteOutlined className="text-red-500" />, label: 'Xoá',
+        icon: <DeleteOutlined className="text-red-500"/>, label: 'Xoá',
         onClick: () => this.handleAction('delete')
-      });
+      })
       menuActions.push({
         key: 'hide',
-        icon: <EyeInvisibleOutlined className="text-gray-500" />, label: 'Ẩn',
+        icon: <EyeInvisibleOutlined className="text-gray-500"/>, label: 'Ẩn',
         onClick: () => this.handleAction('hide')
-      });
+      })
     } else {
       menuActions.push({
         key: 'report',
-        icon: <FlagOutlined className="text-orange-500" />, label: 'Báo cáo',
-        onClick: () => this.setState({ menuOpen: false })
-      });
+        // icon: <ReportButton targetType={'comment'} targetId={comment.id}/>,
+        // onClick: () => {
+        //   const { openReport } = useReport()
+        //   openReport('comment', comment.id)
+        // }
+      })
     }
 
     return (
@@ -120,29 +135,38 @@ class CommentItem extends React.Component {
                 </Tag>
               )}
               <Tooltip title={comment.createdAt}>
-                <span className="text-xs text-gray-400 leading-9">{new Date(comment.createdAt).toLocaleString('vi-VN')}</span>
+                <span className="text-xs text-gray-400 leading-9">{new Date(comment.createdAt).toLocaleString(
+                  'vi-VN')}</span>
               </Tooltip>
               {/* Three dot icon menu */}
               <div className="ml-auto relative">
                 <Button
                   size="small"
                   type="text"
-                  icon={<MoreOutlined />}
+                  icon={<MoreOutlined/>}
                   ref={this.buttonRef}
                   onClick={() => this.setState({ menuOpen: !menuOpen })}
                 />
                 {menuOpen && (
-                  <div ref={this.menuRef} className="absolute right-0 z-10 bg-white border rounded shadow-md mt-2 min-w-[120px]">
-                    {menuActions.map(action => (
-                      <div
-                        key={action.key}
-                        className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
-                        onClick={() => { action.onClick(); this.setState({ menuOpen: false }); }}
-                      >
-                        {action.icon}
-                        <span>{action.label}</span>
-                      </div>
-                    ))}
+                  <div ref={this.menuRef}
+                       className="absolute right-0 z-10 bg-white border rounded shadow-md mt-2 min-w-[120px]">
+                    {/*{menuActions.map(action => (*/}
+                    {/*  <div*/}
+                    {/*    key={action.key}*/}
+                    {/*    className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"*/}
+                    {/*    // onClick={() => {*/}
+                    {/*    //   action.onClick()*/}
+                    {/*    //   this.setState({ menuOpen: false })*/}
+                    {/*    // }}*/}
+                    {/*  >*/}
+                    {/*    {action.icon}*/}
+                    {/*    <span>{action.label}</span>*/}
+                    {/*  </div>*/}
+                    {/*))}*/}
+                    <ReportProvider>
+                      <ReportButton targetType={'comment'} targetId={comment.id}/>
+                      <ReportModal />
+                    </ReportProvider>
                   </div>
                 )}
               </div>
@@ -155,7 +179,7 @@ class CommentItem extends React.Component {
               <Button
                 size="small"
                 type="text"
-                icon={<MessageOutlined style={{ fontSize: 18 }} />}
+                icon={<MessageOutlined style={{ fontSize: 18 }}/>}
                 onClick={() => this.handleAction('reply')}
                 title="Trả lời"
                 className="hover:text-blue-500"
@@ -164,7 +188,8 @@ class CommentItem extends React.Component {
               <Button
                 size="small"
                 type="text"
-                icon={<LikeOutlined style={{ fontSize: 18, color: this.state.reaction === 'like' ? '#1677ff' : undefined }} />}
+                icon={<LikeOutlined
+                  style={{ fontSize: 18, color: this.state.reaction === 'like' ? '#1677ff' : undefined }}/>}
                 onClick={() => this.setState({ reaction: this.state.reaction === 'like' ? null : 'like' })}
                 title="Thích"
                 className={this.state.reaction === 'like' ? 'text-blue-500' : ''}
@@ -173,7 +198,8 @@ class CommentItem extends React.Component {
               <Button
                 size="small"
                 type="text"
-                icon={<DislikeOutlined style={{ fontSize: 18, color: this.state.reaction === 'dislike' ? '#f5222d' : undefined }} />}
+                icon={<DislikeOutlined
+                  style={{ fontSize: 18, color: this.state.reaction === 'dislike' ? '#f5222d' : undefined }}/>}
                 onClick={() => this.setState({ reaction: this.state.reaction === 'dislike' ? null : 'dislike' })}
                 title="Không thích"
                 className={this.state.reaction === 'dislike' ? 'text-red-500' : ''}
@@ -187,7 +213,7 @@ class CommentItem extends React.Component {
                 className="font-bold text-black cursor-pointer hover:underline flex items-center gap-1"
                 onClick={() => this.setState({ showChildren: true })}
               >
-                <ArrowDownOutlined className="mr-1" />
+                <ArrowDownOutlined className="mr-1"/>
                 Hiển thị các câu trả lời
               </span>
             </div>
@@ -199,7 +225,7 @@ class CommentItem extends React.Component {
                 className="font-bold text-black cursor-pointer hover:underline flex items-center gap-1"
                 onClick={() => this.setState({ showChildren: false })}
               >
-                <ArrowUpOutlined className="mr-1" />
+                <ArrowUpOutlined className="mr-1"/>
                 Thu gọn các câu trả lời
               </span>
             </div>
@@ -212,8 +238,8 @@ class CommentItem extends React.Component {
                 parentId={comment.id}
                 currentUserRole={currentUserRole}
                 onSubmit={async (data) => {
-                  await this.context.handleAddComment(data);
-                  this.setState({ replying: false });
+                  await this.context.handleAddComment(data)
+                  this.setState({ replying: false })
                 }}
                 placeholder="Nhập phản hồi..."
               />
@@ -236,8 +262,8 @@ class CommentItem extends React.Component {
           )}
         </div>
       </div>
-    );
+    )
   }
 }
 
-export default CommentItem;
+export default CommentItem

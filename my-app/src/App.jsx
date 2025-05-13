@@ -31,10 +31,10 @@ function App() {
         <div className="header-container rounded-lg">
           <Navbar />
         </div>
-        <div className="content-container">
+        <div className="content-container pb-10">
           <Outlet />
         </div>
-        <div className="footer-container">
+        <div className="footer-container mt-10">
           <AppFooter />
         </div>
       </div>

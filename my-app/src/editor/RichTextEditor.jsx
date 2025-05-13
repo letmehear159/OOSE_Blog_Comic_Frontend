@@ -56,10 +56,12 @@ import {
 import translations from 'ckeditor5/translations/vi.js'
 import 'ckeditor5/ckeditor5.css'
 import { Button } from 'antd'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { saveCharacterThumbnailAPI, savePreviewThumbnailCharacterAPI } from '../services/blogService.js'
 import { customHeadingStyles } from './editorCustomStyleConstant.jsx'
+import TOCPlugin from './TOCPlugin';
+
 
 // Custom Base64 Upload Adapter
 class Base64UploadAdapter {
@@ -114,6 +116,7 @@ const processContentAndUploadImages = async (htmlContent, saveDataService) => {
   const images = doc.querySelectorAll('img')
   const formData = new FormData()
   const base64Images = []
+
   images.forEach((img, index) => {
     const src = img.getAttribute('src')
     if (src?.startsWith('data:image/')) {
@@ -135,6 +138,7 @@ const processContentAndUploadImages = async (htmlContent, saveDataService) => {
 
 const RichTextEditor = ({ result, setResult, setPreview, isImageSaved, setIsImageSaved, saveBlog }) => {
   const [content, setContent] = useState('<i>Nhập nội dung bài viết...</i>')
+  const editorRef = useRef(null)
   const handleSaveButton = async () => {
     const processedContent = await processContentAndUploadImages(content, saveCharacterThumbnailAPI)
     setResult(processedContent)
@@ -157,11 +161,15 @@ const RichTextEditor = ({ result, setResult, setPreview, isImageSaved, setIsImag
   return (
     <>
       <style>{customHeadingStyles}</style>
+      {/*<Button type="primary" className={'!mb-5'} onClick={insertTOCIntoEditorContent}>*/}
+      {/*  Chèn mục lục vào nội dung*/}
+      {/*</Button>*/}
       <CKEditor
         editor={ClassicEditor}
-        data={content}
+        data={result}
         config={{
           plugins: [
+            TOCPlugin,
             Alignment,
             AutoImage,
             AutoLink,
@@ -216,6 +224,7 @@ const RichTextEditor = ({ result, setResult, setPreview, isImageSaved, setIsImag
             Underline,
           ],
           toolbar: [
+            'insertTOC',
             'sourceEditing',
             'showBlocks',
             '|',
@@ -349,6 +358,10 @@ const RichTextEditor = ({ result, setResult, setPreview, isImageSaved, setIsImag
         onChange={(event, editor) => {
           const data = editor.getData()
           setContent(data)
+        }}
+        onReady={(editor) => {
+          editorRef.current = editor
+          setContent(editor.getData())
         }}
       />
       <div class={'flex justify-start gap-4 mt-3'}>
