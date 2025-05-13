@@ -4,6 +4,7 @@ import { useParams, useLocation } from "react-router-dom";
 import UserDisplay from "../components/User/UserDisplay";
 import UserForm from "../components/User/UserForm";
 import AvatarUpload from "../components/User/AvatarUpload";
+import { AvatarDisplay } from "../components/User/AvatarUpload";
 import { jwtDecode } from "jwt-decode"; 
 
 import { 
@@ -160,18 +161,14 @@ const UserPage = () => {
       return Promise.reject(error);
     }
   };
-
   const handleAvatarUpload = async (file) => {
     try {
-      console.log("Uploading avatar for user ID:", userData.id);
-      const response = await updateUserAvatarService(userData.id, file);
-      
-      // Handle different API response structures
-      const avatarUrl = response.data?.avatar || response.avatar;
-      
-      setUserData(prev => ({ ...prev, avatar: avatarUrl }));
+      await updateUserAvatarService(userData.id, file);
+      const response = await fetchUserById(userData.id);
+      const updatedUserData = response.data || response;
+      setUserData(prev => ({ ...prev, ...updatedUserData }));
       message.success("Cập nhật ảnh đại diện thành công");
-      return Promise.resolve(avatarUrl);
+      return Promise.resolve();
     } catch (error) {
       console.error("Error uploading avatar:", error);
       message.error("Cập nhật ảnh đại diện thất bại");
@@ -189,20 +186,25 @@ const UserPage = () => {
       <Tabs defaultActiveKey="1">
         <TabPane tab="Thông tin tài khoản" key="1">
           <div className="bg-white rounded-lg shadow p-6 mb-6 flex flex-col md:flex-row gap-8 items-start">
-            <div className="md:w-1/3 flex justify-center">
-              <AvatarUpload initialAvatar={userData.avatar} onUpload={handleAvatarUpload} />
+            <div className="md:w-2/5 flex justify-center">
+              <AvatarDisplay
+                avatar={userData.avatar}
+                size={200}
+                className="rounded-full border-2 border-gray-300"
+              />
             </div>
-            <div className="md:w-2/3">
+            <div className="md:w-3/5">
               <UserDisplay userData={userData} />
             </div>
           </div>
         </TabPane>
         <TabPane tab="Chỉnh sửa tài khoản" key="2">
           <div className="bg-white rounded-lg shadow p-6 mb-6 flex flex-col md:flex-row gap-8 items-start">
-            <div className="md:w-1/3 flex justify-center">
+            <div className="md:w-2/5 flex justify-center">
+              {/* Chỉ cho phép upload ở tab này */}
               <AvatarUpload initialAvatar={userData.avatar} onUpload={handleAvatarUpload} />
             </div>
-            <div className="md:w-2/3">
+            <div className="md:w-3/5">
               <UserForm initialData={userData} onSubmit={handleUserUpdate} />
             </div>
           </div>

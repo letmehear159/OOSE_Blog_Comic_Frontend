@@ -5,7 +5,7 @@ function UserDisplay({ userData }) {
   const { fullName, email, username, role } = userData;
 
   return (
-    <div className="w-full px-4 sm:px-6 lg:px-8 max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl mx-auto">
+    <div className="w-full">
       <Card 
         title="Thông tin cá nhân" 
         className="shadow-sm rounded-lg"
@@ -41,4 +41,4 @@ function UserDisplay({ userData }) {
   );
 }
 
-export default UserDisplay; 
+export default UserDisplay;

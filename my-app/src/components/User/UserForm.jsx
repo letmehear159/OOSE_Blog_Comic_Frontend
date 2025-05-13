@@ -60,7 +60,7 @@ function UserForm({ initialData, onSubmit }) {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
+    <div className="w-full">
       <Card 
         title="Cập nhật thông tin" 
         className="shadow-sm rounded-lg"
