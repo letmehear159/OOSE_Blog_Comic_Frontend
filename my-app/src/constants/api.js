@@ -21,6 +21,7 @@ export const ROUTES = {
   COMMENT_ADMIN: '/comment-admin',
   REVIEW_COMIC: '/review-comic',
   REVIEW_CHARACTER: '/review-character',
+  REVIEW_INSIGHT: '/review-insight',
   VIEW_BLOG: '/view-blog',
   CALLBACK: '/callback',
 

@@ -3,7 +3,7 @@ import AppSidebar from '../components/Sidebar/AppSidebar'
 import VerticalCard from '../components/Card/VerticalCard'
 import AppPagination from '../components/AppPagination'
 import { message } from 'antd'
-import { getBlogComicPaginationAPI } from '../services/blogService.js'
+import { getBlogComicPaginationAPI, getBlogInsightPaginationAPI } from '../services/blogService.js'
 import { PAGINATION } from '../constants/api.js'
 
 const comics = [
@@ -111,7 +111,7 @@ const ReviewPageMenu = [
   },
   { label: 'Tất cả truyện', to: '/all-comics' },
 ]
-const ReviewPage = () => {
+const InsightPage = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedGenre, setSelectedGenre] = useState(null)
   const [blogs, setBlogs] = useState([])
@@ -121,7 +121,7 @@ const ReviewPage = () => {
   }, [currentPage])
   const getBlogs = async () => {
     try {
-      const res = await getBlogComicPaginationAPI(currentPage - 1, PAGINATION.SIZE)
+      const res = await getBlogInsightPaginationAPI(currentPage - 1, PAGINATION.SIZE)
       setBlogs(res.result)
       setMeta(res.meta)
     } catch (err) {
@@ -173,4 +173,4 @@ const ReviewPage = () => {
   )
 }
 
-export default ReviewPage
+export default InsightPage

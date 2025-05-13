@@ -1,82 +1,131 @@
-import React from "react";
-import slugify from "../../utils/format";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react'
+import slugify from '../../utils/format'
+import { Link } from 'react-router-dom'
+import { ROUTES } from '../../constants/api.js'
+import { URL_BACKEND_IMAGES } from '../../constants/images.js'
+import { formatDatetimeWithTimeFirst } from '../../services/helperService.js'
+import { Image, message } from 'antd'
+import { getCommentCountOfBlogAPI } from '../../services/commentService.js'
+import { getFavouriteCountBlogAPI } from '../../services/favoriteService.js'
 
+/**
+ * props:
+ * {
+ *   image: string,
+ *   title: string,
+ *   description: string,
+ *   authorName: string,
+ *   authorAvatar: string,
+ *   date: string,
+ *   rate: number,
+ *   rateCount: number,
+ *   commentCount: number,
+ *   saveCount: number,
+ *   viewCount: number
+ * }
+ */
 const HorizontalCard = ({
-  image,
+  id,
+  thumbnail,
   title,
-  description,
-  authorName,
-  authorAvatar,
-  date,
-  rate,
+  introduction,
+  author,
+  createdAt,
+  rating,
   rateCount,
-  commentCount,
-  saveCount,
-  viewCount,
+  view,
+  type
 }) => {
+  const [commentCount, setCommentCount] = useState(null)
+  const [saveCount, setSaveCount] = useState(null)
+
+  useEffect(() => {
+    getCommentCount()
+    getFavoriteCount()
+  }, [id])
+
+  const getCommentCount = async () => {
+    try {
+      const res = await getCommentCountOfBlogAPI(id)
+      setCommentCount(res)
+    } catch (err) {
+      message.error(err.data)
+
+    }
+  }
+
+  const getFavoriteCount = async () => {
+    try {
+      const res = await getFavouriteCountBlogAPI(id)
+      setSaveCount(res)
+    } catch (err) {
+      message.error(err.data)
+
+    }
+  }
+
   return (
-    <Link to={`/${slugify(title)}`}>
-      <div className="flex w-[800px] bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 p-5 gap-6 group">
+    <Link to={type !== null && type.toLowerCase() === 'character' ? `${ROUTES.getViewCharacter(
+      id)}` : `${ROUTES.getViewComic(id)}`}>
+      <div className="flex w-[800px] bg-gray-50 rounded-xl shadow hover:shadow-lg transition p-4 gap-4">
         {/* thumbnail */}
-        <div className="relative w-65 h-48 flex-shrink-0">
-          <img
-            src={image}
-            alt={title}
-            className="w-full h-full object-cover rounded-lg group-hover:scale-105 transition-transform duration-300"
-          />
-        </div>
+        <Image
+          src={`${URL_BACKEND_IMAGES}/${thumbnail}`}
+          alt={title}
+          className="!w-48 !h-36 !object-cover rounded-lg flex-shrink-0"
+        />
 
         {/* right column */}
         <div className="flex flex-col justify-between flex-1 min-w-0">
           {/* title and description */}
-          <div className="space-y-3">
-            <h2 className="text-xl font-bold text-gray-800 leading-snug group-hover:text-blue-600 transition-colors duration-300 line-clamp-2">
+          <div className="space-y-2">
+            <h2 className="text-lg font-semibold text-gray-800 leading-snug hover:text-red-500 line-clamp-2">
               {title}
             </h2>
-            <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">
-              {description}
-            </p>
+            <p className="text-sm text-gray-600 line-clamp-2">{introduction}</p>
           </div>
 
-          {/* stats */}
-          <div className="flex items-center gap-5 text-sm mt-4">
-            <div className="flex items-center gap-1.5 bg-yellow-50 px-2.5 py-1 rounded-full">
-              <span className="text-yellow-500">★</span>
-              <span className="font-medium text-gray-700">{rate}</span>
-              <span className="text-gray-400">({rateCount})</span>
+          {/* bottom row with stats and author info */}
+          <div className="flex justify-between items-center mt-2">
+            {/* stats */}
+            <div className="flex items-center gap-4 text-sm text-gray-600">
+              <div className="flex items-center gap-1">
+                <span className="text-yellow-500">★</span>
+                <span>{rating}</span>
+                <span className="text-gray-400">({rateCount})</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <span>💬</span>
+                <span>{commentCount}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <span>🔖</span>
+                <span>{saveCount}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <span>👁️</span>
+                <span>{view}</span>
+              </div>
             </div>
-            <div className="flex items-center gap-1.5 bg-blue-50 px-2.5 py-1 rounded-full">
-              <span className="text-blue-500">💬</span>
-              <span className="font-medium text-gray-700">{commentCount}</span>
-            </div>
-            <div className="flex items-center gap-1.5 bg-green-50 px-2.5 py-1 rounded-full">
-              <span className="text-green-500">🔖</span>
-              <span className="font-medium text-gray-700">{saveCount}</span>
-            </div>
-            <div className="flex items-center gap-1.5 bg-purple-50 px-2.5 py-1 rounded-full">
-              <span className="text-purple-500">👁️</span>
-              <span className="font-medium text-gray-700">{viewCount}</span>
-            </div>
-          </div>
 
-          {/* author & date */}
-          <div className="flex items-center gap-3 text-sm mt-4">
-            <div className="flex items-center gap-2">
+            {/* author & date */}
+            <div className="flex items-center gap-1 text-xs text-gray-500 flex-shrink-0">
               <img
-                src={authorAvatar}
-                alt={authorName}
-                className="w-6 h-6 rounded-full object-cover ring-2 ring-gray-100"
+                src={`${URL_BACKEND_IMAGES}/${author.avatar}`}
+                alt={author.avatar}
+                className="w-8 h-8 rounded-full object-cover"
               />
-              <span className="font-medium text-gray-700">{authorName}</span>
+              <span className="font-medium text-gray-600 truncate max-w-[120px]">
+                {author.displayName}
+              </span>
+              <span>•</span>
+              <span>{formatDatetimeWithTimeFirst(createdAt)}</span>
             </div>
-            <span className="text-gray-400">•</span>
-            <span className="text-gray-500">{date}</span>
           </div>
         </div>
       </div>
     </Link>
-  );
-};
+  )
+}
 
-export default HorizontalCard;
+export default HorizontalCard
