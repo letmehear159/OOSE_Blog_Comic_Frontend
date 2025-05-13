@@ -139,15 +139,17 @@ const InsightPage = () => {
   }
 
   return (
-    <div className="flex h-full mb-15">
-      <div className="ReviewPage-sidebar">
+    <div className="flex h-full ">
+      <div>
         <AppSidebar
+          // Truyền menu và hàm xử lý sự kiện chọn thể loại
           menuItems={ReviewPageMenu}
-          onGenreSelect={handleGenreSelect}
+          // Truyền hàm xử lý sự kiện chọn thể loại
+          // onGenreSelect={handleGenreSelect}
         />
       </div>
-      <div className="ReviewPage-content flex flex-col flex-1 pt-10 px-3">
-        <div className="flex flex-wrap gap-5 justify-center">
+      <div className="flex flex-col flex-1 pt-10 px-3 ">
+        <div className="flex flex-wrap gap-5 h-[930px] justify-start overflow-y-scroll">
           {blogs.length > 0 ? (
             blogs.map((comic) => (
               <VerticalCard key={comic.id} {...comic} />

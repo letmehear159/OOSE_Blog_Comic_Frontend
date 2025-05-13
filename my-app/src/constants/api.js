@@ -31,6 +31,6 @@ export const ROUTES = {
 }
 
 export const PAGINATION = {
-  SIZE: 3,
+  SIZE: 9,
   PAGE: 0
 }

@@ -66,7 +66,7 @@ const VerticalCard = (props) => {
         className="hover:shadow-lg transition-shadow duration-300"
         hoverable
         style={{
-          width: 320,
+          width: 300,
           borderRadius: 12,
           overflow: 'hidden',
         }}
@@ -75,104 +75,105 @@ const VerticalCard = (props) => {
             <img
               alt={title}
               src={`${URL_BACKEND_IMAGES}/${thumbnail}`}
-              style={{ width: '100%', height: 300, objectFit: 'cover' }}
+              className="group-hover:scale-105 transition-transform duration-300"
+              style={{ width: '100%', height: 200, objectFit: 'cover' }}
             />
-            <div
-              className="absolute top-2 left-2 flex flex-wrap gap-1"
-              style={{ maxWidth: '80%' }}
-            >
-              {categories.map((tag, index) => (
-                <span
-                  key={tag.id}
-                  style={{
-                    background: 'linear-gradient(to right, #fb7185, #f43f5e)',
-                    padding: '4px 10px',
-                    color: 'white',
-                    borderRadius: 20,
-                    fontSize: 12,
-                    fontWeight: 500,
-                  }}
-                >
+
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 10,
+                  left: 10,
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: '4px',
+                }}
+              >
+                {categories.map((tag, index) => (
+                  <span
+                    key={tag.id}
+                    style={{
+                      background: 'linear-gradient(to right, #fb7185, #f43f5e)',
+                      padding: '4px 10px',
+                      color: 'white',
+                      borderRadius: 20,
+                      fontSize: 12,
+                      fontWeight: 500,
+                    }}
+                  >
                   {tag.name}
                 </span>
-              ))}
-            </div>
-            <div
-              style={{
-                position: 'absolute',
-                top: 40,
-                left: 10,
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: '4px',
-              }}
-            >
-              {tags.map((category, index) => (
-                <span
-                  key={category.id}
-                  style={{
-                    background: '#6366f1',
-                    padding: '3px 8px',
-                    color: 'white',
-                    borderRadius: 16,
-                    fontSize: 11,
-                    fontWeight: 500,
-                  }}
-                >
+                ))}
+              </div>
+              <div
+                style={{
+                  marginTop:'5px',
+                  position: 'absolute',
+                  top: 40,
+                  left: 10,
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: '4px',
+                }}
+              >
+                {tags.map((category, index) => (
+                  <span
+                    key={category.id}
+                    style={{
+                      background: '#6366f1',
+                      padding: '3px 8px',
+                      color: 'white',
+                      borderRadius: 16,
+                      fontSize: 11,
+                      fontWeight: 500,
+                    }}
+                  >
                   {category.name}
                 </span>
-              ))}
-            </div>
+                ))}
+              </div>
           </div>
         }
       >
-        <p style={{ marginBottom: 4, fontSize: 12, color: '#999' }}>{formatDatetimeWithTimeFirst(createdAt)}</p>
-        <h3
-          style={{
-            margin: 0,
-            fontWeight: 600,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical',
-            lineHeight: '1.4em',
-            height: 'auto',
-            fontSize: '16px',
-          }}
-          className="hover:text-red-500"
-        >
-          {title}
-        </h3>
-        <p
-          style={{
-            color: '#666',
-            marginBottom: 20,
-            fontSize: 13,
-            lineHeight: '1.4em',
-            height: '4em',
-          }}
-        >
-          {introduction}
-        </p>
-        <div className="flex items-center justify-between mt-2 text-gray-500 text-xs pt-1">
-          <div className="flex items-center gap-0.5">
-            <span className="text-yellow-500 text-xl">★</span>
-            <span>{rating.toFixed(1)}</span>
-            <span className="text-gray-400">({rateCount})</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-2">
-              <EyeOutlined className="text-xl"/>
-              <span>{view}</span>
+        <div className="px-1">
+          <p className="text-xs text-gray-500 mb-2">{formatDatetimeWithTimeFirst(createdAt)}</p>
+          <h3
+            className="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors duration-300 mb-2 line-clamp-2"
+            style={{
+              lineHeight: '1.4em',
+              height: '2.8em',
+            }}
+          >
+            {title}
+          </h3>
+          <p
+            className="text-sm text-gray-600 mb-4 line-clamp-3"
+            style={{
+              lineHeight: '1.5em',
+              height: '4.5em',
+            }}
+          >
+            {introduction}
+          </p>
+          <div className="flex items-center justify-between pt-2 border-t border-gray-100">
+            <div className="flex items-center gap-1">
+              <span className="text-yellow-500 text-xl">★</span>
+              <span className="text-xs font-medium text-gray-700">{rating.toFixed(1)}</span>
+              <span className="text-gray-400">({rateCount})</span>
             </div>
             <div className="flex items-center gap-2">
-              <MessageOutlined className="text-xl"/>
-              <span>{commentCount}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <BookOutlined className="text-xl"/>
-              <span>{saveCount}</span>
+              <div className="flex items-center gap-2">
+                <EyeOutlined className="text-xl text-blue-500"/>
+                <span className="text-xl text-gray-600">{view}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <MessageOutlined className="text-xl text-green-500"/>
+                <span className="text-xl text-gray-600">{commentCount}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <BookOutlined className="text-xl text-purple-500"/>
+                <span className="text-xl text-gray-600">{saveCount}</span>
+              </div>
             </div>
           </div>
         </div>
