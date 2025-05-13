@@ -5,7 +5,7 @@ import UserMenu from "./UserMenu";
 
 const Navbar = () => {
   return (
-    <nav className="flex items-center justify-between px-6 h-16 bg-blue-500 mt-2 border-b border-gray-200 rounded-lg">
+    <nav className="flex items-center justify-between px-8 h-16 bg-gradient-to-r from-blue-600 to-blue-500 mt-2 rounded-xl shadow-lg">
       {/* Logo + Links */}
       <div className="flex items-center gap-8">
         {/* Logo */}
@@ -13,23 +13,26 @@ const Navbar = () => {
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg"
             alt="Logo"
-            className="h-10"
+            className="h-10 w-10 animate-spin-slow"
           />
-          <NavLink to="/" className="ml-3 font-bold text-xl text-orange-400">
+          <NavLink
+            to="/"
+            className="ml-3 font-bold text-2xl bg-gradient-to-r from-orange-400 to-orange-500 bg-clip-text text-transparent hover:from-orange-500 hover:to-orange-600 transition-all duration-300"
+          >
             ReviewComic
           </NavLink>
         </div>
         {/* Navigation Links */}
-        <div className="flex items-center gap-6 ml-6">
+        <div className="flex items-center gap-8 ml-6">
           <NavLink
             to="/review-comic"
-            className="text-white hover:text-gray-600 font-medium transition"
+            className="text-white/90 hover:text-white font-medium transition-all duration-300 hover:scale-105"
           >
             Review Truyện
           </NavLink>
           <NavLink
             to="/review-character"
-            className="text-white hover:text-gray-600 font-medium transition"
+            className="text-white/90 hover:text-white font-medium transition-all duration-300 hover:scale-105"
           >
             Nhân Vật
           </NavLink>
@@ -38,15 +41,15 @@ const Navbar = () => {
 
       {/* Search box */}
       <div className="flex-1 flex justify-center">
-        <div className="relative w-full max-w-xl flex items-center gap-2">
-          <div className="relative flex-1">
+        <div className="relative w-full max-w-xl">
+          <div className="relative flex items-center">
             <input
               type="text"
-              placeholder="Search..."
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              placeholder="Tìm kiếm truyện, nhân vật..."
+              className="w-full pl-12 pr-32 py-2.5 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-transparent transition-all duration-300"
             />
             <svg
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-50 pointer-events-none"
+              className="absolute left-4 w-5 h-5 text-white/70"
               fill="none"
               stroke="currentColor"
               strokeWidth={2}
@@ -55,10 +58,23 @@ const Navbar = () => {
               <circle cx="11" cy="11" r="8" />
               <path d="M21 21l-4.35-4.35" strokeLinecap="round" />
             </svg>
+            <button className="absolute right-1.5 px-4 py-1.5 bg-white/10 hover:bg-white/20 text-white rounded-full transition-all duration-300 flex items-center gap-2 text-sm font-medium backdrop-blur-sm hover:scale-105">
+              <span>Tìm kiếm</span>
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
+            </button>
           </div>
-          <button className="px-8 py-2 bg-blue-400 text-white rounded-full hover:bg-blue-600 transition-colors duration-200 font-medium">
-            Search
-          </button>
         </div>
       </div>
 

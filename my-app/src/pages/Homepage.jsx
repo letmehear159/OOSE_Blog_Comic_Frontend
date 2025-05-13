@@ -102,41 +102,40 @@ const topReviews = [
   {
     index: 1,
     avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-    title: "Vương Lâm trong Tiên Nghịch",
-    date: "12 December 2023",
+    title:
+      "Phân tích sâu về nhân vật Itachi Uchiha - Bi kịch của một thiên tài",
+    date: "15/03/2024",
   },
   {
     index: 2,
-    avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-    title: "Vương Lâm trong Tiên Nghịch",
-    date: "12 December 2023",
+    avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+    title: "Levi Ackerman: Người mạnh nhất của nhân loại trong Attack on Titan",
+    date: "14/03/2024",
   },
   {
     index: 3,
-    avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-    title: "Vương Lâm trong Tiên Nghịch",
-    date: "12 December 2023",
+    avatar: "https://randomuser.me/api/portraits/men/67.jpg",
+    title: "Gojou Satoru - Sức mạnh và sự cô độc của kẻ mạnh nhất",
+    date: "13/03/2024",
   },
   {
     index: 4,
-    avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-    title: "Vương Lâm trong Tiên Nghịch",
-    date: "12 December 2023",
+    avatar: "https://randomuser.me/api/portraits/women/28.jpg",
+    title: "Killua Zoldyck: Hành trình từ sát thủ đến người bạn thân thiết",
+    date: "12/03/2024",
   },
   {
     index: 5,
-    avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-    title: "Vương Lâm trong Tiên Nghịch",
-    date: "12 December 2023",
+    avatar: "https://randomuser.me/api/portraits/men/75.jpg",
+    title: "Vương Lâm: Con đường tu tiên đầy chông gai trong Tiên Nghịch",
+    date: "11/03/2024",
   },
   {
     index: 6,
-    avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-    title: "Vương Lâm trong Tiên Nghịch",
-    date: "12 December 2023",
+    avatar: "https://randomuser.me/api/portraits/women/63.jpg",
+    title: "Luffy - Hành trình trở thành Vua Hải Tặc trong One Piece",
+    date: "10/03/2024",
   },
-
-  // ...
 ];
 
 const PAGE_SIZE = 5;
@@ -144,37 +143,41 @@ const PAGE_SIZE = 5;
 const Homepage = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Tính toán slice dữ liệu cho trang hiện tại
   const startIdx = (currentPage - 1) * PAGE_SIZE;
   const endIdx = startIdx + PAGE_SIZE;
   const pagedReviews = reviews.slice(startIdx, endIdx);
 
   return (
-    <div className="bg-gray-50 flex flex-col flex-1 min-h-screen">
-      <div className="flex justify-center p-10">
-        <div></div>
-        <div className="w-4/6 text-black p-6 flex flex-col gap-3 items-center h-full">
+    <div className="bg-gradient-to-b from-gray-50 to-white flex flex-col flex-1 min-h-screen">
+      <div className="flex justify-center p-8">
+        <div className="w-4/6 text-black flex flex-col gap-6 items-center h-full">
           {pagedReviews.map((item, idx) => (
             <HorizontalCard key={startIdx + idx} {...item} />
           ))}
         </div>
-        <div className="w-2/6 w-xs h-full text-black bg-gray-100 rounded-xl flex text-center flex-col mt-6 gap-3 items-center ml-10 p-3">
-          <h1 className="text-2xl font-bold text-red-500 pt-6">
-            Truyện nổi bật
-          </h1>
-          {topReviews.map((item, idx) => (
-            <CardTrending key={idx} {...item} />
-          ))}
+        <div className="w-2/6 h-full text-black bg-white rounded-2xl shadow-sm flex flex-col mt-6 gap-4 items-center ml-8 p-6 border border-gray-100">
+          <div className="w-full">
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-transparent pb-2">
+              Truyện nổi bật
+            </h1>
+            <div className="w-20 h-1 bg-gradient-to-r from-red-500 to-red-600 rounded-full mb-6"></div>
+          </div>
+          <div className="w-full space-y-3">
+            {topReviews.map((item, idx) => (
+              <CardTrending key={idx} {...item} />
+            ))}
+          </div>
         </div>
-        <div></div>
       </div>
       <div className="flex justify-center mx-10 pb-20">
-        <AppPagination
-          current={currentPage}
-          total={reviews.length}
-          pageSize={PAGE_SIZE}
-          onChange={setCurrentPage}
-        />
+        <div>
+          <AppPagination
+            current={currentPage}
+            total={reviews.length}
+            pageSize={PAGE_SIZE}
+            onChange={setCurrentPage}
+          />
+        </div>
       </div>
     </div>
   );

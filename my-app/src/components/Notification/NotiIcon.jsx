@@ -94,7 +94,7 @@ const NoticeIcon = () => {
   return (
     <div className="relative pt-1" ref={ref}>
       <button
-        className="relative text-gray-500 bg-blue-400 p-1.5 rounded-full hover:text-blue-600 focus:outline-none"
+        className="relative text-white bg-white/10 p-2 rounded-full hover:bg-white/20 focus:outline-none transition-all duration-300 hover:scale-110"
         onClick={() => setOpen((o) => !o)}
       >
         <svg
@@ -111,15 +111,17 @@ const NoticeIcon = () => {
           />
         </svg>
         {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1.5">
+          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
             {unreadCount}
           </span>
         )}
       </button>
       {open && (
-        <div className="absolute right-0 mt-2 w-96 bg-white border border-gray-200 rounded shadow-lg z-50">
-          <div className="p-4 border-b font-bold text-gray-700">Thông báo</div>
-          <div className="max-h-80 overflow-y-auto">
+        <div className="absolute right-0 mt-2 w-96 bg-white border border-gray-200 rounded-xl shadow-xl z-50 overflow-hidden">
+          <div className="p-4 border-b border-gray-100 bg-gradient-to-r from-blue-500 to-blue-600">
+            <h3 className="font-bold text-white pt-2 text-lg">Thông báo</h3>
+          </div>
+          <div className="max-h-96 overflow-y-auto">
             {notifications.length === 0 ? (
               <div className="flex flex-col items-center py-8">
                 <span className="text-gray-400">Không có thông báo nào</span>
@@ -129,28 +131,34 @@ const NoticeIcon = () => {
                 {notifications.map((item) => (
                   <li
                     key={item.id}
-                    className="flex gap-4 px-4 py-4 hover:bg-gray-100 cursor-pointer border-b last:border-b-0 relative"
+                    className={`flex gap-4 px-4 py-4 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0 relative transition-all duration-200 ${
+                      !item.read ? "bg-blue-50/50" : ""
+                    }`}
                     onClick={() => handleNotificationClick(item.id)}
                   >
                     <img
                       src={item.avatar}
                       alt="avatar"
-                      className="w-14 h-14 rounded-full object-cover"
+                      className="w-12 h-12 rounded-full object-cover ring-2 ring-offset-2 ring-blue-100"
                     />
                     <div className="flex-1 min-w-0 pr-6 relative">
-                      <div className={`text-gray-900 text-sm leading-relaxed`}>
+                      <div
+                        className={`text-gray-900 text-sm leading-relaxed ${
+                          !item.read ? "font-medium" : ""
+                        }`}
+                      >
                         {truncateText(item.content)}
                       </div>
                       <div
                         className={`text-xs mt-1 ${
-                          !item.read ? "text-[#6BB0FF]" : "text-gray-400"
+                          !item.read ? "text-blue-500" : "text-gray-400"
                         }`}
                       >
                         {item.date}
                       </div>
 
                       {!item.read && (
-                        <span className="absolute top-1/2 right-0 transform -translate-y-1/2 w-2 h-2 rounded-full bg-[#6BB0FF]"></span>
+                        <span className="absolute top-1/2 right-0 transform -translate-y-1/2 w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
                       )}
                     </div>
                   </li>
@@ -158,9 +166,9 @@ const NoticeIcon = () => {
               </ul>
             )}
           </div>
-          <div className=" p-2 pt-0 text-black text-center">
+          <div className="p-3 bg-gray-50 border-t border-gray-100">
             <button
-              className="w-full py-2 px-4 bg-gray-100 hover:bg-gray-200 text-gray-100 rounded-lg text-sm font-medium transition-colors duration-200"
+              className="w-full py-2 px-4 bg-white hover:bg-gray-100 text-gray-700 rounded-lg text-sm font-medium transition-all duration-200 border border-gray-200 hover:border-gray-300"
               onClick={handleClear}
             >
               Xoá tất cả thông báo
