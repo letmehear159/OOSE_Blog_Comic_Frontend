@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import {
   getBlogCharacterAPI,
   getBlogComicAPI,
@@ -11,8 +11,6 @@ import { Content } from 'antd/es/layout/layout.js'
 import Sider from 'antd/es/layout/Sider.js'
 import {
   LeftOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
   RightOutlined,
 } from '@ant-design/icons'
 import { RelatedBlogCharacter } from '../components/character-related-blogs/RelatedBlogCharacter.jsx'
@@ -20,6 +18,9 @@ import { URL_BACKEND_IMAGES } from '../constants/images.js'
 import { BloggerInfo } from '../components/blog/BloggerInfo.jsx'
 import { formatDatetimeWithTimeFirst } from '../services/helperService.js'
 import { ROUTES } from '../constants/api.js'
+import PostActions from '../components/PostActions.jsx';
+import { saveFavouriteBlogAPI, removeFavouriteBlogAPI, getFavouriteByUserAndBlogAPI } from '../services/favoriteService.js';
+import { AuthContext } from '../context/auth.context.jsx';
 
 export const ViewBlogCharacterPage = () => {
   const { id } = useParams()
@@ -27,6 +28,9 @@ export const ViewBlogCharacterPage = () => {
   const [collapsed, setCollapsed] = useState(false)
   const [blogComic, setBlogComic] = useState(null)
   const navigate = useNavigate()
+  const { user } = useContext(AuthContext);
+  const [favouriteId, setFavouriteId] = useState(null);
+
   useEffect(() => {
     if (!id) return
 
@@ -42,11 +46,20 @@ export const ViewBlogCharacterPage = () => {
               message.error('Không thể tải blog.')
             })
         }
+        // Kiểm tra đã favourite chưa
+        if (user && res.id) {
+          getFavouriteByUserAndBlogAPI(user.id, res.id)
+            .then(favRes => {
+              if (favRes && favRes.id) setFavouriteId(favRes.id);
+              else setFavouriteId(null);
+            })
+            .catch(() => setFavouriteId(null));
+        }
       })
       .catch((err) => {
         message.error('Không thể tải blog.')
       })
-  }, [id])
+  }, [id, user])
 
   return (
     <>
@@ -130,6 +143,38 @@ export const ViewBlogCharacterPage = () => {
                       className={'font-bold py-2 my-2 text-4xl    text-[#333333]'}
                     >
                       {blog.title}
+                    </div>
+                    <div className="flex justify-end my-4">
+                      <PostActions
+                        likes={blog.rateCount || 0}
+                        comments={blog.commentCount || 0}
+                        saves={blog.saveCount || 0}
+                        isSaved={!!favouriteId}
+                        onLike={() => {}}
+                        onComment={() => {}}
+                        onSave={async (willBeSaved) => {
+                          try {
+                            if (!user) {
+                              message.error('Bạn cần đăng nhập để lưu bài viết');
+                              return;
+                            }
+                            if (willBeSaved) {
+                              const res = await saveFavouriteBlogAPI(user.id, blog.id);
+                              setFavouriteId(res.id);
+                              message.success('Đã lưu bài viết');
+                            } else {
+                              if (favouriteId) {
+                                await removeFavouriteBlogAPI(favouriteId);
+                                setFavouriteId(null);
+                                message.success('Đã bỏ lưu bài viết');
+                              }
+                            }
+                          } catch (err) {
+                            message.error('Có lỗi khi lưu/bỏ yêu thích!');
+                          }
+                        }}
+                        onShare={() => {}}
+                      />
                     </div>
                     <BloggerInfo
                       name={blog.author.displayName}

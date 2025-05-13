@@ -6,6 +6,8 @@ import UserForm from "../components/User/UserForm";
 import AvatarUpload from "../components/User/AvatarUpload";
 import { AvatarDisplay } from "../components/User/AvatarUpload";
 import { jwtDecode } from "jwt-decode"; 
+import FavouriteList from "../components/Favourite/FavouriteList";
+import { getFavouritesByUserAPI } from '../services/favoriteService.js';
 
 import { 
   fetchUserById, 
@@ -30,6 +32,7 @@ const UserPage = () => {
     avatar: null
   });
   const [loading, setLoading] = useState(true);
+  const [favouriteBlogs, setFavouriteBlogs] = useState([]);
   
   // Get URL parameters
   const { id: paramId, username: paramUsername, email: paramEmail } = useParams();
@@ -49,7 +52,9 @@ const UserPage = () => {
           } catch {}
         }
 
-        if (username) {
+        if (paramId) {
+          response = await fetchUserById(paramId);
+        } else if (username) {
           response = await fetchUserByUsername(username);
         } else if (accessToken) {
           try {
@@ -94,6 +99,15 @@ const UserPage = () => {
           role: user.role || 'user',
           avatar: user.avatar || null
         });        
+        // Lấy danh sách bài viết yêu thích
+        if (user.id) {
+          try {
+            const favRes = await getFavouritesByUserAPI(user.id);
+            setFavouriteBlogs(favRes.map(fav => fav.blog || fav));
+          } catch (e) {
+            setFavouriteBlogs([]);
+          }
+        }
       } catch (error) {
         if (
           error?.response?.data?.message === 'Handle All exception' &&
@@ -207,6 +221,12 @@ const UserPage = () => {
             <div className="md:w-3/5">
               <UserForm initialData={userData} onSubmit={handleUserUpdate} />
             </div>
+          </div>
+        </TabPane>
+        <TabPane tab="Bài viết yêu thích" key="3">
+          <div className="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 className="text-xl font-semibold mb-4">Bài viết yêu thích</h2>
+            <FavouriteList blogs={favouriteBlogs} />
           </div>
         </TabPane>
       </Tabs>
