@@ -1,53 +1,62 @@
-import React, { useState, useRef, useEffect } from "react";
-import { ROUTES } from '../../constants/api.js';
+import React, { useState, useRef, useEffect, useContext } from 'react'
+import { Button, message } from 'antd'
+import { AuthContext } from '../../context/auth.context.jsx'
+import { useNavigate } from 'react-router-dom'
+import { ROUTES } from '../../constants/api.js'
+import { URL_BACKEND_IMAGES } from '../../constants/images.js'
 
-const menuOptions = [
-  {
-    label: "My Profile",
-    icon: (
-      <svg
-        className="w-5 h-5 mr-2 text-gray-500"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={2}
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M5.121 17.804A9 9 0 1112 21a9 9 0 01-6.879-3.196z"
-        />
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-        />
-      </svg>
-    ),
-    onClick: () => {
-      // Lấy access_token và decode username
-      const accessToken = localStorage.getItem('access_token');
-      let username = '';
-      if (accessToken) {
-        try {
-          const decoded = JSON.parse(atob(accessToken.split('.')[1]));
-          username = decoded?.user?.username || decoded?.sub || decoded?.username || decoded?.preferred_username || '';
-        } catch (e) {
-          // fallback nếu jwtDecode có sẵn
+const UserMenu = () => {
+  const { user, setUser } = useContext(AuthContext)
+  const [open, setOpen] = useState(false)
+  const ref = useRef()
+  const navigate = useNavigate()
+  const menuOptions = [
+    {
+      label: 'My Profile',
+      icon: (
+        <svg
+          className="w-5 h-5 mr-2 text-gray-500"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M5.121 17.804A9 9 0 1112 21a9 9 0 01-6.879-3.196z"
+          />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+          />
+        </svg>
+      ),
+      onClick: () => {
+        // Lấy access_token và decode username
+        const accessToken = localStorage.getItem('access_token');
+        let username = '';
+        if (accessToken) {
           try {
-            // eslint-disable-next-line
-            const { jwtDecode } = require('jwt-decode');
-            username = jwtDecode(accessToken)?.user?.username || jwtDecode(accessToken)?.sub || jwtDecode(accessToken)?.username || jwtDecode(accessToken)?.preferred_username || '';
-          } catch {}
+            const decoded = JSON.parse(atob(accessToken.split('.')[1]));
+            username = decoded?.user?.username || decoded?.sub || decoded?.username || decoded?.preferred_username || '';
+          } catch (e) {
+            // fallback nếu jwtDecode có sẵn
+            try {
+              // eslint-disable-next-line
+              const { jwtDecode } = require('jwt-decode');
+              username = jwtDecode(accessToken)?.user?.username || jwtDecode(accessToken)?.sub || jwtDecode(accessToken)?.username || jwtDecode(accessToken)?.preferred_username || '';
+            } catch {}
+          }
         }
-      }
-      if (username) {
-        window.location.href = ROUTES.USER_BY_USERNAME.replace(':username', username);
-      } else {
-        window.location.href = ROUTES.LOGIN;
-      }
+        if (username) {
+          window.location.href = ROUTES.USER_BY_USERNAME.replace(':username', username);
+        } else {
+          window.location.href = ROUTES.LOGIN;
+        }
+      },
     },
-  },
 
     {
       label: 'Setting',

@@ -102,6 +102,8 @@ const router = createBrowserRouter([
   {
     path: ROUTES.USER_BY_USERNAME,
     element: <UserPage />,
+  },
+  {
     path: ROUTES.USERS,
     element: <UserPage/>,
   },
@@ -122,8 +124,6 @@ const router = createBrowserRouter([
     element: <CommentAdminPage/>,
   },
 ]);
-
-])
 
 createRoot(document.getElementById('root')).render(
   <AuthWrapper>
