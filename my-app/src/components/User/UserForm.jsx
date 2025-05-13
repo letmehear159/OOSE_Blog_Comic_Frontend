@@ -19,10 +19,6 @@ function UserForm({ initialData, onSubmit }) {
       newErrors.email = 'Email không hợp lệ';
     }
     
-    if (data.phoneNumber && !/^[0-9]{10}$/.test(data.phoneNumber)) {
-      newErrors.phoneNumber = 'Số điện thoại không hợp lệ';
-    }
-    
     if (!data.username) {
       newErrors.username = 'Vui lòng nhập tên người dùng';
     }
