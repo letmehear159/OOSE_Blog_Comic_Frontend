@@ -35,60 +35,20 @@ const UserPage = () => {
   const [favouriteBlogs, setFavouriteBlogs] = useState([]);
   
   // Get URL parameters
-  const { id: paramId, username: paramUsername, email: paramEmail } = useParams();
+  const { id: paramId } = useParams();
   const location = useLocation();
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         setLoading(true);
         let response;
-
-        const accessToken = localStorage.getItem('access_token');
-        let username = paramUsername;
-        if (!username && accessToken) {
-          try {
-            const decoded = jwtDecode(accessToken);
-            username = decoded?.user?.username || decoded?.sub || decoded?.username || decoded?.preferred_username;
-          } catch {}
-        }
-
         if (paramId) {
           response = await fetchUserById(paramId);
-        } else if (username) {
-          response = await fetchUserByUsername(username);
-        } else if (accessToken) {
-          try {
-            response = await fetchAccountAPI();
-          } catch (e) {
-            try {
-              const decoded = jwtDecode(accessToken);
-              const username = decoded?.user?.username || decoded?.sub || decoded?.username || decoded?.preferred_username;
-              try {
-                response = await fetchUserByUsername(username);
-                if (response.status === 404 || 
-                    (response.data && 
-                     (response.data.status === 'error' || 
-                      response.data.message === 'User Not found' || 
-                      response.data.data === 'User Not found'))) {
-                  message.error(`Không tìm thấy thông tin cho người dùng ${username}`);
-                  throw new Error('Người dùng không tồn tại trong hệ thống');
-                }
-              } catch (usernameError) {
-                message.error("Không thể tìm thấy thông tin tài khoản");
-                setLoading(false);
-                return;
-              }
-            } catch (tokenError) {
-              message.error('Không thể xác minh thông tin người dùng');
-              setLoading(false);
-              return;
-            }
-          }
         } else {
           message.error('Không tìm thấy thông tin người dùng, vui lòng đăng nhập');
           setLoading(false);
           return;
-        }        
+        }
         const user = response.data || response;
         setUserData({
           id: user.id,
@@ -98,7 +58,7 @@ const UserPage = () => {
           username: user.username || '',
           role: user.role || 'user',
           avatar: user.avatar || null
-        });        
+        });
         // Lấy danh sách bài viết yêu thích
         if (user.id) {
           try {
@@ -109,22 +69,14 @@ const UserPage = () => {
           }
         }
       } catch (error) {
-        if (
-          error?.response?.data?.message === 'Handle All exception' &&
-          (error?.response?.data?.data === 'User Not found' || error?.response?.data?.message === 'User Not found')
-        ) {
-          message.error('Không tìm thấy người dùng này trong hệ thống!');
-        } else {
-          message.error('Không thể tải thông tin người dùng');
-        }
+        message.error('Không thể tải thông tin người dùng');
         console.error('Error fetching user data:', error);
       } finally {
         setLoading(false);
       }
     };
-
     fetchUserData();
-  }, [paramId, paramUsername, paramEmail, location.pathname]);
+  }, [paramId, location.pathname]);
   
   const handleUserUpdate = async (updatedData) => {
     try {
@@ -148,19 +100,10 @@ const UserPage = () => {
         const newAccessToken = await updateUserToken(userData.id, userUpdateReq);
         if (newAccessToken) {
           localStorage.setItem('access_token', newAccessToken);
-          
-          // Decode token mới để lấy thông tin username mới
-          try {
-            const decoded = jwtDecode(newAccessToken);
-            const newUsername = decoded?.user?.username || decoded?.sub || decoded?.username || decoded?.preferred_username;
-            
-            // Cập nhật URL theo username mới nếu khác với URL hiện tại
-            if (newUsername && window.location.pathname !== `/users/${newUsername}`) {
-              window.history.replaceState(null, '', `/users/${newUsername}`);
-            }
-          } catch (err) {
-            console.error("Không thể decode token mới:", err);
-          }
+        }
+        // Cập nhật URL về /users/:id
+        if (window.location.pathname !== `/users/${userData.id}`) {
+          window.history.replaceState(null, '', `/users/${userData.id}`);
         }
       }
       // Bước 3: Luôn fetch lại user bằng id để cập nhật UI

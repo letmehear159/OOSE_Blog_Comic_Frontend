@@ -34,26 +34,30 @@ const UserMenu = () => {
         </svg>
       ),
       onClick: () => {
-        // Lấy access_token và decode username
+        // Lấy access_token và decode userId
         const accessToken = localStorage.getItem('access_token');
-        let username = '';
+        let userId = '';
         if (accessToken) {
           try {
             const decoded = JSON.parse(atob(accessToken.split('.')[1]));
-            username = decoded?.user?.username || decoded?.sub || decoded?.username || decoded?.preferred_username || '';
+            userId = decoded?.user?.id || decoded?.id || decoded?.sub || '';
           } catch (e) {
-            // fallback nếu jwtDecode có sẵn
             try {
               // eslint-disable-next-line
               const { jwtDecode } = require('jwt-decode');
-              username = jwtDecode(accessToken)?.user?.username || jwtDecode(accessToken)?.sub || jwtDecode(accessToken)?.username || jwtDecode(accessToken)?.preferred_username || '';
+              const decoded = jwtDecode(accessToken);
+              userId = decoded?.user?.id || decoded?.id || decoded?.sub || '';
             } catch {}
           }
         }
-        if (username) {
-          window.location.href = ROUTES.USER_BY_USERNAME.replace(':username', username);
+        if (userId && !isNaN(Number(userId))) {
+          window.location.href = ROUTES.USER_BY_ID.replace(':id', userId);
         } else {
-          window.location.href = ROUTES.LOGIN;
+          if (user && user.username) {
+            message.error('Không tìm thấy id hợp lệ trong token, vui lòng đăng xuất và đăng nhập lại!');
+          } else {
+            window.location.href = ROUTES.LOGIN;
+          }
         }
       },
     },
@@ -106,26 +110,31 @@ const UserMenu = () => {
 
   const goToLogin = () => {
     const accessToken = localStorage.getItem('access_token');
-    let username = '';
+    let userId = '';
     if (accessToken) {
       try {
         const decoded = JSON.parse(atob(accessToken.split('.')[1]));
-        username = decoded?.user?.username || decoded?.sub || decoded?.username || decoded?.preferred_username || '';
+        userId = decoded?.user?.id || decoded?.id || decoded?.sub || '';
       } catch (e) {
-        // fallback nếu jwtDecode có sẵn
         try {
           // eslint-disable-next-line
           const { jwtDecode } = require('jwt-decode');
-          username = jwtDecode(accessToken)?.user?.username || jwtDecode(accessToken)?.sub || jwtDecode(accessToken)?.username || jwtDecode(accessToken)?.preferred_username || '';
+          const decoded = jwtDecode(accessToken);
+          userId = decoded?.user?.id || decoded?.id || decoded?.sub || '';
         } catch {}
       }
-      }
-    if (username) {
-      window.location.href = ROUTES.USER_BY_USERNAME.replace(':username', username);
+    }
+    if (userId && !isNaN(Number(userId))) {
+      window.location.href = ROUTES.USER_BY_ID.replace(':id', userId);
+    } else {
+      if (user && user.username) {
+        message.error('Không tìm thấy id hợp lệ trong token, vui lòng đăng xuất và đăng nhập lại!');
       } else {
-      window.location.href = ROUTES.LOGIN;
+        window.location.href = ROUTES.LOGIN;
+      }
     }
   }
+
   const handleLogout = () => {
     localStorage.removeItem('access_token')
     setUser(null)
