@@ -152,18 +152,7 @@ const Homepage = () => {
   return (
     <div className="bg-gray-50 flex flex-col flex-1 min-h-screen">
       <div className="flex justify-center p-10">
-        <div>
-          <PostActions
-            likes={pagedReviews[0]?.rateCount || 0}
-            comments={pagedReviews[0]?.commentCount || 0}
-            saves={pagedReviews[0]?.saveCount || 0}
-            isSaved={false}
-            onLike={(newLikes) => console.log("Likes updated:", newLikes)}
-            onComment={() => console.log("Comment clicked")}
-            onSave={(isSaved) => console.log("Save status:", isSaved)}
-            onShare={() => console.log("Share clicked")}
-          />
-        </div>
+        <div></div>
         <div className="w-4/6 text-black p-6 flex flex-col gap-3 items-center h-full">
           {pagedReviews.map((item, idx) => (
             <HorizontalCard key={startIdx + idx} {...item} />

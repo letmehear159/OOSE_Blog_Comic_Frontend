@@ -1,5 +1,19 @@
 import React, { useState } from "react";
 
+// Dùng ở component cha như sau :
+{
+  /* <PostActions
+likes={pagedReviews[0]?.rateCount || 0}
+comments={pagedReviews[0]?.commentCount || 0}
+saves={pagedReviews[0]?.saveCount || 0}
+isSaved={false}
+onLike={(newLikes) => console.log("Likes updated:", newLikes)}
+onComment={() => console.log("Comment clicked")}
+onSave={(isSaved) => console.log("Save status:", isSaved)}
+onShare={() => console.log("Share clicked")}
+/> */
+}
+
 const PostActions = ({
   likes: initialLikes,
   comments: initialComments,
