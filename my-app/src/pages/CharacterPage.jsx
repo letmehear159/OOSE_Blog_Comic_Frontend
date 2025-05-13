@@ -5,7 +5,8 @@ import itachiImg from "../assets/images/itachi.webp";
 
 const comics = [
   {
-    image: itachiImg,
+    image:
+      "https://i.pinimg.com/736x/e1/1a/c0/e11ac0f5655e23c127b0781d5cd0fc87.jpg",
     date: "15/03/2024",
     title: "Itachi Uchiha",
     description: '"Naruto Shippuden"',
@@ -16,7 +17,8 @@ const comics = [
     viewCount: 25000,
   },
   {
-    image: itachiImg,
+    image:
+      "https://scontent.fsgn5-3.fna.fbcdn.net/v/t1.6435-9/168381939_215820883651914_8401945900701119093_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=f727a1&_nc_eui2=AeFyJgHqHoMYC_hA-c062bGM8UDJISpOZq3xQMkhKk5mrXZETKoysRvG7Zo0NE8SJVmVgy7XcxKDDI_Rqi7TbP8N&_nc_ohc=FLQwmPX-yLwQ7kNvwE5BKr-&_nc_oc=AdmlG37i5MeJA0Nahr7qgd_PZoDre0voECxD4GRnIvs3mqVoqnCfoNw6yY6O-SIjchI&_nc_zt=23&_nc_ht=scontent.fsgn5-3.fna&_nc_gid=9eMMHvRjL3HOmqhdP2sGHw&oh=00_AfKp1uYa33J2WrdZri7qUggMvfVRoD7GzF7xpn3QarIeIg&oe=68498DBD",
     date: "02/07/2024",
     title: "Lâm Phàm",
     description: '"Ngã Dục Phong Thiên"',
@@ -27,7 +29,8 @@ const comics = [
     viewCount: 18000,
   },
   {
-    image: itachiImg,
+    image:
+      "https://i.pinimg.com/736x/b2/cf/e7/b2cfe76fbfc78fc90468ab63c65bef67.jpg",
     date: "22/11/2025",
     title: "Gojou Satoru",
     description: '"Jujutsu Kaisen"',
@@ -38,7 +41,8 @@ const comics = [
     viewCount: 22000,
   },
   {
-    image: itachiImg,
+    image:
+      "https://i.pinimg.com/736x/71/8d/2e/718d2e91155df471b20204ce61726eaf.jpg",
     date: "08/09/2025",
     title: "Trương Tiểu Phàm",
     description: '"Tru Tiên"',
@@ -49,7 +53,8 @@ const comics = [
     viewCount: 16000,
   },
   {
-    image: itachiImg,
+    image:
+      "https://i.pinimg.com/736x/36/45/3d/36453d23b58e6465ca3f71027b06db93.jpg",
     date: "30/12/2024",
     title: "Levi Ackerman",
     description: '"Attack on Titan"',
@@ -60,7 +65,8 @@ const comics = [
     viewCount: 24000,
   },
   {
-    image: itachiImg,
+    image:
+      "https://i.pinimg.com/736x/70/d7/ce/70d7ce03324c25b462962ad156d6b542.jpg",
     date: "18/06/2024",
     title: "Vương Lâm",
     description: '"Tiên Nghịch"',
@@ -71,7 +77,8 @@ const comics = [
     viewCount: 19000,
   },
   {
-    image: itachiImg,
+    image:
+      "https://i.pinimg.com/736x/17/27/94/172794e736e2e61246cf1ece1050f872.jpg",
     date: "04/01/2025",
     title: "Killua Zoldyck",
     description: '"Hunter x Hunter"',
@@ -82,7 +89,8 @@ const comics = [
     viewCount: 21000,
   },
   {
-    image: itachiImg,
+    image:
+      "https://i.pinimg.com/736x/1f/b1/54/1fb154a177c1bec5c915793ef5d77748.jpg",
     date: "10/10/2025",
     title: "Hàn Lập",
     description: '"Phàm Nhân Tu Tiên"',
@@ -92,19 +100,10 @@ const comics = [
     saveCount: 620,
     viewCount: 17000,
   },
+
   {
-    image: itachiImg,
-    date: "25/08/2024",
-    title: "Gojo Yuujiro",
-    description: '"Baki the Grappler"',
-    rate: 4.5,
-    rateCount: 1500,
-    commentCount: 280,
-    saveCount: 550,
-    viewCount: 15000,
-  },
-  {
-    image: itachiImg,
+    image:
+      "https://i.pinimg.com/736x/b8/ed/0e/b8ed0ee8ed2c2820edad2e3dce6bb8f7.jpg",
     date: "13/05/2024",
     title: "Đường Tam",
     description: '"Đấu La Đại Lục"',

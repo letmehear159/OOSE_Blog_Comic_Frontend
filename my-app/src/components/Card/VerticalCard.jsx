@@ -35,31 +35,54 @@ const VerticalCard = ({
   return (
     <Link to={`/review/${slugify(title)}`}>
       <Card
-        className="hover:shadow-lg transition-shadow duration-300"
+        className="hover:shadow-xl transition-all duration-300 group"
         hoverable
         style={{
           width: 320,
-          borderRadius: 12,
-          overflow: 'hidden',
+          borderRadius: 16,
+          overflow: "hidden",
         }}
         cover={
-          <div style={{ position: 'relative' }}>
+          <div style={{ position: "relative" }}>
             <img
               alt={title}
-              src={`${URL_BACKEND_IMAGES}/${thumbnail}`}
-              style={{ width: '100%', height: 180, objectFit: 'cover' }}
+              src={image}
+              className="group-hover:scale-105 transition-transform duration-300"
+              style={{ width: "100%", height: 280, objectFit: "cover" }}
             />
             <div
-              className="absolute top-2 left-2 flex flex-wrap gap-1"
-              style={{ maxWidth: "80%" }}
+              className="absolute top-3 left-3 flex flex-wrap gap-1.5"
+              style={{ maxWidth: "85%" }}
             >
               {types.map((type, index) => (
-                <Tag key={`type-${index}`} color="blue" style={{ margin: 0 }}>
+                <Tag
+                  key={`type-${index}`}
+                  color="blue"
+                  style={{
+                    margin: 0,
+                    borderRadius: 6,
+                    padding: "2px 8px",
+                    fontSize: 12,
+                    fontWeight: 500,
+                    border: "none",
+                  }}
+                >
                   {type}
                 </Tag>
               ))}
               {tags.map((tag, index) => (
-                <Tag key={`tag-${index}`} color="green" style={{ margin: 0 }}>
+                <Tag
+                  key={`tag-${index}`}
+                  color="green"
+                  style={{
+                    margin: 0,
+                    borderRadius: 6,
+                    padding: "2px 8px",
+                    fontSize: 12,
+                    fontWeight: 500,
+                    border: "none",
+                  }}
+                >
                   {tag}
                 </Tag>
               ))}
@@ -67,59 +90,53 @@ const VerticalCard = ({
           </div>
         }
       >
-        <p style={{ marginBottom: 4, fontSize: 12, color: '#999' }}>{formatDatetimeWithTimeFirst(createdAt)}</p>
-        <h3
-          style={{
-            margin: 0,
-            fontWeight: 600,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: "vertical",
-            lineHeight: "1.4em",
-            height: "2.3em",
-            fontSize: "16px",
-          }}
-          className="hover:text-red-500"
-        >
-          {title}
-        </h3>
-        <p
-          style={{
-            color: "#666",
-            marginBottom: 20,
-            fontSize: 13,
-            lineHeight: "1.4em",
-            height: "4em",
-          }}
-        >
-          {truncateDescription(description)}
-        </p>
-        <div className="flex items-center justify-between mt-2 text-gray-500 text-xs pt-1">
-          <div className="flex items-center gap-0.5">
-            <span className="text-yellow-500 text-xs">★</span>
-            <span>{rate.toFixed(1)}</span>
-            <span className="text-gray-400">({rateCount})</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-0.5">
-              <EyeOutlined className="text-xs" />
-              <span>{viewCount}</span>
+        <div className="px-1">
+          <p className="text-xs text-gray-500 mb-2">{date}</p>
+          <h3
+            className="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors duration-300 mb-2 line-clamp-2"
+            style={{
+              lineHeight: "1.4em",
+              height: "2.8em",
+            }}
+          >
+            {title}
+          </h3>
+          <p
+            className="text-sm text-gray-600 mb-4 line-clamp-3"
+            style={{
+              lineHeight: "1.5em",
+              height: "4.5em",
+            }}
+          >
+            {truncateDescription(description)}
+          </p>
+          <div className="flex items-center justify-between pt-2 border-t border-gray-100">
+            <div className="flex items-center gap-1">
+              <span className="text-yellow-500 text-xs">★</span>
+              <span className="text-xs font-medium text-gray-700">
+                {rate.toFixed(1)}
+              </span>
+              <span className="text-xs text-gray-400">({rateCount})</span>
             </div>
-            <div className="flex items-center gap-0.5">
-              <MessageOutlined className="text-xs" />
-              <span>{commentCount}</span>
-            </div>
-            <div className="flex items-center gap-0.5">
-              <BookOutlined className="text-xs" />
-              <span>{saveCount}</span>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center gap-1">
+                <EyeOutlined className="text-blue-500 text-xs" />
+                <span className="text-xs text-gray-600">{viewCount}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <MessageOutlined className="text-green-500 text-xs" />
+                <span className="text-xs text-gray-600">{commentCount}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <BookOutlined className="text-purple-500 text-xs" />
+                <span className="text-xs text-gray-600">{saveCount}</span>
+              </div>
             </div>
           </div>
         </div>
       </Card>
     </Link>
-  )
-}
+  );
+};
 
-export default VerticalCard
+export default VerticalCard;
