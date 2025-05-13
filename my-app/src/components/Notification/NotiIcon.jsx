@@ -1,70 +1,66 @@
 // NoticeIcon.jsx
 import React, { useState, useRef, useEffect } from "react";
 
-const notifications = [
-  {
-    id: "000000001",
-    avatar:
-      "https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png",
-    title: "Bạn nhận được 14 báo cáo mới",
-    description: "Kiểm tra các báo cáo tuần này trong dashboard.",
-    datetime: "2024-06-10 09:00",
-    read: false,
-  },
-  {
-    id: "000000002",
-    avatar:
-      "https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png",
-    title: "Tài khoản đã được cập nhật",
-    description: "Thông tin cá nhân của bạn đã thay đổi.",
-    datetime: "2024-06-09 15:30",
-    read: false,
-  },
-  {
-    id: "000000003",
-    avatar:
-      "https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png",
-    title: "Có bài viết mới từ bạn bè",
-    description: "",
-    datetime: "2024-06-08 20:10",
-    read: false,
-  },
-];
-
 const NoticeIcon = () => {
   const [open, setOpen] = useState(false);
   const [notifications, setNotifications] = useState([
     {
       id: "000000001",
-      avatar:
-        "https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png",
-      title: "Bạn nhận được 14 báo cáo mới",
-      description: "Kiểm tra các báo cáo tuần này trong dashboard.",
-      datetime: "2024-06-10 09:00",
+      avatar: "https://i.pravatar.cc/150?img=1",
+      content:
+        "Nguyễn Văn A đã bình luận về bài viết của bạn: 'Bài review về Itachi rất hay, phân tích sâu sắc!'",
+      date: "10/06/2024",
       read: false,
     },
     {
       id: "000000002",
-      avatar:
-        "https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png",
-      title: "Tài khoản đã được cập nhật",
-      description: "Thông tin cá nhân của bạn đã thay đổi.",
-      datetime: "2024-06-09 15:30",
+      avatar: "https://i.pravatar.cc/150?img=2",
+      content:
+        "Trần Thị B đã lưu bài viết 'Phân tích nhân vật Levi Ackerman' của bạn",
+      date: "09/06/2024",
       read: false,
     },
     {
       id: "000000003",
-      avatar:
-        "https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png",
-      title: "Có bài viết mới từ bạn bè",
-      description: "",
-      datetime: "2024-06-08 20:10",
+      avatar: "https://i.pravatar.cc/150?img=3",
+      content: "Lê Văn C đã thích bài viết của bạn về Gojou Satoru",
+      date: "08/06/2024",
+      read: false,
+    },
+    {
+      id: "000000004",
+      avatar: "https://i.pravatar.cc/150?img=4",
+      content: "Phạm Thị D đã theo dõi bạn",
+      date: "07/06/2024",
+      read: false,
+    },
+    {
+      id: "000000005",
+      avatar: "https://i.pravatar.cc/150?img=5",
+      content:
+        "Hoàng Văn E đã trả lời bình luận của bạn: 'Cảm ơn bạn đã chia sẻ góc nhìn thú vị về nhân vật này!'",
+      date: "06/06/2024",
+      read: false,
+    },
+    {
+      id: "000000006",
+      avatar: "https://i.pravatar.cc/150?img=6",
+      content:
+        "Đỗ Thị F đã đề xuất bài viết mới: 'Phân tích sâu về nhân vật Killua Zoldyck'",
+      date: "05/06/2024",
+      read: false,
+    },
+    {
+      id: "000000007",
+      avatar: "https://i.pravatar.cc/150?img=7",
+      content: "Vũ Văn G đã chia sẻ bài viết của bạn về Vương Lâm",
+      date: "04/06/2024",
       read: false,
     },
   ]);
+
   const ref = useRef();
 
-  // Đóng dropdown khi click ra ngoài
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (ref.current && !ref.current.contains(event.target)) setOpen(false);
@@ -87,10 +83,18 @@ const NoticeIcon = () => {
 
   const unreadCount = notifications.filter((noti) => !noti.read).length;
 
+  const truncateText = (text, maxWords = 15) => {
+    const words = text.split(" ");
+    if (words.length > maxWords) {
+      return words.slice(0, maxWords).join(" ") + "...";
+    }
+    return text;
+  };
+
   return (
-    <div className="relative pt-2" ref={ref}>
+    <div className="relative pt-1" ref={ref}>
       <button
-        className="relative text-gray-500 hover:text-blue-600 focus:outline-none"
+        className="relative text-gray-500 bg-blue-400 p-1.5 rounded-full hover:text-blue-600 focus:outline-none"
         onClick={() => setOpen((o) => !o)}
       >
         <svg
@@ -114,7 +118,7 @@ const NoticeIcon = () => {
       </button>
       {open && (
         <div className="absolute right-0 mt-2 w-96 bg-white border border-gray-200 rounded shadow-lg z-50">
-          <div className="p-4 border-b font-bold text-gray-700 ">Thông báo</div>
+          <div className="p-4 border-b font-bold text-gray-700">Thông báo</div>
           <div className="max-h-80 overflow-y-auto">
             {notifications.length === 0 ? (
               <div className="flex flex-col items-center py-8">
@@ -125,38 +129,44 @@ const NoticeIcon = () => {
                 {notifications.map((item) => (
                   <li
                     key={item.id}
-                    className="flex gap-3 px-4 py-4 hover:bg-gray-100 cursor-pointer border-b last:border-b-0 relative"
+                    className="flex gap-4 px-4 py-4 hover:bg-gray-100 cursor-pointer border-b last:border-b-0 relative"
                     onClick={() => handleNotificationClick(item.id)}
                   >
                     <img
                       src={item.avatar}
                       alt="avatar"
-                      className="w-10 h-10 rounded-full object-cover"
+                      className="w-14 h-14 rounded-full object-cover"
                     />
-                    <div className="flex-1 min-w-0">
-                      <div className="font-semibold text-gray-900 truncate flex items-center">
-                        {item.title}
-                        {!item.read && (
-                          <span className="ml-2 w-2 h-2 rounded-full bg-red-500 inline-block"></span>
-                        )}
+                    <div className="flex-1 min-w-0 pr-6 relative">
+                      <div
+                        className={`text-gray-900 text-sm leading-relaxed ${
+                          !item.read ? "font-bold" : ""
+                        }`}
+                      >
+                        {truncateText(item.content)}
                       </div>
-                      {item.description && item.description.trim() !== "" && (
-                        <div className="text-gray-500 text-sm truncate">
-                          {item.description}
-                        </div>
+                      <div
+                        className={`text-xs mt-1 ${
+                          !item.read
+                            ? "text-[#6BB0FF] font-bold"
+                            : "text-gray-400"
+                        }`}
+                      >
+                        {item.date}
+                      </div>
+
+                      {!item.read && (
+                        <span className="absolute top-1/2 right-0 transform -translate-y-1/2 w-2 h-2 rounded-full bg-[#6BB0FF]"></span>
                       )}
-                      <div className="text-gray-400 text-xs mt-1">
-                        {item.datetime}
-                      </div>
                     </div>
                   </li>
                 ))}
               </ul>
             )}
           </div>
-          <div className="p-2 border-t text-black text-center">
+          <div className=" p-2 pt-0 text-black text-center">
             <button
-              className="text-blue-600 hover:underline text-sm font-medium"
+              className="w-full py-2 px-4 bg-gray-100 hover:bg-gray-200 text-gray-100 rounded-lg text-sm font-medium transition-colors duration-200"
               onClick={handleClear}
             >
               Xoá tất cả thông báo
