@@ -14,3 +14,13 @@ export const saveReactionToABlogAPI = async ({ userId, blogId, reaction, type })
     throw error
   }
 }
+
+export const getAllReactionCountAPI = async () => {
+  try {
+    // Sử dụng endpoint chuẩn để cập nhật thông tin người dùng
+    const response = await axios.get(URL_BACKEND + `/api/v1/reactions/count-all`)
+    return response
+  } catch (error) {
+    throw error
+  }
+}

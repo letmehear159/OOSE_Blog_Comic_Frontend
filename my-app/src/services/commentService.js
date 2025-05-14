@@ -50,3 +50,13 @@ export const getCommentCountOfBlogAPI = async (blogId) => {
     throw error
   }
 }
+
+export const getAllCommentCountAPI = async () => {
+  try {
+    const response = await axios.get(URL_BACKEND + `/api/v1/comments/count-all`)
+    // Xử lý hoặc kiểm tra dữ liệu nếu cần
+    return response
+  } catch (error) {
+    throw error
+  }
+}
