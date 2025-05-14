@@ -32,6 +32,7 @@ import {
 } from '../services/favoriteService.js'
 import { getCommentCountOfBlogAPI } from '../services/commentService.js'
 import { saveReactionToABlogAPI } from '../services/reactionService.js'
+import { followUserAPI, unfollowUserAPI, fetchAllFollowsAPI, getFollowingByUserAPI } from '../services/followService.js'
 
 export const ViewBlogComicPage = () => {
   const { id } = useParams()
@@ -43,6 +44,7 @@ export const ViewBlogComicPage = () => {
   const [favouriteId, setFavouriteId] = useState(null)
   const [commentCount, setCommentCount] = useState(null)
   const [saveCount, setSaveCount] = useState(null)
+  const [isFollowing, setIsFollowing] = useState(false);
   const navigate = useNavigate()
   useEffect(() => {
     if (!id) return
@@ -100,6 +102,25 @@ export const ViewBlogComicPage = () => {
       message.error(e.data)
     }
   }
+
+  useEffect(() => {
+    if (user && blog && blog.author && user.id !== blog.author.userId) {
+      console.log('user.id:', user.id)
+      console.log('blog.author.userId:', blog.author.userId)
+      getFollowingByUserAPI(user.id)
+        .then(followingList => {
+          const found = Array.isArray(followingList) && followingList.some(f => f.blogger?.id === blog.author.userId);
+          setIsFollowing(!!found);
+          console.log('followingList:', followingList)
+          console.log('isFollowing', !!found)
+        })
+        .catch(() => {
+          setIsFollowing(false);
+        });
+    } else {
+      setIsFollowing(false);
+    }
+  }, [user, blog]);
 
   const reactionToBlog = async () => {
     if (user === null) {
@@ -246,6 +267,36 @@ export const ViewBlogComicPage = () => {
                     name={blog.author.displayName}
                     avatarUrl={`${URL_BACKEND_IMAGES}/${blog.thumbnail}`}
                     date={formatDatetimeWithTimeFirst(blog.createdAt)}
+                    isFollowing={isFollowing}
+                    onFollow={async () => {
+                      if (!user) {
+                        message.error('Bạn cần đăng nhập để theo dõi');
+                        return;
+                      }
+                      try {
+                        await followUserAPI(blog.author.userId, user.id);
+                        // Lấy lại danh sách following mới nhất giống như cách xử lý favouriteId
+                        const followingList = await getFollowingByUserAPI(user.id);
+                        const found = Array.isArray(followingList) && followingList.some(f => f.blogger?.userId === blog.author.userId);
+                        setIsFollowing(!!found);
+                        message.success('Theo dõi thành công!');
+                      } catch (e) {
+                        message.error('Theo dõi thất bại!');
+                      }
+                    }}
+                    onUnfollow={async () => {
+                      if (!user) {
+                        return;
+                      }
+                      try {
+                        await unfollowUserAPI(blog.author.userId, user.id);
+                        setIsFollowing(false);
+                        message.success('Bỏ theo dõi thành công!');
+                      } catch (e) {
+                        message.error('Bỏ theo dõi thất bại!');
+                      }
+                    }}
+                    authorId={blog.author.userId}
                   />
                   <SelectedElement
                     selected={blog.categories}

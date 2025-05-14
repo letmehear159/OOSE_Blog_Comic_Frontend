@@ -8,6 +8,9 @@ import { AvatarDisplay } from "../components/User/AvatarUpload";
 import { jwtDecode } from "jwt-decode"; 
 import FavouriteList from "../components/Favourite/FavouriteList";
 import { getFavouritesByUserAPI } from '../services/favoriteService.js';
+import { fetchAllFollowsAPI } from '../services/followService.js';
+import { getUsersByIdsAPI } from '../services/userService.js';
+import FollowingList from '../components/Follow/FollowingList.jsx';
 
 import { 
   fetchUserById, 
@@ -18,6 +21,7 @@ import {
   fetchAccountAPI,
   updateUserToken // Thêm import
 } from "../services/userService";
+import { getFollowingByUserAPI } from '../services/followService.js';
 
 const { TabPane } = Tabs;
 
@@ -33,6 +37,7 @@ const UserPage = () => {
   });
   const [loading, setLoading] = useState(true);
   const [favouriteBlogs, setFavouriteBlogs] = useState([]);
+  const [followingList, setFollowingList] = useState([]);
   
   // Get URL parameters
   const { id: paramId } = useParams();
@@ -66,6 +71,17 @@ const UserPage = () => {
             setFavouriteBlogs(favRes.map(fav => fav.blog || fav));
           } catch (e) {
             setFavouriteBlogs([]);
+          }          
+          try {
+            const following = await getFollowingByUserAPI(user.id);
+            if (following && following.length > 0) {
+              setFollowingList(following);
+            } else {
+              setFollowingList([]);
+            }
+          } catch (e) {
+            console.error('Error fetching following list:', e);
+            setFollowingList([]);
           }
         }
       } catch (error) {
@@ -83,7 +99,6 @@ const UserPage = () => {
       const userUpdateReq = {
         fullName: updatedData.fullName,
         email: updatedData.email,
-        phoneNumber: updatedData.phoneNumber,
         username: updatedData.username
       };
       // Bước 1: Cập nhật user
@@ -170,6 +185,12 @@ const UserPage = () => {
           <div className="bg-white rounded-lg shadow p-6 mb-6">
             <h2 className="text-xl font-semibold mb-4">Bài viết yêu thích</h2>
             <FavouriteList blogs={favouriteBlogs} />
+          </div>
+        </TabPane>       
+        <TabPane tab="Đang theo dõi" key="4">
+          <div className="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 className="text-xl font-semibold mb-4">Blogger đang theo dõi</h2>
+            <FollowingList following={followingList.map(f => f.bloggerId || f.id || f)} />
           </div>
         </TabPane>
       </Tabs>
