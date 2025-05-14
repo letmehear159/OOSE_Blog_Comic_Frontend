@@ -17,6 +17,7 @@ import ThumbnailUpload from '../components/blog/ThumbnailUpload.jsx'
 import { Link, useParams } from 'react-router-dom'
 import { DownOutlined } from '@ant-design/icons'
 import { URL_BACKEND_IMAGES } from '../constants/images.js'
+import TextArea from 'antd/es/input/TextArea.js'
 
 const items = [
   {
@@ -262,7 +263,17 @@ export const EditBlogComicPage = () => {
 
             </div>
           </div>
-
+          <div className={'py-2 font-bold text-xl'}>
+            Giới thiệu truyện
+          </div>
+          <TextArea
+            showCount
+            maxLength={300}
+            onChange={(e) => setIntroduction(e.target.value)}
+            placeholder="Viết lời giới thiệu về bài viết"
+            style={{ height: 100, resize: 'none', marginBottom: '20px' }}
+            value={introduction}
+          />
           {/* RichTextEditor */}
           <RichTextEditor
             result={result}

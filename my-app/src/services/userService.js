@@ -53,51 +53,26 @@ export const resetNewPasswordAPI = async (email, newPassword) => {
 // Lấy thông tin user theo email
 export const fetchUserByEmail = async (email) => {
   try {
-    // Nếu có API thật:
-    // const response = await axios.get(URL_BACKEND + `/api/v1/users/email/${email}`);
-    // return response;
-    // Nếu chưa có API thật, trả về mock:
-    return {
-      data: {
-        id: 1,
-        fullName: 'Mock User',
-        email: email,
-        username: 'mockuser',
-        role: 'user',
-        avatar: null
-      }
-    };
+    const response = await axios.get(URL_BACKEND + `/api/v1/users/email/${email}`)
+    return response
   } catch (error) {
-    console.error(`Error fetching user with email ${email}:`, error);
-    throw error;
+    throw error
   }
-};
+}
 
 // Lấy thông tin user theo username
 export const fetchUserByUsername = async (username) => {
   try {
-    // Nếu có API thật:
-    // const response = await axios.get(URL_BACKEND + `/api/v1/users/username/${username}`);
-    // return response;
-    // Nếu chưa có API thật, trả về mock:
-    return {
-      data: {
-        id: 2,
-        fullName: 'Mock User 2',
-        email: 'mock2@example.com',
-        username: username,
-        role: 'user',
-        avatar: null
-      }
-    };
+    const response = await axios.get(URL_BACKEND + `/api/v1/users/username/${username}`)
+    return response
   } catch (error) {
-    console.error(`Error fetching user with username ${username}:`, error);
-    throw error;
+    throw error
   }
-};
+}
 
 export const updateUser = async (id, userData) => {
   try {
+    // Sử dụng endpoint chuẩn để cập nhật thông tin người dùng
     const response = await axios.put(URL_BACKEND + `/api/v1/users/${id}`, userData)
     return response
   } catch (error) {
@@ -105,21 +80,59 @@ export const updateUser = async (id, userData) => {
   }
 }
 
-export const updateUserAvatarService = async (id, avatar) => {
+export const updateUserAvatarService = async (id, avatarFile) => {
+  console.log('Gọi updateUserAvatarService', avatarFile, avatarFile instanceof File)
   try {
-    const response = await axios.put(URL_BACKEND + `/api/v1/users/${id}/avatar`, { avatar })
+    const formData = new FormData()
+    formData.append('userId', id)
+    formData.append('avatar', avatarFile)
+    // Không set Content-Type, để axios tự động
+    const response = await axios.patch(URL_BACKEND + `/api/v1/users/avatar`, formData)
+    console.log(avatarFile, avatarFile instanceof File)
     return response
-  } catch (error) { 
+  } catch (error) {
     throw error
   }
 }
 
+export const updateUserToken = async (id, userData) => {
+  try {
 
+    const response = await axios.put(URL_BACKEND + `/api/v1/users/token/${id}`, userData)
+
+    if (typeof response === 'string') {
+      return response
+    }
+
+    if (response && response.data) {
+      if (typeof response.data === 'string') {
+        return response.data
+      } else if (response.data.data) {
+        return response.data.data
+      }
+    }
+
+    return response
+  } catch (error) {
+    console.error('updateUserToken: Lỗi khi gọi API', error)
+    throw error
+  }
+}
 
 export const getUsersByIdsAPI = async (ids) => {
   const queryString = ids.map(id => `authorIds=${id}`).join('&')
   try {
     const response = await axios.get(URL_BACKEND + `/api/v1/users/listId?${queryString}`)
+    return response
+  } catch (error) {
+    throw error
+  }
+}
+
+export const getUserCountByRoleAPI = async (role) => {
+  try {
+    // Sử dụng endpoint chuẩn để cập nhật thông tin người dùng
+    const response = await axios.get(URL_BACKEND + `/api/v1/users/role-count?role=${role}`)
     return response
   } catch (error) {
     throw error

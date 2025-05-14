@@ -22,7 +22,7 @@ const loadListBlog = ({ blogs, type }) => {
             />
             <Link
               className={'!text-[#520044] !underline'}
-              to={type === 'Character' ? `${ROUTES.getViewCharacter(char.id)}` : `${ROUTES.getViewComic(char.id)}`}
+              to={type === 'CHARACTER' ? `${ROUTES.getViewCharacter(char.id)}` : `${ROUTES.getViewComic(char.id)}`}
             >
               {char.title}
             </Link>
@@ -36,16 +36,13 @@ const loadListBlog = ({ blogs, type }) => {
 const loadBlog = ({ blog, type }) => {
   return (
     <>
-      <div
-        className={'p-1 font-bold underline text-[#520044] text-xl !text-left '}
-      >
-        {type}
+      <div className={'p-1 font-bold underline text-[#520044] text-xl !text-left '}>
       </div>
       <Image
         src={`${URL_BACKEND_IMAGES}/${blog.thumbnail}`}
         className={'!border  !rounded' + ' '}
       />
-      <Link to={type === 'Character' ? `${ROUTES.getViewCharacter(blog.id)}` : `${ROUTES.getViewComic(blog.id)}`}>
+      <Link to={type === 'CHARACTER' ? `${ROUTES.getViewCharacter(blog.id)}` : `${ROUTES.getViewComic(blog.id)}`}>
         <div className={'!p-2 hover:bg-[#D9D8D8] hover:underline text-[18px] text-black mb-5'}>
           {blog.title}
         </div>
@@ -128,19 +125,19 @@ export const RelatedBlogCharacter = ({
   }
 
   useEffect(() => {
-    if (blogType === 'Character') {
+    if (blogType === 'CHARACTER') {
       if (blogComic !== null) {
         getCharacters(blogComic.id)
       }
       if (blogCharacterId !== null) {
         getInsight(blogCharacterId)
       }
-    } else if (blogType === 'Comic') {
+    } else if (blogType === 'COMIC') {
       if (blogComic !== null) {
         getCharacters(blogComic.id)
         getInsight(blogComic.id)
       }
-    } else if (blogType === 'Insight') {
+    } else if (blogType === 'INSIGHT') {
       getComic(blogInsight.comicId)
       getCharacter(blogInsight.blogCharacterId)
     }
@@ -149,12 +146,12 @@ export const RelatedBlogCharacter = ({
     <>
       {loadType === 'Full' && (
         <div className={'h-[700px] overflow-y-scroll'}>
-          {blogType !== null && blogType === 'Character' && (
+          {blogType !== null && blogType === 'CHARACTER' && (
             <>
               {hasBlog === true && (
                 <>
                   <div className={'p-1  hover:cursor-pointer'}>
-                    {blogComic !== undefined && loadBlog({ blog: blogComic, type: 'Comic' })}
+                    {blogComic !== undefined && loadBlog({ blog: blogComic, type: 'COMIC' })}
                     {relatedCharacters !== null &&
                       relatedCharacters.length > 0 && (
                         <>
@@ -166,7 +163,7 @@ export const RelatedBlogCharacter = ({
                             Nhân vật khác
                           </div>
 
-                          {loadListBlog({ blogs: relatedCharacters, type: 'Character' })}
+                          {loadListBlog({ blogs: relatedCharacters, type: 'CHARACTER' })}
                         </>
                       )}
                   </div>
@@ -185,7 +182,7 @@ export const RelatedBlogCharacter = ({
                           Bài viết bình luận về nhân vật
                         </div>
 
-                        {loadListBlog({ blogs: relatedInsightBlogs, type: 'Comic' })}
+                        {loadListBlog({ blogs: relatedInsightBlogs, type: 'COMIC' })}
                       </>
                     }
                   </div>
@@ -193,7 +190,7 @@ export const RelatedBlogCharacter = ({
             </>
           )}
 
-          {blogType !== null && blogType === 'Comic' && (
+          {blogType !== null && blogType === 'COMIC' && (
             <>
               <div className={' p-1 hover:cursor-pointer'}>
                 {relatedCharacters !== null && relatedCharacters.length > 0 && (
@@ -206,7 +203,7 @@ export const RelatedBlogCharacter = ({
                       Bài viết về nhân vật thuộc truyện:
                     </div>
 
-                    {loadListBlog({ blogs: relatedCharacters, type: 'Comic' })}
+                    {loadListBlog({ blogs: relatedCharacters, type: 'COMIC' })}
                   </>
                 )}
                 {relatedInsightBlogs !== null &&
@@ -220,14 +217,14 @@ export const RelatedBlogCharacter = ({
                         Bài viết bình luận về truyện:
                       </div>
 
-                      {loadListBlog({ blogs: relatedInsightBlogs, type: 'Comic' })}
+                      {loadListBlog({ blogs: relatedInsightBlogs, type: 'COMIC' })}
                     </>
                   )}
               </div>
             </>
           )}
 
-          {blogType !== null && blogType === 'Insight' && (
+          {blogType !== null && blogType === 'INSIGHT' && (
             <>
               <div className={' p-1 hover:cursor-pointer '}>
                 {relatedBlogComic !== null && relatedBlogComic !== undefined && (
@@ -240,7 +237,7 @@ export const RelatedBlogCharacter = ({
                       Truyện/Tiểu thuyết liên quan
                     </div>
 
-                    {loadBlog({ blog: relatedBlogComic, type: 'Comic' })}
+                    {loadBlog({ blog: relatedBlogComic, type: 'COMIC' })}
                   </>
                 )}
                 {relatedCharacters !== null && relatedCharacters !== undefined && (
@@ -253,7 +250,7 @@ export const RelatedBlogCharacter = ({
                       Bài viết về nhân vật liên quan
                     </div>
 
-                    {loadBlog({ blog: relatedCharacters, type: 'Character' })}
+                    {loadBlog({ blog: relatedCharacters, type: 'CHARACTER' })}
                   </>
                 )}
               </div>
@@ -263,7 +260,7 @@ export const RelatedBlogCharacter = ({
       )}
       {loadType === 'Icon' && (
         <div className={'h-[700px] mt-20'}>
-          {blogType !== null && blogType === 'Character' && (
+          {blogType !== null && blogType === 'CHARACTER' && (
             <>
               {hasBlog === true && (
                 <>
@@ -281,7 +278,7 @@ export const RelatedBlogCharacter = ({
               </div>
             </>
           )}
-          {blogType !== null && blogType === 'Comic' && (
+          {blogType !== null && blogType === 'COMIC' && (
             <>
               {relatedCharacters !== null && relatedCharacters.length > 0 && (
                 <>{loadListBlogIcon(relatedCharacters)}</>
@@ -293,7 +290,7 @@ export const RelatedBlogCharacter = ({
             </>
           )}
 
-          {blogType !== null && blogType === 'Insight' && (
+          {blogType !== null && blogType === 'INSIGHT' && (
             <>
               {relatedBlogComic !== null && relatedBlogComic !== undefined && relatedBlogComic && (
                 <>{loadBlogIcon(relatedBlogComic)}</>

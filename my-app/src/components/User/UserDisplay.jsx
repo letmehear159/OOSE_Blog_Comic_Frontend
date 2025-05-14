@@ -2,17 +2,17 @@ import { Card, Descriptions, Tag } from 'antd';
 import { UserOutlined, MailOutlined, PhoneOutlined } from '@ant-design/icons';
 
 function UserDisplay({ userData }) {
-  const { fullName, email, phoneNumber, username, role } = userData;
+  const { fullName, email, username, role } = userData;
 
   return (
-    <div className="w-full px-4 sm:px-6 lg:px-8 max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl mx-auto">
+    <div className="w-full">
       <Card 
         title="Thông tin cá nhân" 
         className="shadow-sm rounded-lg"
         bodyStyle={{ padding: '24px' }}
       >
         <Descriptions column={1} className="bg-white p-4 rounded-md">
-          <Descriptions.Item label="Họ tên" labelStyle={{ fontWeight: 'bold' }}>
+          <Descriptions.Item label="Tên hiển thị" labelStyle={{ fontWeight: 'bold' }}>
             <div className="flex items-center">
               <UserOutlined className="mr-3 text-blue-500" />
               <span className="text-gray-800">{fullName}</span>
@@ -23,13 +23,6 @@ function UserDisplay({ userData }) {
             <div className="flex items-center">
               <MailOutlined className="mr-3 text-blue-500" />
               <span className="text-gray-800">{email}</span>
-            </div>
-          </Descriptions.Item>
-          
-          <Descriptions.Item label="Số điện thoại" labelStyle={{ fontWeight: 'bold' }}>
-            <div className="flex items-center">
-              <PhoneOutlined className="mr-3 text-blue-500" />
-              <span className="text-gray-800">{phoneNumber || 'Chưa cập nhật'}</span>
             </div>
           </Descriptions.Item>
           
@@ -48,4 +41,4 @@ function UserDisplay({ userData }) {
   );
 }
 
-export default UserDisplay; 
+export default UserDisplay;

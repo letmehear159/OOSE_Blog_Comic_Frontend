@@ -13,16 +13,16 @@ import { loginAPI } from "../services/authService.js";
 import { ROUTES, URL_BACKEND } from '../constants/api.js'
 
 const LoginPage = () => {
-  const [form] = Form.useForm();
-  const [verifyEmail, setVerifyEmail] = useState(false);
-  const navigate = useNavigate();
+  const [form] = Form.useForm()
+  const [verifyEmail, setVerifyEmail] = useState(false)
+  const navigate = useNavigate()
   const handleGoogleLogin = () => {
-    window.location.href = URL_BACKEND + "/oauth2/authorization/google";
-  };
+    window.location.href = URL_BACKEND + '/oauth2/authorization/google'
+  }
   const goToVerifyEmail = () => {
-    navigate("/register", { state: { step: 2 } });
-  };
-  const [api, contextHolder] = notification.useNotification();
+    navigate(ROUTES.REGISTER, { state: { step: 2 } })
+  }
+  const [api, contextHolder] = notification.useNotification()
   const openNotification = () => {
     api.open({
       message: "Tài khoản chưa được xác thực Email",

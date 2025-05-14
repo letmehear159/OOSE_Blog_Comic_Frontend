@@ -13,7 +13,8 @@ export const ROUTES = {
   SEARCH: '/search',
   DASHBOARD: '/dashboard',
   FORGOT_PASSWORD: '/forgot-password',
-  USERS: '/users',
+  USERS: '/users/:id', // Đổi sang dạng /users/:id
+  USER_BY_ID: '/users/:id', // Thêm alias rõ ràng
   COMMENT: '/comment',
   REPORT: '/report',
   FAVOURITE: '/favourite',
@@ -28,6 +29,7 @@ export const ROUTES = {
   getViewCharacter: (id) => `/character/${id}`,
   getViewComic: (id) => `/comic/${id}`,
   getEditComic: (id) => `/edit-comic/${id}`,
+  getUserProfile: (id) => `/users/${id}`,
 }
 
 export const PAGINATION = {
