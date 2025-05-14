@@ -19,25 +19,65 @@ import {
 } from '@ant-design/icons'
 import { RelatedBlogCharacter } from '../components/character-related-blogs/RelatedBlogCharacter.jsx'
 import { SelectedElement } from '../components/blog/SelectedElement.jsx'
-import { IMAGE_URL, URL_BACKEND_IMAGES } from '../constants/images.js'
+import { URL_BACKEND_IMAGES } from '../constants/images.js'
 import { BloggerInfo } from '../components/blog/BloggerInfo.jsx'
 import { AuthContext } from '../context/auth.context.jsx'
-import { DateTime } from 'luxon'
 import { formatDatetimeWithTimeFirst } from '../services/helperService.js'
 import { ROUTES } from '../constants/api.js'
+import PostActions from '../components/PostActions.jsx'
+import {
+  saveFavouriteBlogAPI,
+  removeFavouriteBlogAPI,
+  getFavouriteByUserAndBlogAPI, getFavouriteCountBlogAPI,
+} from '../services/favoriteService.js'
+import { getCommentCountOfBlogAPI } from '../services/commentService.js'
+import { saveReactionToABlogAPI } from '../services/reactionService.js'
 
 export const ViewBlogComicPage = () => {
   const { id } = useParams()
+  const { user } = useContext(AuthContext)
   const [blog, setBlog] = useState(null)
   const [collapsed, setCollapsed] = useState(false)
   const [blogCharacter, setBlogCharacter] = useState(null)
   const [blogComic, setBlogComic] = useState(null)
-  const navigate=useNavigate()
+  const [favouriteId, setFavouriteId] = useState(null)
+  const [commentCount, setCommentCount] = useState(null)
+  const [saveCount, setSaveCount] = useState(null)
+  const navigate = useNavigate()
   useEffect(() => {
     if (!id) return
     getBlog(id)
-  }, [id])
+    getCommentCount()
+    getFavoriteCount()
+    // Kiểm tra đã favourite chưa
+    if (user && id) {
+      getFavouriteByUserAndBlogAPI(user.id, id)
+        .then((res) => {
+          if (res && res.id) setFavouriteId(res.id)
+          else setFavouriteId(null)
+        })
+        .catch(() => setFavouriteId(null))
+    }
+  }, [id, user])
+  const getCommentCount = async () => {
+    try {
+      const res = await getCommentCountOfBlogAPI(id)
+      setCommentCount(res)
+    } catch (err) {
+      message.error(err.data)
 
+    }
+  }
+
+  const getFavoriteCount = async () => {
+    try {
+      const res = await getFavouriteCountBlogAPI(id)
+      setSaveCount(res)
+    } catch (err) {
+      message.error(err.data)
+
+    }
+  }
   const getBlog = async (id) => {
     try {
       const res = await getBlogByIdAPI(id)
@@ -52,12 +92,31 @@ export const ViewBlogComicPage = () => {
         )
         setBlogComic(blogComicRes)
         setBlogCharacter(blogCharacterRes)
-      } else if(res.type === 'CHARACTER'){
+      } else if (res.type === 'CHARACTER') {
         navigate(ROUTES.getViewCharacter(id))
       }
       setBlog(finalRes)
     } catch (e) {
       message.error(e.data)
+    }
+  }
+
+  const reactionToBlog = async () => {
+    if (user === null) {
+      message.error('Bạn chưa đăng nhập')
+      return
+    }
+    try {
+      const res = await saveReactionToABlogAPI({ userId: user.id, blogId: blog.id, type: 'Blog', reaction: 'LOVE' })
+    } catch (err) {
+      message.error(err.data)
+    }
+  }
+
+  const handleComment = () => {
+    const commentSection = document.getElementById('comment')
+    if (commentSection) {
+      commentSection.scrollIntoView({ behavior: 'smooth' })
     }
   }
   return (
@@ -90,18 +149,20 @@ export const ViewBlogComicPage = () => {
               <div className="text-center  py-4 font-bold">
                 {collapsed ? (
                   <>
-                    {blog.type === 'COMIC' && <RelatedBlogCharacter
-                      blogComic={blog}
-                      blogType={'Comic'}
-                      loadType={'Icon'}
-                    />}
-
-                    {blog.type === 'INSIGHT' &&
+                    {blog.type === 'COMIC' && (
                       <RelatedBlogCharacter
                         blogComic={blog}
                         blogType={'Comic'}
                         loadType={'Icon'}
-                      />}
+                      />
+                    )}
+                    {blog.type === 'INSIGHT' && (
+                      <RelatedBlogCharacter
+                        blogComic={blog}
+                        blogType={'Comic'}
+                        loadType={'Icon'}
+                      />
+                    )}
                     )
                   </>
                 ) : (
@@ -140,11 +201,45 @@ export const ViewBlogComicPage = () => {
               </div>
             )}
             <Layout>
-              <Content className=" flex justify-between">
-                <div className=" p-30">
-                  <div
-                    className={'font-bold py-2 my-2 text-4xl    text-[#333333]'}
-                  >
+              <Content className="flex gap-6 px-10 py-6 justify-center">
+                {/* Cột trái - PostActions với sticky */}
+                <PostActions
+                  likes={blog.reaction || 0}
+                  comments={commentCount || 0}
+                  saves={saveCount || 0}
+                  isSaved={!!favouriteId}
+                  onLike={() => {reactionToBlog()}}
+                  onComment={() => {handleComment()}}
+                  onSave={async (willBeSaved) => {
+                    try {
+                      if (!user) {
+                        message.error('Bạn cần đăng nhập để lưu bài viết')
+                        return
+                      }
+                      if (willBeSaved) {
+                        const res = await saveFavouriteBlogAPI(
+                          user.id,
+                          blog.id
+                        )
+                        setFavouriteId(res.id)
+                        message.success('Đã lưu bài viết')
+                      } else {
+                        if (favouriteId) {
+                          await removeFavouriteBlogAPI(favouriteId)
+                          setFavouriteId(null)
+                          message.success('Đã bỏ lưu bài viết')
+                        }
+                      }
+                    } catch (err) {
+                      message.error('Có lỗi khi lưu/bỏ yêu thích!')
+                    }
+                  }}
+                  onShare={() => {}}
+                />
+
+                {/* Cột giữa - Nội dung blog */}
+                <div className="max-w-[700px] grow">
+                  <div className="font-bold py-2 my-2 text-4xl text-[#333333]">
                     {blog.title}
                   </div>
                   <BloggerInfo
@@ -162,8 +257,9 @@ export const ViewBlogComicPage = () => {
                     type={'Tag'}
                     color={'amber'}
                   />
+
                   {blog.type === 'INSIGHT' && (
-                    <div className={'my-5 text-[18px]'}>
+                    <div className="my-5 text-[18px]">
                       <span>
                         Viết về nhân vật:{' '}
                         <span
@@ -201,7 +297,8 @@ export const ViewBlogComicPage = () => {
                       </span>
                     </div>
                   )}
-                  <div className={'flex justify-center'}>
+
+                  <div className="flex justify-center">
                     <Image
                       style={{
                         maxHeight: '650px',
@@ -211,9 +308,7 @@ export const ViewBlogComicPage = () => {
                     />
                   </div>
 
-
-                  {/* Nội dung blog (giữa) sẽ chiếm 9 cột khi Sider collapse, 6 khi không */}
-                  <div className={'my-8'}>
+                  <div className="my-8">
                     <div
                       className="prose prose-lg max-w-none"
                       dangerouslySetInnerHTML={{ __html: blog.content }}
@@ -221,6 +316,7 @@ export const ViewBlogComicPage = () => {
                   </div>
                 </div>
               </Content>
+
               <Comment blogId={blog.id}/>
             </Layout>
           </Layout>

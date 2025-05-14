@@ -35,7 +35,7 @@ export const Comment = ({ blogId }) => {
           </div>
         ) : (
           <>
-            <div className={'flex justify-center '}>
+            <div className={'flex justify-center '} id={'comment'}>
               <div className="mb-4 w-[825px] !ml-11  !px-0 !bg-transparent !border-none">
                 <CommentBox
                   setComments={setComments}

@@ -39,7 +39,6 @@ const loadBlog = ({ blog, type }) => {
       <div
         className={'p-1 font-bold underline text-[#520044] text-xl !text-left '}
       >
-        {type}
       </div>
       <Image
         src={`${URL_BACKEND_IMAGES}/${blog.thumbnail}`}

@@ -106,6 +106,10 @@ const router = createBrowserRouter([
     path: ROUTES.SEARCH,
     element: <SearchResultPage/>,
   },
+  // {
+  //   path: ROUTES.USER_BY_USERNAME,
+  //   element: <UserPage />,
+  // },
   {
     path: ROUTES.USERS,
     element: <UserPage/>,
@@ -126,8 +130,7 @@ const router = createBrowserRouter([
     path: ROUTES.COMMENT_ADMIN,
     element: <CommentAdminPage/>,
   },
-
-])
+]);
 
 createRoot(document.getElementById('root')).render(
   <AuthWrapper>

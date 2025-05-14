@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import {
   getBlogCharacterAPI,
   getBlogComicAPI,
@@ -11,8 +11,6 @@ import { Content } from 'antd/es/layout/layout.js'
 import Sider from 'antd/es/layout/Sider.js'
 import {
   LeftOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
   RightOutlined,
 } from '@ant-design/icons'
 import { RelatedBlogCharacter } from '../components/character-related-blogs/RelatedBlogCharacter.jsx'
@@ -20,6 +18,16 @@ import { URL_BACKEND_IMAGES } from '../constants/images.js'
 import { BloggerInfo } from '../components/blog/BloggerInfo.jsx'
 import { formatDatetimeWithTimeFirst } from '../services/helperService.js'
 import { ROUTES } from '../constants/api.js'
+import PostActions from '../components/PostActions.jsx'
+import {
+  saveFavouriteBlogAPI,
+  removeFavouriteBlogAPI,
+  getFavouriteByUserAndBlogAPI, getFavouriteCountBlogAPI
+} from '../services/favoriteService.js'
+import { AuthContext } from '../context/auth.context.jsx'
+import { Comment } from '../components/Comment/Comment.jsx'
+import { getCommentCountOfBlogAPI } from '../services/commentService.js'
+import { saveReactionToABlogAPI } from '../services/reactionService.js'
 
 export const ViewBlogCharacterPage = () => {
   const { id } = useParams()
@@ -27,9 +35,33 @@ export const ViewBlogCharacterPage = () => {
   const [collapsed, setCollapsed] = useState(false)
   const [blogComic, setBlogComic] = useState(null)
   const navigate = useNavigate()
+  const { user } = useContext(AuthContext)
+  const [favouriteId, setFavouriteId] = useState(null)
+  const [commentCount, setCommentCount] = useState(null)
+  const [saveCount, setSaveCount] = useState(null)
+
+  const getCommentCount = async () => {
+    try {
+      const res = await getCommentCountOfBlogAPI(id)
+      setCommentCount(res)
+    } catch (err) {
+      message.error(err.data)
+
+    }
+  }
+  const getFavoriteCount = async () => {
+    try {
+      const res = await getFavouriteCountBlogAPI(id)
+      setSaveCount(res)
+    } catch (err) {
+      message.error(err.data)
+    }
+  }
+
   useEffect(() => {
     if (!id) return
-
+    getCommentCount()
+    getFavoriteCount()
     getBlogCharacterAPI(id)
       .then((res) => {
         setBlog(res)
@@ -42,12 +74,38 @@ export const ViewBlogCharacterPage = () => {
               message.error('Không thể tải blog.')
             })
         }
+        // Kiểm tra đã favourite chưa
+        if (user && res.id) {
+          getFavouriteByUserAndBlogAPI(user.id, res.id)
+            .then(favRes => {
+              if (favRes && favRes.id) setFavouriteId(favRes.id)
+              else setFavouriteId(null)
+            })
+            .catch(() => setFavouriteId(null))
+        }
       })
       .catch((err) => {
         message.error('Không thể tải blog.')
       })
-  }, [id])
+  }, [id, user])
+  const handleComment = () => {
+    const commentSection = document.getElementById('comment')
+    if (commentSection) {
+      commentSection.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
 
+  const reactionToBlog = async () => {
+    if (user === null) {
+      message.error('Bạn chưa đăng nhập')
+      return
+    }
+    try {
+      const res = await saveReactionToABlogAPI({ userId: user.id, blogId: blog.id, type: 'Blog', reaction: 'LOVE' })
+    } catch (err) {
+      message.error(err.data)
+    }
+  }
   return (
     <>
       <style>{customImageAlignStyles}</style>
@@ -56,7 +114,7 @@ export const ViewBlogCharacterPage = () => {
         <div className="text-center p-10 text-gray-500">Đang tải blog...</div>
       ) : (
         <>
-          <Layout className="border min-h-screen">
+          <Layout className="border min-h-screen !mb-20">
             <Sider
               collapsible
               collapsed={collapsed}
@@ -120,8 +178,43 @@ export const ViewBlogCharacterPage = () => {
                 />
               </div>
             )}
+
+
             <Layout>
-              <Content className=" flex justify-between">
+              <Content className="flex gap-6 px-10 py-6 justify-center">
+                <PostActions
+                  likes={blog.reaction || 0}
+                  comments={commentCount || 0}
+                  saves={saveCount || 0}
+                  isSaved={!!favouriteId}
+                  onLike={() => {reactionToBlog()}}
+                  onComment={() => {handleComment()}}
+                  onSave={async (willBeSaved) => {
+                    try {
+                      if (!user) {
+                        message.error('Bạn cần đăng nhập để lưu bài viết')
+                        return
+                      }
+                      if (willBeSaved) {
+                        const res = await saveFavouriteBlogAPI(
+                          user.id,
+                          blog.id
+                        )
+                        setFavouriteId(res.id)
+                        message.success('Đã lưu bài viết')
+                      } else {
+                        if (favouriteId) {
+                          await removeFavouriteBlogAPI(favouriteId)
+                          setFavouriteId(null)
+                          message.success('Đã bỏ lưu bài viết')
+                        }
+                      }
+                    } catch (err) {
+                      message.error('Có lỗi khi lưu/bỏ yêu thích!')
+                    }
+                  }}
+                  onShare={() => {}}
+                />
                 <div className="mx-8">
                   {/* Nội dung blog (giữa) sẽ chiếm 9 cột khi Sider collapse, 6 khi không */}
                   <div className={'my-8'}>
@@ -131,6 +224,7 @@ export const ViewBlogCharacterPage = () => {
                     >
                       {blog.title}
                     </div>
+
                     <BloggerInfo
                       name={blog.author.displayName}
                       avatarUrl={`${URL_BACKEND_IMAGES}/${blog.thumbnail}`}
@@ -149,6 +243,7 @@ export const ViewBlogCharacterPage = () => {
                   />
                 </div>
               </Content>
+              <Comment blogId={blog.id}/>
             </Layout>
           </Layout>
         </>

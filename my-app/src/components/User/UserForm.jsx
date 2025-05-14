@@ -19,10 +19,6 @@ function UserForm({ initialData, onSubmit }) {
       newErrors.email = 'Email không hợp lệ';
     }
     
-    if (data.phoneNumber && !/^[0-9]{10}$/.test(data.phoneNumber)) {
-      newErrors.phoneNumber = 'Số điện thoại không hợp lệ';
-    }
-    
     if (!data.username) {
       newErrors.username = 'Vui lòng nhập tên người dùng';
     }
@@ -50,14 +46,13 @@ function UserForm({ initialData, onSubmit }) {
         const userUpdateReq = {
           fullName: formData.fullName,
           email: formData.email,
-          phoneNumber: formData.phoneNumber,
           username: formData.username
         };
         
         await onSubmit(userUpdateReq);
         message.success('Cập nhật thông tin thành công');
       } catch (error) {
-        message.error('Có lỗi xảy ra khi cập nhật thông tin');
+        // message.error('Có lỗi xảy ra khi cập nhật thông tin');
       } finally {
         setLoading(false);
       }
@@ -65,7 +60,7 @@ function UserForm({ initialData, onSubmit }) {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
+    <div className="w-full">
       <Card 
         title="Cập nhật thông tin" 
         className="shadow-sm rounded-lg"
@@ -73,7 +68,7 @@ function UserForm({ initialData, onSubmit }) {
       >
         <Form layout="vertical" onFinish={handleFormSubmit} className="p-2">
           <Form.Item
-            label="Họ tên"
+            label="Tên hiển thị"
             validateStatus={errors.fullName ? 'error' : ''}
             help={errors.fullName}
           >
@@ -93,19 +88,6 @@ function UserForm({ initialData, onSubmit }) {
             <Input 
               name="email"
               value={formData.email}
-              onChange={handleInputChange}
-              className="rounded"
-            />
-          </Form.Item>
-
-          <Form.Item
-            label="Số điện thoại"
-            validateStatus={errors.phoneNumber ? 'error' : ''}
-            help={errors.phoneNumber}
-          >
-            <Input 
-              name="phoneNumber"
-              value={formData.phoneNumber}
               onChange={handleInputChange}
               className="rounded"
             />
@@ -140,4 +122,4 @@ function UserForm({ initialData, onSubmit }) {
   );
 }
 
-export default UserForm; 
+export default UserForm;
