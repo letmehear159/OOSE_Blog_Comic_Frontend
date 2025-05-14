@@ -27,7 +27,7 @@ const suggestions = [
 
 const SearchSuggestion= () => {
   return (
-    <div className="space-y-2 bg-white p-2 rounded-md shadow-md w-full max-w-md">
+    <div className="space-y-2 bg-white p-2 rounded-md shadow-md w-full max-w-[300px]">
       {suggestions.slice(0, 5).map((item) => (
         <div
           key={item.id}
