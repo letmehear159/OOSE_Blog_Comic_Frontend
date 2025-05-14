@@ -66,7 +66,7 @@ const AdminManageUsers = () => {
             subtitle="Managing users profiles"
           />
         </div>
-        <div className="flex space-x-20">
+        <div className="flex space-x-20 gap-5">
           <button className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-xl shadow transition duration-200">
             Delete
           </button>

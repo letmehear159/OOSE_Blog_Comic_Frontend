@@ -35,7 +35,7 @@ const AdminManageBlogs = () => {
         <div>
           <AdminHeader title="MANAGE BLOGS" subtitle="Daily blogs" />
         </div>
-        <div className="flex space-x-20">
+        <div className="flex space-x-20 gap-5">
           <button className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-4 rounded-xl shadow transition duration-200">
             Accept
           </button>
