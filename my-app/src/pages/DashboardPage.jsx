@@ -12,7 +12,7 @@ import {
 } from "recharts"
 import { motion, AnimatePresence } from "framer-motion"
 
-// Mới code UI, chưa có logic lấy data để hiển thị
+// Thêm logic lấy data
 
 const { Title, Text } = Typography
 const { Option } = Select
@@ -27,7 +27,7 @@ const DashboardPage = () => {
     registered: 188
   }
 
-  const reportCategories = [    // Ngoài logic lấy dữ toàn thời gian, cần 1 mục riêng của dữ liệu mới nhất (dữ liệu hôm nay)
+  const reportCategories = [ 
     { title: "Số blog đã đăng", key: "blogs" },
     { title: "Số lượt xem tất cả blog", key: "views" },
     { title: "Số lượt đánh giá", key: "rates" },
@@ -35,7 +35,7 @@ const DashboardPage = () => {
     { title: "Tổng số lượt reaction", key: "reactions" }
   ]
 
-  const dailyData = [
+  const dailyData = [  // Cần logic lấy data toàn thời gian, data 5 ngày gần nhất, và data mới nhất (hôm nay)
     { date: "2024-05-01", blogs: 4, views: 100, rates: 2, comments: 5, reactions: 12 },
     { date: "2024-05-02", blogs: 2, views: 150, rates: 4, comments: 3, reactions: 7 },
     { date: "2024-05-03", blogs: 7, views: 120, rates: 1, comments: 8, reactions: 20 },
