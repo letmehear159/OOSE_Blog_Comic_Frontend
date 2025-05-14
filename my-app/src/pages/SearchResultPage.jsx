@@ -175,7 +175,7 @@ const SearchResultPage = () => {
   // -----Hardcode data-----
 
   return (
-    <div className="bg-[#000000] min-h-screen text-white px-4 py-6 sm:ml-32">
+    <div className=" min-h-screen text-white px-4 py-6 sm:ml-32">
       <div className="text-center mb-6">
         <Title level={4} style={{ color: "white" }}>
           Tìm kiếm theo tên
@@ -305,29 +305,29 @@ const SearchResultPage = () => {
       <Title level={4} style={{ color: "white" }} className="mb-3">
         Blogger liên quan
       </Title>
-      {bloggers !== null && (
-        <Row gutter={[16, 16]}>
-          {bloggers.map((blogger) => (
-            <Col xs={24} sm={12} md={6} key={blogger.id}>
-              <Card
-                hoverable
-                onClick={() => {
-                  // TODO: chuyển hướng đến trang cá nhân blogger
-                }}
-                style={{ backgroundColor: "#2a1a2f", border: "none" }}
-                className="cursor-pointer"
-              >
-                <div className="flex items-center gap-3">
-                  <Avatar size={48} src={blogger.avatar} />
-                  <Text style={{ color: "white", fontSize: 16 }}>
-                    {blogger.name}
-                  </Text>
-                </div>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      )}
+      {/*{bloggers !== null && (*/}
+      {/*  <Row gutter={[16, 16]}>*/}
+      {/*    {bloggers.map((blogger) => (*/}
+      {/*      <Col xs={24} sm={12} md={6} key={blogger.id}>*/}
+      {/*        <Card*/}
+      {/*          hoverable*/}
+      {/*          onClick={() => {*/}
+      {/*            // TODO: chuyển hướng đến trang cá nhân blogger*/}
+      {/*          }}*/}
+      {/*          style={{ backgroundColor: "#2a1a2f", border: "none" }}*/}
+      {/*          className="cursor-pointer"*/}
+      {/*        >*/}
+      {/*          <div className="flex items-center gap-3">*/}
+      {/*            <Avatar size={48} src={blogger.avatar} />*/}
+      {/*            <Text style={{ color: "white", fontSize: 16 }}>*/}
+      {/*              {blogger.name}*/}
+      {/*            </Text>*/}
+      {/*          </div>*/}
+      {/*        </Card>*/}
+      {/*      </Col>*/}
+      {/*    ))}*/}
+      {/*  </Row>*/}
+      {/*)}*/}
     </div>
   );
 };
