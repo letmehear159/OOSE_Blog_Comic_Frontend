@@ -8,11 +8,12 @@ import {
   getRelatedCharactersAPI,
 } from '../../services/blogService.js'
 import { URL_BACKEND_IMAGES } from '../../constants/images.js'
+import { ROUTES } from '../../constants/api.js'
 
-const loadListBlog = (characters) => {
+const loadListBlog = ({ blogs, type }) => {
   return (
     <>
-      {characters.map((char) => (
+      {blogs.map((char) => (
         <div key={char.id}>
           <div className={'flex my-4 mx-1 items-center rounded bg-[#FFFFFF]'}>
             <Image
@@ -21,7 +22,7 @@ const loadListBlog = (characters) => {
             />
             <Link
               className={'!text-[#520044] !underline'}
-              to={`/character/${char.id}`}
+              to={type === 'Character' ? `${ROUTES.getViewCharacter(char.id)}` : `${ROUTES.getViewComic(char.id)}`}
             >
               {char.title}
             </Link>
@@ -44,7 +45,7 @@ const loadBlog = ({ blog, type }) => {
         src={`${URL_BACKEND_IMAGES}/${blog.thumbnail}`}
         className={'!border  !rounded' + ' '}
       />
-      <Link to={'/'}>
+      <Link to={type === 'Character' ? `${ROUTES.getViewCharacter(blog.id)}` : `${ROUTES.getViewComic(blog.id)}`}>
         <div className={'!p-2 hover:bg-[#D9D8D8] hover:underline text-[18px] text-black mb-5'}>
           {blog.title}
         </div>
@@ -53,10 +54,10 @@ const loadBlog = ({ blog, type }) => {
   )
 }
 
-const loadListBlogIcon = (characters) => {
+const loadListBlogIcon = (blogs) => {
   return (
     <>
-      {characters.map((char) => (
+      {blogs.map((char) => (
         <div key={char.id} className={'my-4'}>
           <Avatar
             src={`${URL_BACKEND_IMAGES}/${char.thumbnail}`}
@@ -153,7 +154,7 @@ export const RelatedBlogCharacter = ({
               {hasBlog === true && (
                 <>
                   <div className={'p-1  hover:cursor-pointer'}>
-                    {blogComic !== undefined && loadBlog({ blog: blogComic, type: 'Tiểu thuyết/ Truyện' })}
+                    {blogComic !== undefined && loadBlog({ blog: blogComic, type: 'Comic' })}
                     {relatedCharacters !== null &&
                       relatedCharacters.length > 0 && (
                         <>
@@ -165,7 +166,7 @@ export const RelatedBlogCharacter = ({
                             Nhân vật khác
                           </div>
 
-                          {loadListBlog(relatedCharacters)}
+                          {loadListBlog({ blogs: relatedCharacters, type: 'Character' })}
                         </>
                       )}
                   </div>
@@ -184,7 +185,7 @@ export const RelatedBlogCharacter = ({
                           Bài viết bình luận về nhân vật
                         </div>
 
-                        {loadListBlog(relatedInsightBlogs)}
+                        {loadListBlog({ blogs: relatedInsightBlogs, type: 'Comic' })}
                       </>
                     }
                   </div>
@@ -205,7 +206,7 @@ export const RelatedBlogCharacter = ({
                       Bài viết về nhân vật thuộc truyện:
                     </div>
 
-                    {loadListBlog(relatedCharacters)}
+                    {loadListBlog({ blogs: relatedCharacters, type: 'Comic' })}
                   </>
                 )}
                 {relatedInsightBlogs !== null &&
@@ -219,7 +220,7 @@ export const RelatedBlogCharacter = ({
                         Bài viết bình luận về truyện:
                       </div>
 
-                      {loadListBlog(relatedInsightBlogs)}
+                      {loadListBlog({ blogs: relatedInsightBlogs, type: 'Comic' })}
                     </>
                   )}
               </div>
@@ -239,7 +240,7 @@ export const RelatedBlogCharacter = ({
                       Truyện/Tiểu thuyết liên quan
                     </div>
 
-                    {loadBlog({ blog: relatedBlogComic })}
+                    {loadBlog({ blog: relatedBlogComic, type: 'Comic' })}
                   </>
                 )}
                 {relatedCharacters !== null && relatedCharacters !== undefined && (
@@ -252,7 +253,7 @@ export const RelatedBlogCharacter = ({
                       Bài viết về nhân vật liên quan
                     </div>
 
-                    {loadBlog({ blog: relatedCharacters })}
+                    {loadBlog({ blog: relatedCharacters, type: 'Character' })}
                   </>
                 )}
               </div>

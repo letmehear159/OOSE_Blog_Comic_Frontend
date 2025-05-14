@@ -27,6 +27,7 @@ import { ROUTES } from './constants/api.js'
 import { NewBlogComicPage } from './pages/NewBlogComicPage.jsx'
 import { EditBlogComicPage } from './pages/EditBlogComicPage.jsx'
 import { ViewBlogComicPage } from './pages/ViewBlogComicPage.jsx'
+import InsightPage from './pages/InsightPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -50,7 +51,7 @@ const router = createBrowserRouter([
         element: <ViewBlogCharacterPage/>,
       },
       {
-        path: ROUTES.VIEW_BLOG,
+        path: ROUTES.VIEW_COMIC,
         element: <ViewBlogComicPage/>
       },
       {
@@ -69,10 +70,16 @@ const router = createBrowserRouter([
         path: ROUTES.REVIEW_COMIC,
         element: <ReviewPage/>,
       },
+
+      {
+        path: ROUTES.REVIEW_INSIGHT,
+        element: <InsightPage/>,
+      },
       {
         path: ROUTES.REVIEW_CHARACTER,
         element: <CharacterPage/>,
       },
+
     ],
   },
   {

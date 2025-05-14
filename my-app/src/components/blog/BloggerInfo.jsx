@@ -30,7 +30,7 @@ export const BloggerInfo = ({ name, avatarUrl, date, onFollow }) => {
 
         </div>
 
-        <div className={'italic mt-11  font-medium h-full text-xl'}>{new Date(date).toLocaleDateString('vi-VN')}</div>
+        <div className={'italic mt-11  font-medium h-full '}>{date}</div>
       </div>
 
       {/* Right: Follow button */}

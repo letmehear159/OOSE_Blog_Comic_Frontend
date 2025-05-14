@@ -1,9 +1,14 @@
 // Navbar.jsx
-import { NavLink } from "react-router-dom";
-import NotiIcon from "../Notification/NotiIcon";
-import UserMenu from "./UserMenu";
+import { Link, NavLink } from 'react-router-dom'
+import NotiIcon from '../Notification/NotiIcon'
+import UserMenu from './UserMenu'
+import { useContext } from 'react'
+import { AuthContext } from '../../context/auth.context.jsx'
+import { IMAGE_URL } from '../../constants/images.js'
+import { ROUTES } from '../../constants/api.js'
 
 const Navbar = () => {
+  const { user } = useContext(AuthContext)
   return (
     <nav className="flex items-center justify-between px-8 h-16 bg-gradient-to-r from-blue-600 to-blue-500 mt-2 rounded-xl shadow-lg">
       {/* Logo + Links */}
@@ -25,23 +30,30 @@ const Navbar = () => {
         {/* Navigation Links */}
         <div className="flex items-center gap-8 ml-6">
           <NavLink
-            to="/review-comic"
-            className="text-white/90 hover:text-white font-medium transition-all duration-300 hover:scale-105"
+            to={`${ROUTES.REVIEW_COMIC}`}
+            className="text-white hover:text-gray-600 font-medium transition"
           >
             Review Truyện
           </NavLink>
           <NavLink
-            to="/review-character"
-            className="text-white/90 hover:text-white font-medium transition-all duration-300 hover:scale-105"
+            to={`${ROUTES.REVIEW_CHARACTER}`}
+            className="text-white hover:text-gray-600 font-medium transition"
           >
             Nhân Vật
+          </NavLink>
+
+          <NavLink
+            to={`${ROUTES.REVIEW_INSIGHT}`}
+            className="text-white hover:text-gray-600 font-medium transition"
+          >
+            Bình Phẩm
           </NavLink>
         </div>
       </div>
 
       {/* Search box */}
       <div className="flex-1 flex justify-center">
-        <div className="relative w-full max-w-xl">
+        <div className="relative w-[300px] max-w-xl">
           <div className="relative flex items-center">
             <input
               type="text"
@@ -76,15 +88,18 @@ const Navbar = () => {
             </button>
           </div>
         </div>
+        <Link to={ROUTES.SEARCH}>
+          <img src={`${IMAGE_URL}/filter.png`} className={'w-9 h-9 ml-4 hover:cursor-pointer'}/>
+        </Link>
       </div>
 
       {/* Right Side */}
       <div className="flex align-center items-center gap-7">
-        <NotiIcon />
-        <UserMenu />
+        <NotiIcon/>
+        <UserMenu/>
       </div>
     </nav>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

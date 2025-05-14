@@ -258,6 +258,46 @@ export const updateBlogInsightAPI = async (blogInsightRequest, thumbnail, id) =>
   }
 }
 
+export const getBlogComicPaginationAPI = async (page, size) => {
+  try {
+    const response = await axios.get(URL_BACKEND + `/api/v1/blog-comic?page=${page}&size=${size}`)
+    // Xử lý hoặc kiểm tra dữ liệu nếu cần
+    return response
+  } catch (error) {
+    throw error
+  }
+}
+
+export const getBlogCharacterPaginationAPI = async (page, size) => {
+  try {
+    const response = await axios.get(URL_BACKEND + `/api/v1/blog-character?page=${page}&size=${size}`)
+    // Xử lý hoặc kiểm tra dữ liệu nếu cần
+    return response
+  } catch (error) {
+    throw error
+  }
+}
+
+export const getBlogPaginationAPI = async (page, size) => {
+  try {
+    const response = await axios.get(URL_BACKEND + `/api/v1/blogs?page=${page}&size=${size}`)
+    // Xử lý hoặc kiểm tra dữ liệu nếu cần
+    return response
+  } catch (error) {
+    throw error
+  }
+}
+
+
+export const getBlogInsightPaginationAPI = async (page, size) => {
+  try {
+    const response = await axios.get(URL_BACKEND + `/api/v1/blog-insight?page=${page}&size=${size}`)
+    // Xử lý hoặc kiểm tra dữ liệu nếu cần
+    return response
+  } catch (error) {
+    throw error
+  }
+}
 
 
 

@@ -7,81 +7,86 @@ import {
   Input,
   message,
   Space,
-} from "antd";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+} from 'antd'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import React, { useState } from 'react'
 
-import { registerAPI } from "../services/authService.js";
-import { resentOTPAPI, sentOTPAPI } from "../services/otpService.js";
-import { IMAGE_URL } from "../constants/images.js";
-import { URL_BACKEND } from "../constants/api.js";
+import { registerAPI } from '../services/authService.js'
+import { resentOTPAPI, resentOTPEmailAPI, sentOTPAPI } from '../services/otpService.js'
+import { IMAGE_URL } from '../constants/images.js'
+import { URL_BACKEND } from '../constants/api.js'
 
 const RegisterPage = () => {
-  const location = useLocation();
+  const location = useLocation()
   const [step, setStep] = useState(() => {
-    return location.state?.step || 1;
-  });
-  const [form] = Form.useForm();
-  const [isLoading, setIsLoading] = useState(false);
-  console.log(">>>> CHeck image URL ", IMAGE_URL);
-  const navigate = useNavigate();
+    return location.state?.step || 1
+  })
+  const [form] = Form.useForm()
+  const [isLoading, setIsLoading] = useState(false)
+  const [email, setEmail] = useState('')
+  const navigate = useNavigate()
   const handleGoogleLogin = () => {
-    window.location.href = URL_BACKEND + "/oauth2/authorization/google";
-  };
+    window.location.href = URL_BACKEND + '/oauth2/authorization/google'
+  }
   const initalValues = {
-    username: "letmehear2",
-    email: "nguyentruongpro192@gmail.com",
-    displayName: "test",
-    password: "test",
-  };
+    username: 'letmehear2',
+    email: 'nguyentruongpro192@gmail.com',
+    displayName: 'test',
+    password: 'test',
+  }
 
   const onFinish = async (values) => {
     try {
-      const username = values.username;
-      const password = values.password;
-      const email = values.email;
-      const displayName = values.displayName;
-      setIsLoading(true);
+      const username = values.username
+      const password = values.password
+      const email = values.email
+      const displayName = values.displayName
+      setIsLoading(true)
       const response = await registerAPI(
         username,
         password,
         email,
         displayName
-      );
-      setIsLoading(false);
-      message.success("Tạo tài khoản thành công");
-      localStorage.setItem("userId", response.id);
-      setStep(2);
+      )
+      setIsLoading(false)
+      message.success('Tạo tài khoản thành công')
+      localStorage.setItem('userId', response.id)
+      setStep(2)
     } catch (error) {
-      message.error("Đăng nhập thất bại");
+      message.error('Đăng nhập thất bại')
     }
-  };
+  }
 
   const sendOTP = async (values) => {
     try {
-      const userId = localStorage.getItem("userId");
-      const otp = values.otp;
-      const res = await sentOTPAPI(otp, userId, null);
-      message.success("Xác thực thành công");
-      localStorage.removeItem("userId");
-      setStep(3);
+      const userId = localStorage.getItem('userId')
+      const otp = values.otp
+      const res = await sentOTPAPI(otp, userId, email)
+      localStorage.removeItem('userId')
+      message.success('Xác thực thành công')
+      setStep(3)
     } catch (error) {
-      message.error("Xác thực thất bại");
+      message.error('Xác thực thất bại')
     }
-  };
+  }
 
   const resendOTP = async () => {
     try {
-      const userId = localStorage.getItem("userId");
-      setIsLoading(true);
-      const res = await resentOTPAPI(userId);
-      message.success("Gửi mới OTP thành công");
+      const userId = localStorage.getItem('userId')
+      if (userId !== null) {
+        setIsLoading(true)
+        const res = await resentOTPAPI(userId)
+      } else {
+        setIsLoading(true)
+        const res = await resentOTPEmailAPI(email)
+      }
+      message.success('Gửi mới OTP thành công')
     } catch (error) {
-      message.error("Gặp lỗi khi gửi mới OTP");
+      message.error('Gặp lỗi khi gửi mới OTP')
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
   return (
     <>
       {step === 1 && (
@@ -101,29 +106,29 @@ const RegisterPage = () => {
                 form={form}
                 initialValues={initalValues}
                 onFinish={(values) => onFinish(values)}
-                layout={"vertical"}
+                layout={'vertical'}
               >
                 <Form.Item name="displayName" label="Display name">
-                  <Input placeholder={"Input display name"} />
+                  <Input placeholder={'Input display name'}/>
                 </Form.Item>
 
                 <Form.Item name="username" label="Username (For Login)">
-                  <Input placeholder={"Input username"} />
+                  <Input placeholder={'Input username'}/>
                 </Form.Item>
 
                 <Form.Item name="email" label="Email">
-                  <Input placeholder={"Input Email"} />
+                  <Input placeholder={'Input Email'}/>
                 </Form.Item>
 
                 <Form.Item name="password" label="Password">
-                  <Input.Password placeholder={"Input password"} />
+                  <Input.Password placeholder={'Input password'}/>
                 </Form.Item>
 
                 <Button
                   className="w-full  "
                   type="primary"
                   onClick={() => {
-                    form.submit();
+                    form.submit()
                   }}
                   loading={isLoading}
                 >
@@ -132,7 +137,7 @@ const RegisterPage = () => {
               </Form>
 
               <div className="mt-4 text-center ">
-                <Divider plain={"false"}>Or Register With</Divider>
+                <Divider plain={'false'}>Or Register With</Divider>
                 <div className="flex justify-center gap-3 mb-4  mt-2">
                   <Button
                     onClick={handleGoogleLogin}
@@ -147,8 +152,8 @@ const RegisterPage = () => {
                   </Button>
                 </div>
                 <p className="mt-5 text-sm text-gray-600 ">
-                  Already have an account?{" "}
-                  <Link className="text-blue-600 hover:underline" to={"./23"}>
+                  Already have an account?{' '}
+                  <Link className="text-blue-600 hover:underline" to={'./23'}>
                     Go to login
                   </Link>
                 </p>
@@ -217,29 +222,41 @@ const RegisterPage = () => {
                 className="space-y-4 mt-4"
                 form={form}
                 onFinish={(values) => sendOTP(values)}
-                layout={"vertical"}
+                layout={'vertical'}
               >
-                <div className={"mb-3 flex justify-center"}>
-                  <label className={"font-bold text-left"}>OTP</label>
+                <div className={'mb-3 flex justify-center'}>
+                  <label className={'font-bold text-left'}>OTP</label>
                 </div>
 
-                <Form.Item name={"otp"}>
-                  <Input.OTP />
+                <Form.Item name={'otp'}>
+                  <Input.OTP/>
                 </Form.Item>
+
+
                 <Button
                   className="w-full  "
                   type="primary"
                   onClick={() => {
-                    form.submit();
+                    form.submit()
                   }}
                 >
                   Send OTP
                 </Button>
               </Form>
-              <div className={"flex justify-start"}>
+              {localStorage.getItem('userId') === null &&
+                <>
+                  <div className={'!mt-4'}>Email</div>
+                  <div className={''}>
+                    <Input value={email} onChange={(e) => setEmail(e.target.value)}/>
+                  </div>
+                </>
+
+              }
+              <div className={'flex justify-start'}>
+
                 <Button
                   loading={isLoading}
-                  className={"w-25 !mt-4"}
+                  className={'w-25 !mt-4'}
                   onClick={resendOTP}
                 >
                   Resend OTP
@@ -306,16 +323,16 @@ const RegisterPage = () => {
               <p className="text-gray-500 mb-6">
                 You now can login with your new account
               </p>
-              <div className={"flex justify-center"}>
-                <div className={"w-40 h-40 "}>
-                  <Image src={`${IMAGE_URL}/checked.png`} preview={false} />
+              <div className={'flex justify-center'}>
+                <div className={'w-40 h-40 '}>
+                  <Image src={`${IMAGE_URL}/checked.png`} preview={false}/>
                 </div>
               </div>
               <Button
-                className={"!mt-5"}
-                type={"primary"}
+                className={'!mt-5'}
+                type={'primary'}
                 onClick={() => {
-                  navigate("/login");
+                  navigate('/login')
                 }}
               >
                 Go to login
@@ -371,7 +388,7 @@ const RegisterPage = () => {
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
-export default RegisterPage;
+export default RegisterPage

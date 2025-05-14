@@ -63,9 +63,8 @@ instance.interceptors.response.use(
       isRefreshing = true
 
       try {
-        const res = await axios.post(
-          import.meta.env.VITE_BACKEND_URL + '/auth/refresh',
-          {},
+        const res = await axios.get(
+          import.meta.env.VITE_BACKEND_URL + '/api/v1/auth/refresh',
           { withCredentials: true }
         )
 

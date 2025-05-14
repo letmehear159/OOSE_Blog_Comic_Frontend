@@ -88,7 +88,7 @@ export const EditBlogComicPage = () => {
       if (blogType === 'Comic') {
         const blogComicReq = {
           title: blogTitle,
-          authorId: 4,
+          authorId: user.id,
           content: result,
           categories: selectedCategory.map(cat => cat.id),
           tags: selectedTag.map(tag => tag.id),
@@ -101,7 +101,7 @@ export const EditBlogComicPage = () => {
       } else {
         const blogInsightReq = {
           title: blogTitle,
-          authorId: 4,
+          authorId: user.id,
           content: result,
           categories: selectedCategory.map(cat => cat.id),
           tags: selectedTag.map(tag => tag.id),

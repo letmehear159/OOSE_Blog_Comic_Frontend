@@ -10,7 +10,7 @@ import {
 } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { loginAPI } from "../services/authService.js";
-import { URL_BACKEND } from "../constants/api.js";
+import { ROUTES, URL_BACKEND } from '../constants/api.js'
 
 const LoginPage = () => {
   const [form] = Form.useForm();
@@ -48,15 +48,15 @@ const LoginPage = () => {
       const password = values.password;
       const response = await loginAPI(identifier, password);
       console.log(">>> Check login response ", response);
-      if (response.errorCode === "VERIFYING_EMAIL") {
-        openNotification();
-        localStorage.setItem("userId", response.data.userId);
-        setVerifyEmail(true);
+      if (response.accessToken === null) {
+        openNotification()
+        localStorage.setItem('userId', response.data.userId)
+        setVerifyEmail(true)
       } else {
-        const accessToken = response.accessToken;
-        localStorage.setItem("access_token", accessToken);
-        message.success("Đang nhập thành công ");
-        navigate("/");
+        const accessToken = response.accessToken
+        localStorage.setItem('access_token', accessToken)
+        message.success('Đang nhập thành công ')
+        navigate('/')
       }
     } catch (error) {
       message.error("Đăng nhập thất bại");
@@ -81,18 +81,18 @@ const LoginPage = () => {
               className="space-y-4 mt-4"
               form={form}
               onFinish={(values) => onFinish(values)}
-              layout={"vertical"}
+              layout={'vertical'}
             >
               <Form.Item name="username" label="Email / Username">
-                <Input />
+                <Input/>
               </Form.Item>
 
               <Form.Item name="password" label="Password">
-                <Input.Password />
+                <Input.Password/>
               </Form.Item>
               <div className="flex items-center justify-between">
                 <label className="flex items-center">
-                  <Checkbox type="checkbox" className="mr-2" />
+                  <Checkbox type="checkbox" className="mr-2"/>
                   <span className="text-sm ml-2 text-gray-600">
                     Remember Me
                   </span>
@@ -104,7 +104,7 @@ const LoginPage = () => {
               <Button
                 className="w-full bg-blue-600  text-amber-50 py-2 rounded-md hover:bg-blue-700 transition"
                 onClick={() => {
-                  form.submit();
+                  form.submit()
                 }}
               >
                 Log In
@@ -112,7 +112,7 @@ const LoginPage = () => {
             </Form>
 
             <div className="mt-4 text-center ">
-              <Divider plain={"false"}>Or Log In With</Divider>
+              <Divider plain={'false'}>Or Log In With</Divider>
               <div className="flex justify-center gap-3 mb-4  mt-2">
                 <Button
                   onClick={handleGoogleLogin}
@@ -127,8 +127,8 @@ const LoginPage = () => {
                 </Button>
               </div>
               <p className="mt-5 text-sm text-gray-600 ">
-                Don’t Have an Account?{" "}
-                <Link className="text-blue-600 hover:underline" to={"./23"}>
+                Don’t Have an Account?{' '}
+                <Link className="text-blue-600 hover:underline" to={ROUTES.REGISTER}>
                   Register Now.
                 </Link>
               </p>
@@ -183,7 +183,7 @@ const LoginPage = () => {
         </div>
       </div>
     </>
-  );
+  )
 };
 
 export default LoginPage;

@@ -20,12 +20,17 @@ export const ROUTES = {
   COMMENT_ADMIN: '/comment-admin',
   REVIEW_COMIC: '/review-comic',
   REVIEW_CHARACTER: '/review-character',
+  REVIEW_INSIGHT: '/review-insight',
   VIEW_BLOG: '/view-blog',
   CALLBACK: '/callback',
-
 
   getEditCharacter: (id) => `/edit-character/${id}`,
   getViewCharacter: (id) => `/character/${id}`,
   getViewComic: (id) => `/comic/${id}`,
   getEditComic: (id) => `/edit-comic/${id}`,
-};
+}
+
+export const PAGINATION = {
+  SIZE: 9,
+  PAGE: 0
+}

@@ -1,16 +1,18 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from 'react'
+import { Button, message } from 'antd'
+import { AuthContext } from '../../context/auth.context.jsx'
+import { useNavigate } from 'react-router-dom'
+import { ROUTES } from '../../constants/api.js'
+import { URL_BACKEND_IMAGES } from '../../constants/images.js'
 
 const UserMenu = () => {
-  const [open, setOpen] = useState(false);
-  const [user, setUser] = useState({
-    username: "John Doe",
-    avatar: "https://i.pravatar.cc/150?img=32",
-  });
-  const ref = useRef();
-
+  const { user, setUser } = useContext(AuthContext)
+  const [open, setOpen] = useState(false)
+  const ref = useRef()
+  const navigate = useNavigate()
   const menuOptions = [
     {
-      label: "My Profile",
+      label: 'My Profile',
       icon: (
         <svg
           className="w-5 h-5 mr-2 text-blue-500"
@@ -26,10 +28,10 @@ const UserMenu = () => {
           />
         </svg>
       ),
-      onClick: () => (window.location.href = "/users"),
+      onClick: () => window.location.href = '/users',
     },
     {
-      label: "Create Post",
+      label: 'Create Post',
       icon: (
         <svg
           className="w-5 h-5 mr-2 text-green-500"
@@ -45,10 +47,10 @@ const UserMenu = () => {
           />
         </svg>
       ),
-      onClick: () => (window.location.href = "/create-post"),
+      onClick: () => (window.location.href = '/create-post'),
     },
     {
-      label: "Setting",
+      label: 'Setting',
       icon: (
         <svg
           className="w-5 h-5 mr-2 text-purple-500"
@@ -69,89 +71,125 @@ const UserMenu = () => {
           />
         </svg>
       ),
-      onClick: () => alert("Go to setting!"),
+      onClick: () => alert('Go to setting!'),
     },
-  ];
+    {
+      label: 'Logout',
+      icon: (
+        <svg
+          className="w-5 h-5 mr-2 text-red-500"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={1.5}
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
+          />
+        </svg>
+      ),
+      onClick: () => handleLogout(),
+    },
+  ]
 
+  const goToLogin = () => {
+    navigate(ROUTES.LOGIN)
+  }
+  const handleLogout = () => {
+    localStorage.removeItem('access_token')
+    setUser(null)
+    message.success('Đăng xuất thành công')
+    window.location.reload() // ✅ Reload lại trang
+  }
+
+  // Đóng dropdown khi click ra ngoài
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (ref.current && !ref.current.contains(event.target)) setOpen(false);
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+      if (ref.current && !ref.current.contains(event.target)) setOpen(false)
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   return (
     <div className="relative" ref={ref}>
-      <div className="flex items-center gap-2">
-        <img
-          src={user.avatar}
-          alt="Avatar"
-          className="w-10 h-10 rounded-full border-2 border-white/20 object-cover cursor-pointer hover:border-white/40 transition-all duration-300 hover:scale-110 shadow-lg"
-          onClick={() => setOpen((o) => !o)}
-        />
-      </div>
-      {open && (
-        <div className="absolute right-0 mt-2 w-64 bg-white border border-gray-200 rounded-xl shadow-xl z-50 overflow-hidden">
-          {/* User Info Section */}
-          <div className="px-6 py-4 bg-gradient-to-r from-blue-500 to-blue-600">
-            <div className="flex items-center gap-7">
-              <img
-                src={user.avatar}
-                alt="Avatar"
-                className="w-14 h-14 rounded-full object-cover ring-2 ring-white/30"
-              />
-              <div className="flex flex-col">
-                <p className="text-lg text-white font-bold">{user.username}</p>
-                <p className="text-sm text-white/80 italic">@{user.username}</p>
+      {user !== null ?
+        <>
+          <div className="flex items-center gap-2">
+            <img
+              src={user.loginType === 'GOOGLE' ? user.avatar : `${URL_BACKEND_IMAGES}/${user.avatar}`}
+              alt="Avatar"
+              className="w-12 h-12 rounded-full border-2 border-blue-400 object-cover cursor-pointer hover:border-blue-500 transition-colors duration-200"
+              onClick={() => setOpen((o) => !o)}
+            />
+          </div>
+          {open && (
+            <div
+              className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50 overflow-hidden">
+              <div className="px-6 py-4 bg-gradient-to-r from-blue-500 to-blue-600">
+                <div className="flex items-center gap-7">
+                  <img
+                    src={user.avatar}
+                    alt="Avatar"
+                    className="w-14 h-14 rounded-full object-cover ring-2 ring-white/30"
+                  />
+                  <div className="flex flex-col">
+                    <p className="text-lg text-white font-bold">{user.username}</p>
+                    <p className="text-sm text-white/80 italic">@{user.username}</p>
+                  </div>
+                </div>
+              </div>
+              <ul className="py-2">
+                {menuOptions.map((option) => (
+                  <li
+                    key={option.label}
+                    className="flex items-center px-6 py-3 hover:bg-gray-50 cursor-pointer text-gray-700 text-sm transition-all duration-200 group"
+                    onClick={() => {
+                      setOpen(false)
+                      option.onClick()
+                    }}
+                  >
+                    <div
+                      className="flex items-center w-full group-hover:translate-x-1 transition-transform duration-200">
+                      {option.icon}
+                      <span className="font-medium">{option.label}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <div className="px-6 py-3 bg-gray-50 border-t border-gray-100">
+                <button
+                  className="w-full py-2 px-4 bg-white hover:bg-gray-100 text-gray-700 rounded-lg text-sm font-medium transition-all duration-200 border border-gray-200 hover:border-gray-300 flex items-center justify-center gap-2"
+                  onClick={() => {
+                    setOpen(false)
+                    handleLogout()
+                  }}
+                >
+                  <svg
+                    className="w-5 h-5 text-red-500"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={1.5}
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
+                    />
+                  </svg>
+                  Đăng xuất
+                </button>
               </div>
             </div>
-          </div>
-          <ul className="py-2">
-            {menuOptions.map((option) => (
-              <li
-                key={option.label}
-                className="flex items-center px-6 py-3 hover:bg-gray-50 cursor-pointer text-gray-700 text-sm transition-all duration-200 group"
-                onClick={() => {
-                  setOpen(false);
-                  option.onClick();
-                }}
-              >
-                <div className="flex items-center w-full group-hover:translate-x-1 transition-transform duration-200">
-                  {option.icon}
-                  <span className="font-medium">{option.label}</span>
-                </div>
-              </li>
-            ))}
-          </ul>
-          <div className="px-6 py-3 bg-gray-50 border-t border-gray-100">
-            <button
-              className="w-full py-2 px-4 bg-white hover:bg-gray-100 text-gray-700 rounded-lg text-sm font-medium transition-all duration-200 border border-gray-200 hover:border-gray-300 flex items-center justify-center gap-2"
-              onClick={() => {
-                setOpen(false);
-                alert("Logout!");
-              }}
-            >
-              <svg
-                className="w-5 h-5 text-red-500"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={1.5}
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
-                />
-              </svg>
-              Đăng xuất
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
+          )}
+        </> : <Button onClick={goToLogin}>Đăng nhập</Button>
+      }
 
-export default UserMenu;
+    </div>
+  )
+}
+
+export default UserMenu
