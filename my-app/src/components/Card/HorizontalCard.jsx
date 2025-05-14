@@ -6,6 +6,7 @@ import { formatDatetimeWithTimeFirst } from '../../services/helperService.js'
 import { Image, message } from 'antd'
 import { getCommentCountOfBlogAPI } from '../../services/commentService.js'
 import { getFavouriteCountBlogAPI } from '../../services/favoriteService.js'
+import { getUserAvatar } from '../../constants/utility.js'
 
 /**
  * props:
@@ -113,7 +114,7 @@ const HorizontalCard = ({
           <div className="flex items-center gap-3 text-sm mt-4">
             <div className="flex items-center gap-2">
               <img
-                src={`${URL_BACKEND_IMAGES}/${author.avatar}`}
+                src={getUserAvatar(author)}
                 alt={author.avatar}
                 className="w-8 h-8 rounded-full object-cover"
               />

@@ -298,16 +298,6 @@ export const getBlogInsightPaginationAPI = async (page, size) => {
   }
 }
 
-export const getAllViewCountAPI = async () => {
-  try {
-    const response = await axios.get(URL_BACKEND + `/api/v1/blogs/view-count`)
-    // Xử lý hoặc kiểm tra dữ liệu nếu cần
-    return response
-  } catch (error) {
-    throw error
-  }
-}
-
 export const getStatisticAPI = async () => {
   try {
     const response = await axios.get(URL_BACKEND + `/api/v1/blogs/statistic`)
@@ -317,3 +307,30 @@ export const getStatisticAPI = async () => {
     throw error
   }
 }
+
+export const getAllBlogAPI = async (page, size) => {
+  try {
+    const response = await axios.get(URL_BACKEND + `/api/v1/blogs/all`)
+    // Xử lý hoặc kiểm tra dữ liệu nếu cần
+    return response
+  } catch (error) {
+    throw error
+  }
+}
+
+export const updateBlogStatusAPI = async ({ blogId, status }) => {
+
+  try {
+    const response = await axios.patch(URL_BACKEND + `/api/v1/blogs/review/${blogId}`,  JSON.stringify(status),
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+    // Xử lý hoặc kiểm tra dữ liệu nếu cần
+    return response
+  } catch (error) {
+    throw error
+  }
+}
+

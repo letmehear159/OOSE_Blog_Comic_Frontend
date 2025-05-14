@@ -65,7 +65,7 @@ export const NewBlogComicPage = () => {
       } else {
         const blogInsightReq = {
           title: blogTitle,
-          authorId: 4,
+          authorId: user.id,
           content: result,
           categories: selectedCategory.map(cat => cat.id),
           tags: selectedTag.map(tag => tag.id),

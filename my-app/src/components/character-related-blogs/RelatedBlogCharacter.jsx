@@ -138,8 +138,13 @@ export const RelatedBlogCharacter = ({
         getInsight(blogComic.id)
       }
     } else if (blogType === 'INSIGHT') {
-      getComic(blogInsight.comicId)
-      getCharacter(blogInsight.blogCharacterId)
+      if (blogInsight.comicId!==null){
+        getComic(blogInsight.comicId)
+
+      }
+      if (blogInsight.blogCharacterId) {
+        getCharacter(blogInsight.blogCharacterId)
+      }
     }
   }, [blogComic, blogCharacterId, blogType])
   return (

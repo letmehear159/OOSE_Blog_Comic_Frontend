@@ -109,12 +109,15 @@ export const ViewBlogComicPage = () => {
         fullBlog = await getBlogComicAPI(id)
       } else if (res.type === 'INSIGHT') {
         fullBlog = await getBlogInsightByIdAPI(id)
-        const [comicRes, characterRes] = await Promise.all([
-          getBlogComicAPI(fullBlog.comicId),
-          getBlogCharacterAPI(fullBlog.blogCharacterId),
-        ])
-        setBlogComic(comicRes)
-        setBlogCharacter(characterRes)
+        if (fullBlog.comicId !== null) {
+          const comicRes = await getBlogComicAPI(fullBlog.comicId)
+          setBlogComic(comicRes)
+        }
+        if (fullBlog.blogCharacterId !== null) {
+          const characterRes = await getBlogCharacterAPI(fullBlog.blogCharacterId)
+          setBlogCharacter(characterRes)
+
+        }
       }
 
       setBlog(fullBlog)

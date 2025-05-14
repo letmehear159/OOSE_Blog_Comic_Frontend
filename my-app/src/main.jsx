@@ -28,6 +28,13 @@ import { NewBlogComicPage } from './pages/NewBlogComicPage.jsx'
 import { EditBlogComicPage } from './pages/EditBlogComicPage.jsx'
 import { ViewBlogComicPage } from './pages/ViewBlogComicPage.jsx'
 import InsightPage from './pages/InsightPage.jsx'
+import AdminManageCategories from './components/manage/AdminManageCategories.jsx'
+import AdminManageBlogs from './components/manage/AdminManageBlogs.jsx'
+import AdminManageReports from './components/manage/AdminManageReports.jsx'
+import AdminManageUsers from './components/manage/AdminManageUsers.jsx'
+import AdminManageTags from './components/manage/AdminManageTags.jsx'
+import AdminDashboard from './components/AdminDashboard.jsx'
+import AdminLayout from './components/Layout/AdminLayout.jsx'
 
 const router = createBrowserRouter([
   {
@@ -86,6 +93,7 @@ const router = createBrowserRouter([
 
     ],
   },
+
   {
     path: ROUTES.LOGIN,
     element: <LoginPage/>,
@@ -131,6 +139,38 @@ const router = createBrowserRouter([
     path: ROUTES.COMMENT_ADMIN,
     element: <CommentAdminPage/>,
   },
+
+  {
+    path: '/admin',
+    element: <AdminLayout />,
+    children: [
+      {
+        index: true,
+        element: <AdminDashboard />,
+      },
+      {
+        path: 'users',
+        element: <AdminManageUsers />,
+      },
+      {
+        path: 'reports',
+        element: <AdminManageReports />,
+      },
+      {
+        path: 'blogs',
+        element: <AdminManageBlogs />,
+      },
+      {
+        path: 'categories',
+        element: <AdminManageCategories />,
+      },
+      {
+        path: 'tags',
+        element: <AdminManageTags />,
+      },
+    ],
+  }
+
 ]);
 
 createRoot(document.getElementById('root')).render(
