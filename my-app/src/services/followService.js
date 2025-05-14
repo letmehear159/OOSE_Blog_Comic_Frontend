@@ -31,3 +31,34 @@ export const unfollowBloggerAPI = async ({ userId, bloggerId }) => {
     throw error
   }
 }
+
+export const fetchAllFollowsAPI = async () => {
+  try {
+    const response = await axios.get(URL_BACKEND + '/api/v1/follows');
+    return response.data || response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+// Lấy danh sách người dùng đang theo dõi một blogger
+export const getFollowersByBloggerAPI = async (bloggerId) => {
+  try {
+    // Đúng endpoint: /api/v1/follows/blogger/{bloggerId}
+    const response = await axios.get(URL_BACKEND + `/api/v1/follows/blogger/${bloggerId}`);
+    return response.data?.data || response.data || response;
+  } catch (error) {
+    throw error;
+  }
+};
+// Lấy danh sách blogger mà một người dùng đang theo dõi
+export const getFollowingByUserAPI = async (userId) => {
+  try {
+    // Đúng endpoint: /api/v1/follows/user/{userId}
+    const response = await axios.get(URL_BACKEND + `/api/v1/follows/user/${userId}`);
+    return response.data?.data || response.data || response;
+  } catch (error) {
+    throw error;
+  }
+};

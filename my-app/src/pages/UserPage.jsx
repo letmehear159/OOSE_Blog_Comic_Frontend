@@ -1,23 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Tabs, message } from "antd";
 import { useParams, useLocation } from "react-router-dom";
 import UserDisplay from "../components/User/UserDisplay";
 import UserForm from "../components/User/UserForm";
 import AvatarUpload from "../components/User/AvatarUpload";
 import { AvatarDisplay } from "../components/User/AvatarUpload";
-import { jwtDecode } from "jwt-decode"; 
 import FavouriteList from "../components/Favourite/FavouriteList";
 import { getFavouritesByUserAPI } from '../services/favoriteService.js';
-
+import { fetchAllFollowsAPI } from '../services/followService.js';
+import { getUsersByIdsAPI } from '../services/userService.js';
+import FollowingList from '../components/Follow/FollowingList.jsx';
 import { 
   fetchUserById, 
   fetchUserByEmail, 
   fetchUserByUsername, 
   updateUser, 
   updateUserAvatarService,
-  fetchAccountAPI,
-  updateUserToken // Thêm import
+  fetchAccountAPI
 } from "../services/userService";
+import { getFollowingByUserAPI } from '../services/followService.js';
+import { AuthContext } from '../context/auth.context.jsx';
 
 const { TabPane } = Tabs;
 
@@ -33,10 +35,12 @@ const UserPage = () => {
   });
   const [loading, setLoading] = useState(true);
   const [favouriteBlogs, setFavouriteBlogs] = useState([]);
+  const [followingList, setFollowingList] = useState([]);
   
   // Get URL parameters
   const { id: paramId } = useParams();
   const location = useLocation();
+  const { user } = useContext(AuthContext);
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -66,6 +70,17 @@ const UserPage = () => {
             setFavouriteBlogs(favRes.map(fav => fav.blog || fav));
           } catch (e) {
             setFavouriteBlogs([]);
+          }          
+          try {
+            const following = await getFollowingByUserAPI(user.id);
+            if (following && following.length > 0) {
+              setFollowingList(following);
+            } else {
+              setFollowingList([]);
+            }
+          } catch (e) {
+            console.error('Error fetching following list:', e);
+            setFollowingList([]);
           }
         }
       } catch (error) {
@@ -83,30 +98,11 @@ const UserPage = () => {
       const userUpdateReq = {
         fullName: updatedData.fullName,
         email: updatedData.email,
-        phoneNumber: updatedData.phoneNumber,
         username: updatedData.username
       };
       // Bước 1: Cập nhật user
       await updateUser(userData.id, userUpdateReq);
-      // Bước 2: Nếu username hoặc email thay đổi thì lấy lại access token mới
-      let needNewToken = false;
-      if (
-        updatedData.username !== userData.username ||
-        updatedData.email !== userData.email
-      ) {
-        needNewToken = true;
-      }
-      if (needNewToken) {
-        const newAccessToken = await updateUserToken(userData.id, userUpdateReq);
-        if (newAccessToken) {
-          localStorage.setItem('access_token', newAccessToken);
-        }
-        // Cập nhật URL về /users/:id
-        if (window.location.pathname !== `/users/${userData.id}`) {
-          window.history.replaceState(null, '', `/users/${userData.id}`);
-        }
-      }
-      // Bước 3: Luôn fetch lại user bằng id để cập nhật UI
+      // Bước 2: Luôn fetch lại user bằng id để cập nhật UI
       const response = await fetchUserById(userData.id);
       const updatedUserData = response.data || response;
       setUserData(prev => ({ ...prev, ...updatedUserData }));
@@ -170,6 +166,12 @@ const UserPage = () => {
           <div className="bg-white rounded-lg shadow p-6 mb-6">
             <h2 className="text-xl font-semibold mb-4">Bài viết yêu thích</h2>
             <FavouriteList blogs={favouriteBlogs} />
+          </div>
+        </TabPane>       
+        <TabPane tab="Đang theo dõi" key="4">
+          <div className="bg-white rounded-lg shadow p-6 mb-6">
+            <h2 className="text-xl font-semibold mb-4">Blogger đang theo dõi</h2>
+            <FollowingList following={followingList.map(f => f.bloggerId || f.id || f)} />
           </div>
         </TabPane>
       </Tabs>

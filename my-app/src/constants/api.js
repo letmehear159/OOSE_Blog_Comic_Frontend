@@ -14,7 +14,8 @@ export const ROUTES = {
   DASHBOARD: '/dashboard',
   FORGOT_PASSWORD: '/forgot-password',
   USERS: '/users/:id', // Đổi sang dạng /users/:id
-  USER_BY_ID: '/users/:id', // Thêm alias rõ ràng
+  USER_BY_ID: '/users/:id', 
+  USER_BY_ID_PUBLIC: '/users/:id/public', 
   COMMENT: '/comment',
   REPORT: '/report',
   FAVOURITE: '/favourite',
