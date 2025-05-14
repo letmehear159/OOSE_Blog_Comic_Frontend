@@ -1,27 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Tabs, message } from "antd";
 import { useParams, useLocation } from "react-router-dom";
 import UserDisplay from "../components/User/UserDisplay";
 import UserForm from "../components/User/UserForm";
 import AvatarUpload from "../components/User/AvatarUpload";
 import { AvatarDisplay } from "../components/User/AvatarUpload";
-import { jwtDecode } from "jwt-decode"; 
 import FavouriteList from "../components/Favourite/FavouriteList";
 import { getFavouritesByUserAPI } from '../services/favoriteService.js';
 import { fetchAllFollowsAPI } from '../services/followService.js';
 import { getUsersByIdsAPI } from '../services/userService.js';
 import FollowingList from '../components/Follow/FollowingList.jsx';
-
 import { 
   fetchUserById, 
   fetchUserByEmail, 
   fetchUserByUsername, 
   updateUser, 
   updateUserAvatarService,
-  fetchAccountAPI,
-  updateUserToken // Thêm import
+  fetchAccountAPI
 } from "../services/userService";
 import { getFollowingByUserAPI } from '../services/followService.js';
+import { AuthContext } from '../context/auth.context.jsx';
 
 const { TabPane } = Tabs;
 
@@ -42,6 +40,7 @@ const UserPage = () => {
   // Get URL parameters
   const { id: paramId } = useParams();
   const location = useLocation();
+  const { user } = useContext(AuthContext);
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -103,25 +102,7 @@ const UserPage = () => {
       };
       // Bước 1: Cập nhật user
       await updateUser(userData.id, userUpdateReq);
-      // Bước 2: Nếu username hoặc email thay đổi thì lấy lại access token mới
-      let needNewToken = false;
-      if (
-        updatedData.username !== userData.username ||
-        updatedData.email !== userData.email
-      ) {
-        needNewToken = true;
-      }
-      if (needNewToken) {
-        const newAccessToken = await updateUserToken(userData.id, userUpdateReq);
-        if (newAccessToken) {
-          localStorage.setItem('access_token', newAccessToken);
-        }
-        // Cập nhật URL về /users/:id
-        if (window.location.pathname !== `/users/${userData.id}`) {
-          window.history.replaceState(null, '', `/users/${userData.id}`);
-        }
-      }
-      // Bước 3: Luôn fetch lại user bằng id để cập nhật UI
+      // Bước 2: Luôn fetch lại user bằng id để cập nhật UI
       const response = await fetchUserById(userData.id);
       const updatedUserData = response.data || response;
       setUserData(prev => ({ ...prev, ...updatedUserData }));
