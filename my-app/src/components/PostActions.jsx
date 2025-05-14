@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { message } from 'antd'
 
 // Dùng ở component cha như sau :
 {
@@ -23,6 +24,7 @@ const PostActions = ({
   onComment,
   onSave,
   onShare,
+  user
 }) => {
   const [likes, setLikes] = useState(initialLikes)
   const [comments, setComments] = useState(initialComments)
@@ -31,6 +33,10 @@ const PostActions = ({
   const [isSaved, setIsSaved] = useState(initialSaved)
 
   const handleLike = () => {
+    if (user === null) {
+      message.error("Bạn chưa đăng nhập")
+      return
+    }
     setIsLiked(!isLiked)
     const newLikes = isLiked ? likes - 1 : likes + 1
     setLikes(newLikes)
@@ -42,6 +48,10 @@ const PostActions = ({
   }
 
   const handleSave = () => {
+    if (user === null) {
+      message.error("Bạn chưa đăng nhập")
+      return
+    }
     setIsSaved(!isSaved)
     const newSaves = isSaved ? saves - 1 : saves + 1
     setSaves(newSaves)

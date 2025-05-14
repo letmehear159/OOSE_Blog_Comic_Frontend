@@ -13,6 +13,7 @@ import {
 import { SearchBlogComic } from '../components/blog/SearchBlogComic.jsx'
 import { useParams } from 'react-router-dom'
 import { URL_BACKEND_IMAGES } from '../constants/images.js'
+import TextArea from 'antd/es/input/TextArea.js'
 
 export const EditBlogCharacterPage = () => {
   const { user } = useContext(AuthContext)
@@ -26,6 +27,7 @@ export const EditBlogCharacterPage = () => {
   const [character, setCharacter] = useState(null)
   const [blogTitle, setBlogTitle] = useState('')
   const [blogCharacterThumbnail, setBlogCharacterThumbnail] = useState(null)
+  const [introduction, setIntroduction] = useState('')
   const { uploadCharacterAvatar } = useContext(AuthContext)
   const updateBlog = async () => {
     const blogCharacterReq = {
@@ -34,6 +36,7 @@ export const EditBlogCharacterPage = () => {
       content: result,
       character: character,
       comicId: blogComic === null ? null : blogComic.id,
+      introduction:introduction,
     }
     try {
       const response = await updateBlogCharacterAPI(
@@ -58,6 +61,7 @@ export const EditBlogCharacterPage = () => {
         setBlogTitle(res.title)
         setResult(res.content)
         setBlogCharacterThumbnail(res.thumbnail)
+        setIntroduction(res.introduction)
       } catch (error) {
         message.error('Lỗi khi lấy dữ liệu bài viết về nhân vật')
       }
@@ -104,7 +108,17 @@ export const EditBlogCharacterPage = () => {
               {blogComic === null ? 'Chưa chọn truyện' : blogComic.title}
             </div>
           </div>
-
+          <div className={'py-2 font-bold text-xl'}>
+            Giới thiệu truyện
+          </div>
+          <TextArea
+            showCount
+            maxLength={300}
+            onChange={(e) => setIntroduction(e.target.value)}
+            placeholder="Viết lời giới thiệu về bài viết"
+            style={{ height: 100, resize: 'none', marginBottom: '20px' }}
+            value={introduction}
+          />
           {/* RichTextEditor */}
           <RichTextEditor
             result={result}

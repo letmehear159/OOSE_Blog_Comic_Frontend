@@ -79,6 +79,10 @@ const router = createBrowserRouter([
         path: ROUTES.REVIEW_CHARACTER,
         element: <CharacterPage/>,
       },
+      {
+        path: ROUTES.SEARCH,
+        element: <SearchResultPage/>,
+      },
 
     ],
   },
@@ -102,10 +106,7 @@ const router = createBrowserRouter([
     path: ROUTES.FORGOT_PASSWORD,
     element: <ForgotPasswordPage/>,
   },
-  {
-    path: ROUTES.SEARCH,
-    element: <SearchResultPage/>,
-  },
+
   // {
   //   path: ROUTES.USER_BY_USERNAME,
   //   element: <UserPage />,

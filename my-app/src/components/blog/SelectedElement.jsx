@@ -33,7 +33,7 @@ export const SelectedElement = ({ selected, type, color }) => {
 
         {/* Danh sách thể loại đã chọn */}
         <div className="flex flex-wrap items-center justify-start gap-3 w-full ">
-          {selected.length === 0 ? (
+          {selected === null || selected === undefined || selected.length === 0 ? (
             <div className="text-gray-500 italic text-sm flex items-center h-full">
               Chưa chọn {type}
             </div>
