@@ -1,13 +1,15 @@
-import { Box } from "@mui/material";
+import { Box, SpeedDialIcon } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
 import AdminHeader from "../../components/AdminHeader";
 import { useTheme } from "@mui/material";
 import { mockBlogs } from "../../data_testing/testData";
+import { useNavigate } from "react-router-dom";
 
 const AdminManageBlogs = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const navigate = useNavigate();
 
   const columns = [
     { field: "id", headerName: "ID", flex: 0.5 },
@@ -16,6 +18,18 @@ const AdminManageBlogs = () => {
       headerName: "Title",
       flex: 1,
       cellClassName: "name-column--cell",
+      renderCell: (params) => (
+        <span
+          style={{
+            color: colors.greenAccent[400],
+            cursor: "pointer",
+            textDecoration: "underline",
+          }}
+          onClick={() => navigate("")} // BLANK URL
+        >
+          {params.value}
+        </span>
+      ),
     },
     {
       field: "status",
@@ -80,7 +94,12 @@ const AdminManageBlogs = () => {
           },
         }}
       >
-        <DataGrid rows={mockBlogs} columns={columns} showToolbar />
+        <DataGrid
+          checkboxSelection
+          rows={mockBlogs}
+          columns={columns}
+          showToolbar
+        />
       </Box>
     </Box>
   );
